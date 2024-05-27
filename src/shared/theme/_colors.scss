@@ -1,0 +1,26 @@
+:root {
+  --brown-100: 248 223 212;
+  --brown-200: 198 169 163;
+  --brown-300: 158 119 119;
+  --brown-400: 176 97 97;
+  --brown-500: 107 79 79;
+  --brown-600: 108 74 74;
+  --brown-700: 72 52 52;
+  --background-100: 245 235 235;
+  --background-200: 228 208 208;
+  --background-300: 193 163 163;
+  --background-400: 202 166 166;
+  --background-500: 134 112 112;
+  --background-600: 129 91 91;
+  --red-100: 169 68 56; //dark: yellow
+}
+
+.dark {
+  --background-100: 245 235 235;
+  --background-200: 228 208 208;
+  --background-300: 193 163 163;
+  --background-400: 202 166 166;
+  --background-500: 134 112 112;
+  --background-600: 129 91 91;
+  --red-100: 226 221 120; //yellow
+}
