@@ -3,5 +3,14 @@
 @tailwind utilities;
 
 @layer base {
-  @import "shared/theme/colors";
+  @import "app/shared/theme/colors";
 }
+
+@layer components {
+  @import "app/shared/theme/icons";
+}
+
+@import "app/shared/theme/style";
+@import "app/shared/theme/buttons.scss"
+
+
