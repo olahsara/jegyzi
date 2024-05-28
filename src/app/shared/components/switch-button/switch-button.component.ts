@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {MatTooltip} from "@angular/material/tooltip";
-import {Theme, ThemeService} from "../services/theme.service";
+import {Theme, ThemeService} from "../../services/theme.service";
 import {CommonModule, NgClass} from "@angular/common";
 
 @Component({

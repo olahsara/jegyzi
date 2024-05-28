@@ -1,3 +1,32 @@
-<h1> {{ title }} </h1>
+<jegyzi-title [title]="title"></jegyzi-title>
+<div class="flex flex-col gap-20">
+    <div class="flex gap-36">
+        <div class="flex flex-col gap-6 w-[70%] bg-background-300 rounded-r-full p-6">
+            <div class="title"> Jegyzetek </div>
+            <!-- TODO: jegyzetek kilistázása -->
+            <div class="text-red-100 font-semibold text-lg">Nincs adat!</div>
+        </div>
+        <div class="flex flex-col justify-around">
+            <a routerLink="/notes" ><span class="btn-icon-nav ph ph-magnifying-glass" matTooltip="Jegyzetek böngészése"></span></a>
+            <a routerLink="/new-note" ><span class="btn-icon-nav ph ph-pencil-simple" matTooltip="Új jegyzet írása"></span></a>
+        </div>
+    </div>
+    
+    <div class="flex flex-row-reverse">
+        <div class="flex flex-col gap-6 w-[70%] bg-background-300 rounded-l-full pl-32 py-6 ml-36 mr-0">
+            <div class="title"> Felhasználók </div>
+            <!-- TODO: felhasználók kilistázása -->
+            <div class="text-red-100 font-semibold text-lg">Nincs adat!</div>
+        </div>
+        <div class="flex flex-col justify-around ">
+            <a routerLink="/users" ><span class="btn-icon-nav ph ph-user" matTooltip="Felhasználók"></span></a>
+            <a routerLink="/login" ><span class="btn-icon-nav ph ph-sign-in" matTooltip="Bejelentkezés"></span></a>
+        </div>
+    </div>
+</div>
+
+
+
+
 
 

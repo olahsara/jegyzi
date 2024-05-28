@@ -10,6 +10,7 @@
   @import "app/shared/theme/icons";
 }
 
-body {
-  @apply bg-background-100;
-}
+@import "app/shared/theme/style";
+@import "app/shared/theme/buttons.scss"
+
+

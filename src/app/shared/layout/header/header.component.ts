@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
-import {SwitchButtonComponent} from "../../switch-button/switch-button.component";
+import {SwitchButtonComponent} from "../../components/switch-button/switch-button.component";
 
 @Component({
   selector: 'jegyzi-header',

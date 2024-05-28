@@ -13,7 +13,7 @@ export const routes: Routes = [
       {
         path: 'home',
         loadComponent: () => import("./home/pages/home-page/home-page.component").then((c) => c.HomePageComponent),
-        data: {title: 'Főoldal'}
+        data: {title: 'Üdvözöllek a jegyzetek világában!'}
       }
 
     ]
