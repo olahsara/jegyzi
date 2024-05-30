@@ -1,8 +1,8 @@
 
 .btn-icon {
-    @apply bg-background-400 border border-font-500 text-font-500 p-1 rounded-xl ph-xl
+    @apply bg-background-400 border border-primary-500 text-primary-500 p-1 rounded-xl ph-xl
 }
 
 .btn-icon-nav {
-    @apply bg-background-400 text-font-100 p-2 rounded-xl ph-xl cursor-pointer;
+    @apply bg-background-400 text-primary-100 p-2 rounded-xl ph-xl cursor-pointer;
 }

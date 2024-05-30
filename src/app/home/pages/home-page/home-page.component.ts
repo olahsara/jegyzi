@@ -14,8 +14,5 @@ import { MatTooltip } from '@angular/material/tooltip';
   styleUrl: './home-page.component.scss'
 })
 export class HomePageComponent {
-  title = this.activatedRoute.snapshot.data['title']
-  constructor(private activatedRoute: ActivatedRoute) {
-
-  }
+  
 }
