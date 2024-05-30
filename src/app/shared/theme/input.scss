@@ -1,0 +1,7 @@
+.mat-mdc-input-element {
+  outline: none;
+  @apply w-full bg-transparent placeholder:text-primary-500;
+}
+.form-control {
+  @apply flex text-primary-700;
+}
