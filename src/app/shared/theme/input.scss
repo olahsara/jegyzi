@@ -1,7 +1,18 @@
-.mat-mdc-input-element {
-  outline: none;
-  @apply w-full bg-transparent placeholder:text-primary-500;
-}
-.form-control {
-  @apply flex text-primary-700;
-}
+:host {
+    display: block;
+  }
+  
+  .mat-mdc-input-element {
+    outline: none;
+    @apply bg-background-300 placeholder:text-primary-500 rounded-2xl px-5 py-2 text-sm w-1/2; 
+  }
+
+  .form-control {
+    @apply flex flex-col gap-2 text-primary-700 w-full mb-6;
+  }
+  
+  .label {
+    @apply font-semibold text-primary-300 w-max;
+  }
+  
+

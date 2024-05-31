@@ -18,7 +18,7 @@ export const routes: Routes = [
       {
         path: 'login',
         loadComponent: () => import("./login/pages/login/login.component").then((c) => c.LoginComponent),
-        data: {title: 'Bejelentkezés', subtitle: 'Lépj be a jegyzetek világába, hogy számos új funkció megnyíljon előtted az oldalon. Amennyiben még nem vagy tagja a Jegyzi közösségnek regisztrálj itt, és oszd meg velünk a tudásod egy jegyzet formájában, vagy tanulj gyorsan és egyszerűen!'}
+        data: {title: 'Bejelentkezés', subtitle: 'Lépj be a jegyzetek világába, hogy számos új funkció megnyíljon előtted az oldalon. Amennyiben még nem vagy tagja a Jegyzi közösségnek regisztrálj, és oszd meg velünk a tudásod egy jegyzet formájában, vagy tanulj gyorsan és egyszerűen!'}
       }
 
     ]

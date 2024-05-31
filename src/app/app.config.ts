@@ -9,6 +9,7 @@ import { getVertexAI, provideVertexAI } from '@angular/fire/vertexai-preview';
 import { firebaseConfig } from "../ignore/firebase_options";
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import {MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions} from "@angular/material/tooltip";
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,5 +20,6 @@ export const appConfig: ApplicationConfig = {
     provideVertexAI(() => getVertexAI()),
     provideAnimationsAsync(),
     { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: { position: 'above' } as MatTooltipDefaultOptions },
+    { provide: FIREBASE_OPTIONS, useValue: firebaseConfig }
   ]
 };
