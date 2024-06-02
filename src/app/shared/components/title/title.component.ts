@@ -13,7 +13,5 @@ export class TitleComponent {
   title = this.activatedRoute.snapshot.data['title']
   subtitle? = this.activatedRoute.snapshot.data['subtitle']
 
-  constructor(private activatedRoute: ActivatedRoute) {
-
-}
+  constructor(private activatedRoute: ActivatedRoute) {}
 }

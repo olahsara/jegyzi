@@ -4,8 +4,8 @@ import { TitleComponent } from '../../../shared/components/title/title.component
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import { AuthService } from '../../services/auth.service';
-import { Route, Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../shared/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'jegyzi-login',
@@ -28,11 +28,14 @@ export class LoginComponent {
         password: new FormControl<string>('',{validators: Validators.required})
     });
 
-    constructor(private authService: AuthService, private router: Router){}
+    constructor(private authService: AuthService, private router: Router, ){}
 
     login() {
-        this.authService.login(this.loginForm.controls.email.value as string, this.loginForm.controls.password.value as string).then(cred => {
-            this.router.navigateByUrl('/home');
+        this.authService.login(this.loginForm.controls.email.value as string, this.loginForm.controls.password.value as string).then((cred) => {
+            this.authService.setUid(cred.user?.uid)
+            this.authService.setProfile();
+
+            this.router.navigate(['/home']);
           }).catch(error => {
             console.error(error);
           });
