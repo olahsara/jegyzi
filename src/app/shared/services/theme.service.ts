@@ -2,8 +2,8 @@ import { Inject, Injectable, Optional, Renderer2, RendererFactory2, signal} from
 import {DOCUMENT} from "@angular/common";
 import {LOCAL_STORAGE, WINDOW} from "@ng-web-apis/common";
 
-
 export type Theme = 'light' | 'dark';
+
 @Injectable({
   providedIn: 'root'
 })

@@ -11,6 +11,10 @@
 }
 
 @import "app/shared/theme/style";
-@import "app/shared/theme/buttons.scss"
+@import "app/shared/theme/buttons.scss";
+@import "app/shared/theme/input.scss";
+@import "ngx-toastr/toastr";
+@import "app/shared/theme/toast.scss";
+
 
 
