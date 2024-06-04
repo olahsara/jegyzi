@@ -7,20 +7,34 @@
         <div class="bg-background-200 rounded-3xl px-10 py-6">
             <form [formGroup]="registerForm">
                 <div class="form-control">
-                    <div class="label"> Email cím </div>
+                    <div class="flex gap-1 ">
+                        <span class="label">Email cím</span> 
+                        <span class="required-star ph-bold ph-asterisk text-red-100 ph-xs"></span>
+                    </div>
+
                     <input matInput type="text" formControlName="email" />
                 </div>
                 <div class="form-control">
-                    <div class="label"> Jelszó </div>
+                    <div class="flex gap-1 ">
+                        <span class="label">Jelszó</span> 
+                        <span class="required-star ph-bold ph-asterisk text-red-100 ph-xs"></span>
+                    </div>
                     <input matInput type="password" formControlName="password" />
                 </div>
                 <div class="form-control">
-                    <div class="label"> Jelszó megerősítő</div>
+                    <div class="flex gap-1 ">
+                        <span class="label">Jelszó megerősítő</span> 
+                        <span class="required-star ph-bold ph-asterisk text-red-100 ph-xs"></span>
+                    </div>
                     <input matInput type="password" formControlName="passwordConfirm" />
                 </div>
             </form>
-
-            <button class="btn-primary ml-auto mr-0" type="submit" (click)="register()">Regisztráció</button>
+            @if ( disabled ){
+                @if (this.registerForm.controls.passwordConfirm.touched && this.registerForm.controls.password.value !== this.registerForm.controls.passwordConfirm.value) {
+                    <div class="text-red-100 mb-4">A jelszó és megerősítő jelszó nem egyezik meg!</div>
+                }
+            }
+            <button class="btn-primary ml-auto mr-0" type="submit" [disabled]="disabled" (click)="register()">Regisztráció</button>
         </div>
 
     </div>

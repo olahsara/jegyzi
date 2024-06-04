@@ -12,4 +12,8 @@ export interface User {
     introduction?: string,
     profilePicture?: string,
     profileType?: string,
+    followers: string[], //user id
+    follow: string[], //user id
+    followersNumber: number
+
 }

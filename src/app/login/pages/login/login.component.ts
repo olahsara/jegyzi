@@ -5,7 +5,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import { AuthService } from '../../../shared/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
     selector: 'jegyzi-login',
@@ -18,7 +19,8 @@ import { Router } from '@angular/router';
         MatFormFieldModule, 
         MatInputModule, 
         ReactiveFormsModule, 
-        MatInputModule
+        MatInputModule, 
+        RouterLink
     ]
 })
 export class LoginComponent {
@@ -28,7 +30,7 @@ export class LoginComponent {
         password: new FormControl<string>('',{validators: Validators.required})
     });
 
-    constructor(private authService: AuthService, private router: Router, ){}
+    constructor(private authService: AuthService, private router: Router,private toastService: ToastService ){}
 
     login() {
         this.authService.login(this.loginForm.controls.email.value as string, this.loginForm.controls.password.value as string).then((cred) => {
@@ -38,6 +40,7 @@ export class LoginComponent {
             this.router.navigate(['/home']);
           }).catch(error => {
             console.error(error);
+            this.toastService.error('Hiba a bejelentkezés során!')
           });
 
     }

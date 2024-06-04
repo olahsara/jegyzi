@@ -1,7 +1,7 @@
 <jegyzi-title></jegyzi-title>
 <div class="flex flex-col gap-20">
-    <div class="flex gap-36">
-        <div class="flex flex-col gap-6 w-[70%] bg-background-300 rounded-r-full p-6">
+    <div class="flex gap-24">
+        <div class="flex flex-col gap-6 w-[80%] bg-background-300 rounded-r-full p-6">
             <div class="title"> Jegyzetek </div>
             <!-- TODO: jegyzetek kilistázása -->
             <div class="text-red-100 font-semibold text-lg">Nincs adat!</div>
@@ -12,15 +12,39 @@
         </div>
     </div>
     
-    <div class="flex flex-row-reverse">
-        <div class="flex flex-col gap-6 w-[70%] bg-background-300 rounded-l-full pl-32 py-6 ml-36 mr-0">
+    <div class="flex flex-row-reverse gap-24">
+        <div class="flex flex-col gap-6 w-[80%] bg-background-300 rounded-l-full pl-40 py-6 mr-0">
             <div class="title"> Felhasználók </div>
-            <!-- TODO: felhasználók kilistázása -->
-            <div class="text-red-100 font-semibold text-lg">Nincs adat!</div>
+            @for (profile of profiles; track profile.id) {
+                <div class="flex gap-8 rounded-3xl bg-background-200 p-6 items-center mr-20">
+                    <jegyzi-avatar [profile]="profile"></jegyzi-avatar>
+                    <div class="flex flex-col gap-1 text-primary-600">
+                        <div class="font-semibold mb-1">{{ profile | name }}</div>
+                        <div class="text-sm"> {{profile.profileType | noValue}} </div>
+                        <div class="text-sm"> {{profile.education | education}} </div>
+                        <div class="text-sm"> Jegyzetek száma: 0 </div>
+                    </div>
+                    <div class="flex flex-col mr-0 ml-auto justify-between h-full" >
+                        <div class="relative w-8 h-8 text-center" matTooltip="Követők száma">
+                            <span class="ph-fill ph-heart ph-2x text-red-100 text-center"></span>
+                            <span class="absolute text-white text-sm text-center w-8 left-0 top-1">{{profile.followersNumber}}</span>
+                        </div>
+                        <a [routerLink]="'/profiles/'+profile.id" matTooltip="Profil megtekintése">
+                            <span class='btn-icon ph-bold ph-caret-right'></span>
+                        </a>
+                    </div>
+                   
+                </div>
+            }
         </div>
         <div class="flex flex-col justify-around ">
             <a routerLink="/users" ><span class="btn-icon-nav ph ph-user" matTooltip="Felhasználók"></span></a>
-            <a routerLink="/login" ><span class="btn-icon-nav ph ph-sign-in" matTooltip="Bejelentkezés"></span></a>
+            @if (user()){
+                <button type="button" (click)="logout()" ><span class="btn-icon-nav ph ph-sign-in" matTooltip="Kijelentkezés"></span></button>
+            }
+            @else {
+                <a routerLink="/login" ><span class="btn-icon-nav ph ph-sign-out" matTooltip="Bejelentkezés"></span></a>
+            }
         </div>
     </div>
 </div>

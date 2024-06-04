@@ -42,7 +42,7 @@ export class AuthService {
 
   createProfile(user: firebase.default.User | null) {
     if(user){
-      return this.store.collection<User>('Users').doc(user.uid).set({email: user.email!, id: user.uid })
+      return this.store.collection<User>('Users').doc(user.uid).set({email: user.email!, id: user.uid, follow: [], followers: [], followersNumber: 0 })
     }
     return;
   }

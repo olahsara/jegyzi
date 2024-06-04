@@ -1,12 +1,12 @@
 import { inject } from '@angular/core';
 import type { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
-import { AuthService } from '../services/auth.service';
-import { User } from '../../login/model/user.model';
+import { UserService } from '../services/user.service';
+import { User } from '../models/user.model';
 
-// export function profileResolver(): ResolveFn<User | undefined> {
+// export function profilesResolver(): ResolveFn<User | undefined> {
 //     return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
-//       const service = inject(AuthService)
+//       const service = inject(UserService)
   
-//       return service.profile;
+      
 //     };
 //   }
