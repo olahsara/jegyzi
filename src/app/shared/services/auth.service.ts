@@ -6,16 +6,20 @@ import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { User } from '../models/user.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  private STORAGE_UID_KEY = 'uid'
+  private STORAGE_UID_KEY = 'uid';
   myProfile?: Observable<User | undefined>;
 
-  constructor(private auth: AngularFireAuth, private store: AngularFirestore,  @Optional() @Inject(LOCAL_STORAGE) private storage?: Storage,) { }
+  constructor(
+    private auth: AngularFireAuth,
+    private store: AngularFirestore,
+    @Optional() @Inject(LOCAL_STORAGE) private storage?: Storage
+  ) {}
 
   login(email: string, password: string) {
-    return this.auth.signInWithEmailAndPassword(email, password)
+    return this.auth.signInWithEmailAndPassword(email, password);
   }
 
   signup(email: string, password: string) {
@@ -23,7 +27,7 @@ export class AuthService {
   }
 
   loggedInUser() {
-    return this.auth.user
+    return this.auth.user;
   }
 
   logout() {
@@ -33,16 +37,30 @@ export class AuthService {
   }
 
   setProfile() {
-    if(this.getUid()){
-      this.myProfile = this.store.collection<User>('Users').doc(this.getUid()).get().pipe(map((value) => {return value.data()}))
+    if (this.getUid()) {
+      this.myProfile = this.store
+        .collection<User>('Users')
+        .doc(this.getUid())
+        .get()
+        .pipe(
+          map((value) => {
+            return value.data();
+          })
+        );
     } else {
-      this.myProfile = undefined
+      this.myProfile = undefined;
     }
   }
 
   createProfile(user: firebase.default.User | null) {
-    if(user){
-      return this.store.collection<User>('Users').doc(user.uid).set({email: user.email!, id: user.uid, follow: [], followers: [], followersNumber: 0 })
+    if (user) {
+      return this.store.collection<User>('Users').doc(user.uid).set({
+        email: user.email!,
+        id: user.uid,
+        follow: [],
+        followers: [],
+        followersNumber: 0,
+      });
     }
     return;
   }
@@ -52,12 +70,11 @@ export class AuthService {
       return;
     }
 
-    if(uid){
-      this.storage?.setItem(this.STORAGE_UID_KEY, uid)
-    
+    if (uid) {
+      this.storage?.setItem(this.STORAGE_UID_KEY, uid);
     } else {
-      this.storage?.setItem(this.STORAGE_UID_KEY, '')
-    } 
+      this.storage?.setItem(this.STORAGE_UID_KEY, '');
+    }
   }
 
   getUid(): string | undefined {
@@ -73,5 +90,4 @@ export class AuthService {
 
     return undefined;
   }
-
 }
