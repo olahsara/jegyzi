@@ -1,3 +1,7 @@
 :host {
   display: block;
 }
+.searchbar{
+  background: theme("colors.background.200") !important;
+  @apply  w-full;
+}

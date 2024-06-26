@@ -2,6 +2,16 @@
     display: block;
   }
 
+  .mat-mdc-input-element {
+    outline: none;
+    @apply bg-background-300 text-primary-500 rounded-2xl px-5 py-2 text-sm; 
+  }
+
+  .mat-mdc-input-element::placeholder {
+    @apply text-primary-500 text-sm; 
+  }
+
+  
   .form-control {
     @apply flex flex-col gap-2 text-primary-700 w-full mb-6 relative;
   }

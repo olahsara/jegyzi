@@ -115,6 +115,5 @@ export class ProfileModifyModalPageComponent implements OnInit{
       console.log(this.form.errors)
       this.error = 'Email cím formátuma nem megfelelő!'
     }
-
   }
  }

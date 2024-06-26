@@ -18,11 +18,35 @@ export class UserService {
     
   ) {}
 
-  getUsers() {
-    return this.store
+  async getTopUsers(): Promise<User[]> {
+    let users: User[] = [];
+    const data = await this.store
+      .collection<User>(this.collectionName)
+      .ref.orderBy('followersNumber', 'desc')
+      .limit(3)
+      .get();
+
+    if (data) {
+      data.docs.forEach((element) => {
+        users.push(element.data())
+      })
+    }
+    return users;
+  }
+
+  async getAllUsers() {
+    let users: User[] = [];
+    const data = await this.store
       .collection<User>(this.collectionName)
       .ref.orderBy('followersNumber', 'desc')
       .get();
+
+    if (data) {
+      data.docs.forEach((element) => {
+        users.push(element.data())
+      })
+    }
+    return users;
   }
 
   getUserById(
@@ -31,6 +55,7 @@ export class UserService {
     return this.store
       .collection<User>(this.collectionName)
       .ref.where('id', '==', id)
+      .limit(1)
       .get();
   }
 
