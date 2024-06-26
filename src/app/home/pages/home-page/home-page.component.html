@@ -40,7 +40,7 @@
             }
         </div>
         <div class="flex flex-col justify-around ">
-            <a routerLink="/users" ><span class="btn-icon-nav ph ph-user" matTooltip="Felhasználók"></span></a>
+            <a routerLink="/profiles" ><span class="btn-icon-nav ph ph-user" matTooltip="Felhasználók"></span></a>
             @if (user()){
                 <button type="button" (click)="logout()" ><span class="btn-icon-nav ph ph-sign-in" matTooltip="Kijelentkezés"></span></button>
             }
