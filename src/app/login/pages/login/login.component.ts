@@ -12,6 +12,7 @@ import {
 import { AuthService } from '../../../shared/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { ToastService } from '../../../shared/services/toast.service';
+import { UserService } from '../../../shared/services/user.service';
 
 @Component({
   selector: 'jegyzi-login',
@@ -39,7 +40,8 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private userService: UserService
   ) {}
 
   login() {
@@ -49,6 +51,11 @@ export class LoginComponent {
         this.loginForm.controls.password.value as string
       )
       .then((cred) => {
+        this.userService.getUserById(cred.user?.uid!).then((element) => {
+          element.docs.map((doc) => {
+            this.userService.user.set(doc.data());
+          });
+        })
         this.router.navigate(['/home']);
       })
       .catch((error) => {

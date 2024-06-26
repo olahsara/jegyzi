@@ -49,6 +49,14 @@ export const routes: Routes = [
         path: 'profiles',
         loadChildren: () => import('./profile/routes').then((r) => r.ROUTES),
       },
+      {
+        path: 'my-profile',
+        pathMatch: 'full',
+        loadComponent: () =>
+          import('./profile/pages/my-profile-page/my-profile-page.component').then(
+            (c) => c.MyProfilePageComponent
+          ),
+      },
     ],
   },
 ];

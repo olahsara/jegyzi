@@ -27,7 +27,7 @@
                     <div class="flex flex-col mr-0 ml-auto justify-between h-full" >
                         <div class="relative w-8 h-8 text-center" matTooltip="Követők száma">
                             <span class="ph-fill ph-heart ph-2x text-red-100 text-center"></span>
-                            <span class="absolute text-white text-sm text-center w-8 left-0 top-1">{{profile.followersNumber}}</span>
+                            <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{profile.followersNumber}}</span>
                         </div>
                         <a [routerLink]="'/profiles/'+profile.id" matTooltip="Profil megtekintése">
                             <span class='btn-icon ph-bold ph-caret-right'></span>

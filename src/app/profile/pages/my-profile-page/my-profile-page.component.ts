@@ -1,19 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {
-  FormControl,
-  FormGroup,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
-import { AuthService } from '../../../shared/services/auth.service';
-import { Router, RouterLink } from '@angular/router';
-import { ToastService } from '../../../shared/services/toast.service';
-import { User } from '../../../shared/models/user.model';
+import { RouterLink } from '@angular/router';
 import { UserService } from '../../../shared/services/user.service';
+import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
+import { NamePipe } from '../../../shared/pipes/name.pipe';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NoValuePipe } from '../../../shared/pipes/no-value.pipe';
+import { User } from '../../../shared/models/user.model';
+import { EducationPipe } from '../../../shared/pipes/education.pipe';
+import {
+  MatDialog,
+} from '@angular/material/dialog';
+import { ProfileModifyModalPageComponent } from '../profile-modify-modal-page/profile-modify-modal-page.component';
+import { ToastService } from '../../../shared/services/toast.service';
 
 @Component({
   selector: 'jegyzi-my-profile-page',
@@ -28,23 +33,45 @@ import { UserService } from '../../../shared/services/user.service';
     ReactiveFormsModule,
     MatInputModule,
     RouterLink,
+    AvatarComponent, 
+    NamePipe,
+    MatTooltipModule,
+    NoValuePipe,
+    EducationPipe
   ],
 })
-export class MyProfilePageComponent {
-  profiles?: User;
-  @Input() profile?: User;
+export class MyProfilePageComponent implements OnInit{
+  profile = this.userService.user;
+  following: User[] = [];
+  readonly dialog = inject(MatDialog);
 
   constructor(
-    private authService: AuthService,
-    private userService: UserService
-  ) {
-    console.log(this.profile);
-    this.userService.getUserById(this.authService.getUid()!).then((value) => {
-      value.forEach((e) => {
-        if (e.data().name) {
-        }
-        this.profiles = e.data();
+    private userService: UserService,
+    private toastService: ToastService
+  ) { }
+
+  ngOnInit(): void {
+    this.profile()?.followers.forEach((element) => {
+      this.userService.getUserById(element).then((el) => {
+        el.docs.map((doc) => {
+          this.following.push(doc.data());
+        });
       });
+    })
+  }
+
+  modify() {
+    const dialogRef = this.dialog.open(ProfileModifyModalPageComponent, {
+      data: this.profile(),
+      minWidth: '40vw',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        const data = this.userService.modifyUser(result)
+        this.toastService.success('Profil módosítása sikeresen megtörtént!');
+        this.profile.set(result);
+      }
     });
   }
 }

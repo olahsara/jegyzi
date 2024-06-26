@@ -8,12 +8,16 @@ export interface User {
         lastName: string,
     }
     education?: Education,
-    city?: string,
     introduction?: string,
     profilePicture?: string,
     profileType?: string,
     followers: string[], //user id
     follow: string[], //user id
     followersNumber: number
+}
 
+export const ProfileTypes = {
+    student: 'Tanuló',
+    teacher: 'Tanár',
+    other: 'Egyéb'
 }

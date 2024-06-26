@@ -16,3 +16,7 @@
 .btn-secondary {
     @apply flex bg-background-100 border border-primary-500 text-primary-500 py-2 px-4 rounded-xl
 }
+
+.btn-small {
+    @apply text-sm py-1 items-center rounded-lg;
+}

@@ -1,14 +1,13 @@
 import { Route } from '@angular/router';
-import { myProfileResolver } from './resolvers/my-profile.resolve';
 
 export const ROUTES: Route[] = [
   {
-    path: 'my-profile',
+    path: '',
     pathMatch: 'full',
     loadComponent: () =>
-      import('./pages/my-profile-page/my-profile-page.component').then(
-        (c) => c.MyProfilePageComponent
+      import('./pages/profile-list-page/profile-list-page.component').then(
+        (c) => c.ProfileListPageComponent
       ),
-    resolve: { profile: myProfileResolver() },
   },
+  
 ];
