@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AuthService } from './shared/services/auth.service';
+import { UserService } from './shared/services/user.service';
 
 @Component({
   selector: 'jegyzi-root',
@@ -10,4 +12,17 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'jegyzi';
+  constructor(private authService: AuthService, private userService: UserService
+  ) {
+    //TODO: APP_INIT-tel megoldani
+    this.authService.loggedInUser().subscribe((data) => {
+      if(data) {
+        this.userService.getUserById(data.uid).then((element) => {
+          element.docs.map((doc) => {
+            this.userService.user.set(doc.data());
+          });
+        });
+      }
+    })
+  }
 }

@@ -23,7 +23,7 @@ export class EducationYearPipe implements PipeTransform {
         }
       }
       if( type === EDUCTAION_TYPE.upper || type === EDUCTAION_TYPE.university ){
-        return value+'. féléves'
+        return value+'. éves'
 
       }
     }
