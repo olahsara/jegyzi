@@ -1,14 +1,61 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { TitleComponent } from "../../../shared/components/title/title.component";
+import { UserService } from '../../../shared/services/user.service';
+import { AvatarComponent } from "../../../shared/components/avatar/avatar/avatar.component";
+import { NamePipe } from "../../../shared/pipes/name.pipe";
+import { EducationPipe } from "../../../shared/pipes/education.pipe";
+import { NoValuePipe } from "../../../shared/pipes/no-value.pipe";
+import { RouterLink } from '@angular/router';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { EducationType } from '../../../shared/models/eductaion.model';
+import { ProfileTypes } from '../../../shared/models/user.model';
 
 @Component({
-  selector: 'jegyzi-profile-list-page',
-  standalone: true,
-  imports: [
-    CommonModule,
-  ],
-  templateUrl: './profile-list-page.component.html',
-  styleUrl: './profile-list-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'jegyzi-profile-list-page',
+    standalone: true,
+    templateUrl: './profile-list-page.component.html',
+    styleUrl: './profile-list-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        CommonModule,
+        TitleComponent,
+        AvatarComponent,
+        NamePipe,
+        EducationPipe,
+        NoValuePipe,
+        RouterLink, 
+        MatTooltipModule, 
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatSelectModule
+    ]
 })
-export class ProfileListPageComponent { }
+export class ProfileListPageComponent {
+  profiles$ = this.userService.getAllUsers();
+  loggedInUser = this.userService.user;
+
+  profileTypes = ProfileTypes;
+  educationTypes = EducationType;
+
+  filterForm = new FormGroup({
+    name: new FormControl<string | null>(null),
+    numberOfNotes: new FormControl<number | null>(null),
+    numberOfFollowers: new FormControl<number | null>(null),
+    profileType: new FormControl<string | null>(null),
+    educationYear: new FormControl<number | null>(null),
+    educationType: new FormControl<string | null>(null),
+  });
+
+  constructor(private userService: UserService) {}
+
+  filter() {
+    //TODO: filter
+  }
+ }

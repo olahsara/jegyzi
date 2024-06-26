@@ -20,3 +20,7 @@
 .btn-small {
     @apply text-sm py-1 items-center rounded-lg;
 }
+
+.btn-light {
+    @apply flex text-primary-500 py-2 px-4 rounded-xl border border-primary-500;
+}

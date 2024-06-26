@@ -6,16 +6,17 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../../shared/services/auth.service';
 import { UserService } from '../../../shared/services/user.service';
-import { User } from '../../../shared/models/user.model';
 import { NoValuePipe } from '../../../shared/pipes/no-value.pipe';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { NamePipe } from '../../../shared/pipes/name.pipe';
 import { EducationPipe } from '../../../shared/pipes/education.pipe';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'jegyzi-home-page',
   standalone: true,
   imports: [
+    CommonModule,
     HeaderComponent,
     TitleComponent,
     MatTooltip,
@@ -30,17 +31,9 @@ import { EducationPipe } from '../../../shared/pipes/education.pipe';
 })
 export class HomePageComponent {
   user = toSignal(this.authService.loggedInUser())
-  profiles: User[] = []
+  profiles$ = this.userService.getTopUsers();
 
   constructor(private authService: AuthService, private userService: UserService) {
-    this.userService.getUsers().then((value) => {
-      value.forEach((e) => {
-        if(e.data().name){
-          
-        }
-        this.profiles.push(e.data())
-        })
-    })
   }
 
   logout() {
