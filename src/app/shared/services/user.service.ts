@@ -49,24 +49,71 @@ export class UserService {
     return users;
   }
 
-  getUserById(
+  async getUserById(
     id: string
-  ): Promise<firebase.default.firestore.QuerySnapshot<User>> {
-    return this.store
+  ): Promise<User[]> {
+    const data = await this.store
       .collection<User>(this.collectionName)
       .ref.where('id', '==', id)
       .limit(1)
-      .get();
+      .get()
+      .then((data) => {
+        return data.docs.map((e) => {
+          return e.data()
+        })
+      });
+    
+      return data
   }
 
   async modifyUser(newValue: User) {
-    try {
-      return await this.store
+    return await this.store
         .collection<User>(this.collectionName)
-        .doc(newValue.id)
-        .set(newValue);
-    } catch {
-      this.toastService.error('Hiba a profil módosítása során!');
+        .doc(this.user()!.id)
+        .update(newValue)
+        .then((data) => {
+          this.toastService.success('Profil módosítása sikeresen megtörtént!');
+          
+        })
+        .catch((error) => {
+          this.toastService.error('Hiba a profil módosítása során!');
+          console.log(error)
+        })
+  }
+
+  async followUser(followedUser: User, ) {
+    //Bejelentekzetett felhasználó követésihez adjuk hozzá az új felhasználót
+    let newFollowings: string[] = [];
+    if(this.user()?.follow){
+      this.user()?.follow.push(followedUser.id);
+      newFollowings = this.user()?.follow!;
+    } else {
+       newFollowings = [followedUser.id]
     }
+    
+    this.store
+    .collection(this.collectionName)
+    .doc(this.user()?.id)
+    .update({
+      follow: newFollowings,
+    });
+
+    //Felhasználó követőihez adjuk hozzá a bejelentkezett felhasználót
+    let newFollowers: string[] = [];
+    if(followedUser.follow){
+      followedUser.followers.push(this.user()?.id!);
+      newFollowers = followedUser.followers;
+    } else {
+      newFollowers = [this.user()?.id!]
+    }
+    
+    return await this.store
+    .collection(this.collectionName)
+    .doc(followedUser.id)
+    .update({
+      followers: newFollowers,
+      followersNumber: followedUser.followersNumber++
+    });
+
   }
 }

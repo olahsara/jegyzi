@@ -53,8 +53,8 @@ export class MyProfilePageComponent implements OnInit{
   ngOnInit(): void {
     this.profile()?.followers.forEach((element) => {
       this.userService.getUserById(element).then((el) => {
-        el.docs.map((doc) => {
-          this.following.push(doc.data());
+        el.forEach((user) => {
+          this.following.push(user);
         });
       });
     })
@@ -68,8 +68,7 @@ export class MyProfilePageComponent implements OnInit{
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const data = this.userService.modifyUser(result)
-        this.toastService.success('Profil módosítása sikeresen megtörtént!');
+        this.userService.modifyUser(result)
         this.profile.set(result);
       }
     });

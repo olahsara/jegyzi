@@ -34,6 +34,7 @@ export class HomePageComponent {
   profiles$ = this.userService.getTopUsers();
 
   constructor(private authService: AuthService, private userService: UserService) {
+    
   }
 
   logout() {

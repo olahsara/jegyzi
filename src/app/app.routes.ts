@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { profileResolver } from './profile/resolvers/profile.resolver';
 
 export const routes: Routes = [
   {
@@ -47,8 +48,13 @@ export const routes: Routes = [
       },
       {
         path: 'profiles',
-        loadChildren: () => import('./profile/routes').then((r) => r.ROUTES),
+        data: {title: 'Felhasználók'},
+        loadChildren: () =>
+          import('./profile/routes').then(
+            (c) => c.ROUTES
+          ),
       },
+      
       {
         path: 'my-profile',
         pathMatch: 'full',

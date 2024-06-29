@@ -9,7 +9,7 @@ export class NamePipe implements PipeTransform {
 
   transform(value: User): string {
     if(value.name){
-        return value.name.lastName+' '+value.name.firstName;
+        return value.name;
     }
     return 'Nincs megadva!';
   }

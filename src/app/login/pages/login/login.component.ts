@@ -52,9 +52,7 @@ export class LoginComponent {
       )
       .then((cred) => {
         this.userService.getUserById(cred.user?.uid!).then((element) => {
-          element.docs.map((doc) => {
-            this.userService.user.set(doc.data());
-          });
+          this.userService.user.set(element[0]);
         })
         this.router.navigate(['/home']);
       })
