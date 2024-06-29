@@ -3,10 +3,8 @@ import { Education } from "./eductaion.model"
 export interface User {
     id: string,
     email: string,
-    name? : {
-        firstName: string,
-        lastName: string,
-    }
+    name? : string,
+    nickname?: string,
     education?: Education,
     introduction?: string,
     profilePicture?: string,
@@ -19,5 +17,6 @@ export interface User {
 export const ProfileTypes = {
     student: 'Tanuló',
     teacher: 'Tanár',
+    admin: 'Admin',
     other: 'Egyéb'
 }

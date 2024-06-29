@@ -11,7 +11,6 @@ export class EducationPipe implements PipeTransform {
   transform(value: Education | undefined): string {
     const yearPipe = new EducationYearPipe();
     if(value){
-      console.log(value.year)
       return value.institution+', '+value.specialization+', '+ yearPipe.transform(value.year.toString(), value.type);
     }
     return 'Nincs megadva!';

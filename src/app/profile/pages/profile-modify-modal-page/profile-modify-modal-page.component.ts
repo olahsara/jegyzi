@@ -40,38 +40,27 @@ export class ProfileModifyModalPageComponent implements OnInit{
   educationTypes = EducationType;
 
   form = new FormGroup({
-    email: new FormControl<string| null>(null, {
+    email: new FormControl<string | null>(null, {
       validators: Validators.email,
     }),
-    name: new FormGroup({
-      firstName: new FormControl<string| null>(null),
-      lastName: new FormControl<string| null>(null),
-    }),
+    name: new FormControl<string | null>(null),
+    nickname: new FormControl<string | null>(null),
     profileType: new FormControl<string | null>(null),
     education: new FormGroup({
       institution: new FormControl<string | null>(null),
       type: new FormControl<string | null>(null),
-      year: new FormControl<number | null>(null),
+      year: new FormControl<number | null>(0),
       specialization: new FormControl<string | null>(null)
     }),
     introduction: new FormControl<string | null>(null),
-
-    //Not editable datas
-    id: new FormControl<string | null>(null),
-    followers: new FormControl<string[] | null>(null),
-    follow: new FormControl<string[] | null>(null),
-    followersNumber: new FormControl<number | null>(null),
   });
 
   ngOnInit(): void {
     if(this.data){
       this.form.setValue({
         email: this.data.email || null,
-        name: {
-          lastName: this.data.name?.lastName || null,
-          firstName: this.data.name?.firstName || null,
-
-        },
+        name: this.data.name || null,
+        nickname: this.data.nickname || null,
         profileType: this.data.profileType || null,
         education: {
           institution: this.data.education?.institution || null,
@@ -80,12 +69,6 @@ export class ProfileModifyModalPageComponent implements OnInit{
           type: this.data.education?.type || null,
         },
         introduction: this.data.introduction || null,
-        //Not editable datas
-        follow: this.data.follow || [],
-        followers: this.data.followers || [],
-        followersNumber: this.data.followersNumber || 0,
-        id: this.data.id || null
-
       })
     }
   }
@@ -112,7 +95,6 @@ export class ProfileModifyModalPageComponent implements OnInit{
       this.actualStep = 0;
       this.dialogRef.close(this.form.getRawValue());
     } else {
-      console.log(this.form.errors)
       this.error = 'Email cím formátuma nem megfelelő!'
     }
   }
