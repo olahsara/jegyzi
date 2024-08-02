@@ -1,4 +1,10 @@
-import { Injectable, Optional, Inject, WritableSignal, signal } from '@angular/core';
+import {
+  Injectable,
+  Optional,
+  Inject,
+  WritableSignal,
+  signal,
+} from '@angular/core';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { User } from '../models/user.model';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -14,8 +20,7 @@ export class UserService {
   constructor(
     private store: AngularFirestore,
     private toastService: ToastService,
-    @Optional() @Inject(LOCAL_STORAGE) private storage?: Storage,
-    
+    @Optional() @Inject(LOCAL_STORAGE) private storage?: Storage
   ) {}
 
   async getTopUsers(): Promise<User[]> {
@@ -28,8 +33,8 @@ export class UserService {
 
     if (data) {
       data.docs.forEach((element) => {
-        users.push(element.data())
-      })
+        users.push(element.data());
+      });
     }
     return users;
   }
@@ -43,15 +48,13 @@ export class UserService {
 
     if (data) {
       data.docs.forEach((element) => {
-        users.push(element.data())
-      })
+        users.push(element.data());
+      });
     }
     return users;
   }
 
-  async getUserById(
-    id: string
-  ): Promise<User[]> {
+  async getUserById(id: string): Promise<User[]> {
     const data = await this.store
       .collection<User>(this.collectionName)
       .ref.where('id', '==', id)
@@ -59,61 +62,80 @@ export class UserService {
       .get()
       .then((data) => {
         return data.docs.map((e) => {
-          return e.data()
-        })
+          return e.data();
+        });
       });
-    
-      return data
+
+    return data;
   }
 
   async modifyUser(newValue: User) {
     return await this.store
-        .collection<User>(this.collectionName)
-        .doc(this.user()!.id)
-        .update(newValue)
-        .then((data) => {
-          this.toastService.success('Profil módosítása sikeresen megtörtént!');
-          
-        })
-        .catch((error) => {
-          this.toastService.error('Hiba a profil módosítása során!');
-          console.log(error)
-        })
+      .collection<User>(this.collectionName)
+      .doc(this.user()!.id)
+      .update(newValue)
+      .then((data) => {
+        this.toastService.success('Profil módosítása sikeresen megtörtént!');
+      })
+      .catch((error) => {
+        this.toastService.error('Hiba a profil módosítása során!');
+        console.log(error);
+      });
   }
 
-  async followUser(followedUser: User, ) {
-    //Bejelentekzetett felhasználó követésihez adjuk hozzá az új felhasználót
+  async followUser(followedUser: User) {
+    //Bejelentkezett felhasználó követésihez adjuk hozzá az új felhasználót
     let newFollowings: string[] = [];
-    if(this.user()?.follow){
+    if (this.user()?.follow) {
       this.user()?.follow.push(followedUser.id);
       newFollowings = this.user()?.follow!;
     } else {
-       newFollowings = [followedUser.id]
+      newFollowings = [followedUser.id];
     }
-    
-    this.store
-    .collection(this.collectionName)
-    .doc(this.user()?.id)
-    .update({
+
+    this.store.collection(this.collectionName).doc(this.user()?.id).update({
       follow: newFollowings,
     });
 
     //Felhasználó követőihez adjuk hozzá a bejelentkezett felhasználót
     let newFollowers: string[] = [];
-    if(followedUser.follow){
+    if (followedUser.followers) {
       followedUser.followers.push(this.user()?.id!);
       newFollowers = followedUser.followers;
     } else {
-      newFollowers = [this.user()?.id!]
+      newFollowers = [this.user()?.id!];
     }
-    
+
     return await this.store
-    .collection(this.collectionName)
-    .doc(followedUser.id)
-    .update({
-      followers: newFollowers,
-      followersNumber: followedUser.followersNumber++
+      .collection(this.collectionName)
+      .doc(followedUser.id)
+      .update({
+        followers: newFollowers,
+        followersNumber: followedUser.followersNumber + 1,
+      });
+  }
+
+  async unFollowUser(followedUser: User) {
+    //Bejelentkezett felhasználó követésiből kitöröljük a felhasználót
+    const newFollowings = this.user()?.follow!.filter(
+      (userId) => userId !== followedUser.id
+    );
+
+    this.store.collection(this.collectionName).doc(this.user()?.id).update({
+      follow: newFollowings,
     });
 
+    //Felhasználó követőiből kitöröljük a bejelentkezett felhasználót
+    const newFollowers = followedUser.followers.filter(
+      (userId) => userId !== this.user()?.id
+    );
+
+    return await this.store
+      .collection(this.collectionName)
+      .doc(followedUser.id)
+      .update({
+        followers: newFollowers,
+        followersNumber: followedUser.followersNumber - 1,
+      });
   }
 }

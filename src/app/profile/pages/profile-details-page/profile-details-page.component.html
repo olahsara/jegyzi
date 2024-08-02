@@ -10,19 +10,18 @@
                 <div class="bg-background-200 text-primary-600 font-semibold px-4 py-1 rounded-full" matTooltip="Felhasználó típusa">
                     {{profile.profileType}}
                 </div>
-                @if(followedUser){
-                    <div class="relative w-8 h-8 text-center" matTooltip="Követők száma">
+                @if(followedUser(); as followedUser){
+                    <button type="button" (click)="unFollow()" class="relative w-8 h-8 text-center" matTooltip="Felhasználó kikövetése">
                         <span class="ph-fill ph-heart ph-2x text-red-100 text-center"></span>
-                        <span class="absolute 'text-white' text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{profile.followersNumber}}</span>
-                    </div>
+                        <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{profile.followersNumber}}</span>
+                    </button>
                 }
                 @else {
-                    <button type="button" (click)="follow()" class="relative w-8 h-8 text-center" matTooltip="Követők száma">
+                    <button type="button" (click)="follow()" class="relative w-8 h-8 text-center" matTooltip="Felhasználó követése">
                         <span class="ph ph-heart ph-2x text-red-100 text-center"></span>
                         <span class="absolute text-red-100 text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{profile.followersNumber}}</span>
                     </button>
                 }
-                
             </div>
         </div>
         <div class="grid grid-cols-2 gap-20">
