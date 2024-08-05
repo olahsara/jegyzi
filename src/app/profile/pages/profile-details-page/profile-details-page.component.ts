@@ -22,8 +22,9 @@ import { MatTooltip } from '@angular/material/tooltip';
 })
 export class ProfileDetailsPageComponent {
   @Input() profile?: User;
+  loggedInUser = this.userService.user()
   followedUser = computed(() =>
-    this.userService.user()?.follow.find((e) => e === this.profile?.id)
+    this.loggedInUser?.follow.find((e) => e === this.profile?.id)
       ? true
       : false
   );
