@@ -1,20 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { TitleComponent } from '../../../shared/components/title/title.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { UserService } from '../../../shared/services/user.service';
-import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
-import { NamePipe } from '../../../shared/pipes/name.pipe';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { RouterLink } from '@angular/router';
+import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
+import { TitleComponent } from '../../../shared/components/title/title.component';
+import { ProfileTypes, User } from '../../../shared/models/user.model';
+import { NamePipe } from '../../../shared/pipes/name.pipe';
 import { NoValuePipe } from '../../../shared/pipes/no-value.pipe';
-import { User } from '../../../shared/models/user.model';
-import { EducationPipe } from '../../../shared/pipes/education.pipe';
-import { MatDialog } from '@angular/material/dialog';
-import { ProfileModifyModalPageComponent } from '../profile-modify-modal-page/profile-modify-modal-page.component';
+import { TypePipe } from '../../../shared/pipes/type.pipe';
 import { ToastService } from '../../../shared/services/toast.service';
+import { UserService } from '../../../shared/services/user.service';
+import { ProfileModifyModalPageComponent } from '../profile-modify-modal-page/profile-modify-modal-page.component';
 
 @Component({
   selector: 'jegyzi-my-profile-page',
@@ -33,18 +33,16 @@ import { ToastService } from '../../../shared/services/toast.service';
     NamePipe,
     MatTooltipModule,
     NoValuePipe,
-    EducationPipe,
+    TypePipe,
   ],
 })
 export class MyProfilePageComponent implements OnInit {
   profile = this.userService.user;
   following: User[] = [];
   readonly dialog = inject(MatDialog);
+  readonly profileTypes = ProfileTypes;
 
-  constructor(
-    private userService: UserService,
-    private toastService: ToastService
-  ) {}
+  constructor(private userService: UserService, private toastService: ToastService) {}
 
   ngOnInit(): void {
     this.profile()?.followers.forEach((element) => {

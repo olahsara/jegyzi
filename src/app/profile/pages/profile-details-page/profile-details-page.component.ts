@@ -1,17 +1,11 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  Input,
-  OnInit,
-} from '@angular/core';
-import { User } from '../../../shared/models/user.model';
-import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
-import { NamePipe } from '../../../shared/pipes/name.pipe';
-import { RouterLink } from '@angular/router';
-import { UserService } from '../../../shared/services/user.service';
+import { Component, computed, Input } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
+import { RouterLink } from '@angular/router';
+import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
+import { ProfileTypes, User } from '../../../shared/models/user.model';
+import { NamePipe } from '../../../shared/pipes/name.pipe';
+import { UserService } from '../../../shared/services/user.service';
 
 @Component({
   selector: 'jegyzi-profile-details-page',
@@ -22,12 +16,11 @@ import { MatTooltip } from '@angular/material/tooltip';
 })
 export class ProfileDetailsPageComponent {
   @Input() profile?: User;
-  loggedInUser = this.userService.user()
-  followedUser = computed(() =>
-    this.loggedInUser?.follow.find((e) => e === this.profile?.id)
-      ? true
-      : false
-  );
+
+  readonly profileTypes = ProfileTypes;
+
+  loggedInUser = this.userService.user();
+  followedUser = computed(() => (this.loggedInUser?.follow.find((e) => e === this.profile?.id) ? true : false));
 
   constructor(private userService: UserService) {}
 

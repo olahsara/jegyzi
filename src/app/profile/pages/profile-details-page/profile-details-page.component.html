@@ -1,73 +1,116 @@
 <div class="flex flex-col gap-10 m-10">
-    @if(profile) {
-        <div class="flex items-center justify-between w-full">
-            <div class="flex gap-6 items-center">
-                <jegyzi-avatar [profile]="profile" size="lg" [editable]="true"></jegyzi-avatar>
-                
-                <div class="font-semibold text-primary-500 text-2xl">{{profile | name }}</div>
-            </div>
-            <div class="flex gap-4 items-center">
-                <div class="bg-background-200 text-primary-600 font-semibold px-4 py-1 rounded-full" matTooltip="Felhasználó típusa">
-                    {{profile.profileType}}
-                </div>
-                @if(loggedInUser) {
-                    @if(followedUser(); as followedUser){
-                        <button type="button" (click)="followedUser?unFollow():follow()" class="relative w-8 h-8 text-center" [matTooltip]="followedUser?'Felhasználó kikövetése':'Felhasználó követése'">
-                            <span class=" ph-heart ph-2x text-red-100 text-center" [ngClass]="[followedUser?'ph-fill':'ph']"></span>
-                            <span class="absolute  text-[12px] text-center w-8 left-0 top-1.5 font-semibold" [ngClass]="[followedUser?'text-white':'text-red-100']">{{profile.followersNumber}}</span>
-                        </button>
-                    }
-                }
-                @else {
-                    <div type="button" class="relative w-8 h-8 text-center" matTooltip="Felhasználó követői">
-                        <span class="ph-fill ph-heart ph-2x text-red-100 text-center"></span>
-                        <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{profile.followersNumber}}</span>
-                    </div>
-                }  
-            </div>
-        </div>
-        <div class="grid grid-cols-2 gap-20">
-            <div class="flex flex-col rounded-3xl bg-background-200 p-6 gap-4 ">
-                <span class="text-primary-600 text-xl font-semibold">Adatok</span>
-                <div class="flex flex-col ">
-                    <span class="text-primary-300">Email cím</span>
-                    <span class="text-primary-500">{{profile.email}}</span>
-                </div>
-                @if(profile.education){
-                    <div class="flex flex-col ">
-                        <span class="text-primary-300">Intézmény</span>
-                        <span class="text-primary-500">
-                            {{profile.education.institution}}
-                            {{profile.education.institution}} 
-                            @if(profile.education.type) {
-                                ({{profile.education.type}})
-                            }
-                        </span>
-                    </div>
-                    <div class="flex flex-col ">
-                        <span class="text-primary-300">Évfolyam</span>
-                        <span class="text-primary-500">{{profile.education.year}}</span>
-                    </div>
-                    <div class="flex flex-col ">
-                        <span class="text-primary-300">Szak, Specializáció</span>
-                        <span class="text-primary-500">{{profile.education.specialization}}</span>
-                    </div>
-                }
-            </div>
-            @if(profile.introduction){
-                <div class="flex flex-col rounded-2xl bg-background-200 p-6 gap-4 ">
-                    <span class="text-primary-600 text-xl font-semibold">Bemutatkozás</span>
-                    <span class="text-primary-500">{{profile.introduction}}</span>
-                </div>
-            }
-        </div>
-        <div class="flex flex-col gap-4">
-            <div class="flex items-center gap-6">
-                <span class="text-[28px] text-primary-500 font-semibold">Jegyzetek</span>
-                <hr class=" border border-background-300 w-full h-min"/>
-            </div>
-            <!-- TODO: Jegyzetek lista-->
-            <div class="text-red-100 font-semibold text-lg">Nincsenek még a felhasználónak jegyzetei!</div>
-        </div>
+  @if(profile) {
+  <div class="flex items-center justify-between w-full">
+    <div class="flex gap-6 items-center">
+      <jegyzi-avatar [profile]="profile" size="lg" [editable]="true"></jegyzi-avatar>
+
+      <div class="font-semibold text-primary-500 text-2xl">{{ profile | name }}</div>
+    </div>
+    <div class="flex gap-4 items-center">
+      @if(profile.profileType) {
+      <div class="bg-background-200 text-primary-600 font-semibold px-4 py-1 rounded-full" matTooltip="Felhasználó típusa">
+        {{ profile.profileType }}
+      </div>
+
+      } @if(loggedInUser) { @if(followedUser(); as followedUser){
+      <button
+        type="button"
+        (click)="followedUser ? unFollow() : follow()"
+        class="relative w-8 h-8 text-center"
+        [matTooltip]="followedUser ? 'Felhasználó kikövetése' : 'Felhasználó követése'"
+      >
+        <span class="ph-heart ph-2x text-red-100 text-center" [ngClass]="[followedUser ? 'ph-fill' : 'ph']"></span>
+        <span
+          class="absolute text-[12px] text-center w-8 left-0 top-1.5 font-semibold"
+          [ngClass]="[followedUser ? 'text-white' : 'text-red-100']"
+          >{{ profile.followersNumber }}</span
+        >
+      </button>
+      } } @else {
+      <div type="button" class="relative w-8 h-8 text-center" matTooltip="Felhasználó követői">
+        <span class="ph-fill ph-heart ph-2x text-red-100 text-center"></span>
+        <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{ profile.followersNumber }}</span>
+      </div>
+      }
+    </div>
+  </div>
+  <div class="grid grid-cols-2 gap-20">
+    <div class="flex flex-col rounded-3xl bg-background-200 p-6 gap-4">
+      <span class="text-primary-600 text-xl font-semibold">Adatok</span>
+      <div class="flex flex-col">
+        <span class="text-primary-300">Email cím</span>
+        <span class="text-primary-500">{{ profile.email }}</span>
+      </div>
+      @if(profile.education){ @if(profile.profileType === profileTypes.student) {
+      <div class="flex flex-col">
+        <span class="text-primary-300">Intézmény</span>
+        <span class="text-primary-500">
+          {{ profile.education.institution }}
+          @if(profile.education.type) { ({{ profile.education.type }}) }
+        </span>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-primary-300">Évfolyam</span>
+        <span class="text-primary-500">{{ profile.education.year }}</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-primary-300">Szak, Specializáció</span>
+        <span class="text-primary-500">{{ profile.education.specialization }}</span>
+      </div>
+
+      } @if(profile.profileType === profileTypes.teacher) {
+      <div class="flex flex-col">
+        <span class="text-primary-300">Intézmény</span>
+        <span class="text-primary-500">
+          {{ profile.education.institution }}
+          @if(profile.education.type) { ({{ profile.education.type }}) }
+        </span>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-primary-300">Tanítás ideje</span>
+        <span class="text-primary-500">{{ profile.education.year }} év</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-primary-300">Tanított tárgy, tárgyak</span>
+        <span class="text-primary-500">{{ profile.education.specialization }}</span>
+      </div>
+      } } @if(profile.work && profile.profileType === profileTypes.work){
+      <div class="flex flex-col">
+        <span class="text-primary-300">Munkahely</span>
+        <span class="text-primary-500">
+          {{ profile.work.workPlace }}
+          @if(profile.work.type) { ({{ profile.work.type }}) }
+        </span>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-primary-300">Alkalmazás ideje</span>
+        <span class="text-primary-500">{{ profile.work.year }} év</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-primary-300">Pozíció</span>
+        <span class="text-primary-500">{{ profile.work.position }}</span>
+      </div>
+      } @if(profile.other && profile.profileType === profileTypes.other){
+      <div class="flex flex-col">
+        <span class="text-primary-300">Leírás</span>
+        <span class="text-primary-500">{{ profile.other.description }}</span>
+      </div>
+      }
+    </div>
+    @if(profile.introduction){
+    <div class="flex flex-col rounded-2xl bg-background-200 p-6 gap-4">
+      <span class="text-primary-600 text-xl font-semibold">Bemutatkozás</span>
+      <span class="text-primary-500">{{ profile.introduction }}</span>
+    </div>
     }
+  </div>
+  <div class="flex flex-col gap-4">
+    <div class="flex items-center gap-6">
+      <span class="text-[28px] text-primary-500 font-semibold">Jegyzetek</span>
+      <hr class="border border-background-300 w-full h-min" />
+    </div>
+    <!-- TODO: Jegyzetek lista-->
+    <div class="text-red-100 font-semibold text-lg">Nincsenek még a felhasználónak jegyzetei!</div>
+  </div>
+  }
 </div>

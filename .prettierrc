@@ -1,0 +1,15 @@
+{
+  "printWidth": 140,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "singleQuote": true,
+  "arrowParens": "always",
+  "overrides": [
+    {
+      "files": "*.scss",
+      "options": {
+        "singleQuote": false
+      }
+    }
+  ]
+}
