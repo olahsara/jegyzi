@@ -11,23 +11,40 @@
         <div class="text-primary-500 mb-6">Az itt található adatok megadása kötelező!</div>
         <div class="form-control">
           <div class="flex gap-1">
-            <span class="label">Email cím</span>
-            <span class="required-star ph-bold ph-asterisk text-red-100 ph-xs"></span>
+            <div class="flex justify-between items-center w-full">
+              <div>
+                <span class="label">Email cím</span>
+                <span class="required-star ph-bold ph-asterisk text-red-100 ph-xs"></span>
+              </div>
+              @if(this.authForm.controls.email.invalid && this.authForm.controls.email.touched) {
+              <div class="text-red-100 text-sm">Valós e-mail cím megadása kötelező!</div>
+              }
+            </div>
           </div>
-
           <input matInput type="text" formControlName="email" />
         </div>
         <div class="grid grid-cols-2 gap-x-6">
           <div class="form-control">
             <div class="flex gap-1">
               <span class="label">Jelszó</span>
+
               <span class="required-star ph-bold ph-asterisk text-red-100 ph-xs"></span>
             </div>
             <input matInput type="password" formControlName="password" placeholder="Minimum 6 karakter" />
           </div>
           <div class="form-control">
             <div class="flex gap-1">
-              <span class="label">Jelszó megerősítő</span>
+              <div class="flex justify-between w-full">
+                <span class="label">Jelszó megerősítő</span>
+                @if(this.authForm.controls.passwordConfirm.touched && this.authForm.controls.password.touched ) {
+                @if(this.authForm.value.password === null || this.authForm.value.passwordConfirm === null) {
+                <div class="text-red-100 text-sm">A jelszavak megadása kötelező!</div>
+                } @else if(this.authForm.value.password !== this.authForm.value.passwordConfirm) {
+                <div class="text-red-100 text-sm">A jelszavak nem egyeznek meg!</div>
+                } @else if(this.authForm.controls.password.invalid){
+                <div class="text-red-100 text-sm">Hibás jelszó!</div>
+                } }
+              </div>
               <span class="required-star ph-bold ph-asterisk text-red-100 ph-xs"></span>
             </div>
             <input matInput type="password" formControlName="passwordConfirm" />
@@ -51,16 +68,7 @@
         </div>
       </form>
 
-      @if(this.authForm.controls.email.invalid && this.authForm.controls.email.touched) {
-      <div class="text-red-100">Valós e-mail cím megadása kötelező!</div>
-      } @if(this.authForm.controls.passwordConfirm.touched && this.authForm.controls.password.touched ) { @if(this.authForm.value.password
-      === null || this.authForm.value.passwordConfirm === null) {
-      <div class="text-red-100">A jelszavak megadása kötelező!</div>
-      } @else if(this.authForm.value.password !== this.authForm.value.passwordConfirm) {
-      <div class="text-red-100">A jelszavak nem egyeznek meg!</div>
-      } @else if(this.authForm.controls.password.invalid){
-      <div class="text-red-100">Hibás jelszó!</div>
-      } } @if((authForm.value.firstName === null || authForm.value.lastName === null) && authForm.controls.firstName.touched &&
+      @if((authForm.value.firstName === null || authForm.value.lastName === null) && authForm.controls.firstName.touched &&
       authForm.controls.lastName.touched) {
       <div class="text-red-100">Név megadása kötelező!</div>
       } }

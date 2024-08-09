@@ -55,28 +55,7 @@ export class ProfileModifyModalPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.data) {
-      this.form.setValue({
-        email: this.data.email || null,
-        lastName: this.data.lastName || null,
-        firstName: this.data.firstName || null,
-        profileType: this.data.profileType || null,
-        education: {
-          institution: this.data.education?.institution || null,
-          specialization: this.data.education?.specialization || null,
-          year: this.data.education?.year || null,
-          type: this.data.education?.type || null,
-        },
-        other: {
-          description: this.data.other?.description || null,
-        },
-        work: {
-          workPlace: this.data.work?.workPlace || null,
-          position: this.data.work?.position || null,
-          year: this.data.work?.year || null,
-          type: this.data.work?.type || null,
-        },
-        introduction: this.data.introduction || null,
-      });
+      this.form.patchValue(this.data);
     }
   }
 
@@ -112,57 +91,21 @@ export class ProfileModifyModalPageComponent implements OnInit {
   remowePorpertiesAccordingType() {
     switch (this.form.value.profileType) {
       case null:
-        this.form.controls.education.setValue({
-          institution: null,
-          specialization: null,
-          year: null,
-          type: null,
-        });
-        this.form.controls.work.setValue({
-          workPlace: null,
-          position: null,
-          year: null,
-          type: null,
-        });
-        this.form.controls.other.setValue({
-          description: null,
-        });
+        this.form.controls.education.reset();
+        this.form.controls.work.reset();
+        this.form.controls.other.reset();
         break;
       case ProfileTypes.student:
-        this.form.controls.work.setValue({
-          workPlace: null,
-          position: null,
-          year: null,
-          type: null,
-        });
-        this.form.controls.other.setValue({
-          description: null,
-        });
+        this.form.controls.work.reset();
+        this.form.controls.other.reset();
         break;
       case ProfileTypes.work:
-        this.form.controls.education.setValue({
-          institution: null,
-          specialization: null,
-          year: null,
-          type: null,
-        });
-        this.form.controls.other.setValue({
-          description: null,
-        });
+        this.form.controls.education.reset();
+        this.form.controls.other.reset();
         break;
       case ProfileTypes.other:
-        this.form.controls.education.setValue({
-          institution: null,
-          specialization: null,
-          year: null,
-          type: null,
-        });
-        this.form.controls.work.setValue({
-          workPlace: null,
-          position: null,
-          year: null,
-          type: null,
-        });
+        this.form.controls.education.reset();
+        this.form.controls.work.reset();
         break;
     }
   }
