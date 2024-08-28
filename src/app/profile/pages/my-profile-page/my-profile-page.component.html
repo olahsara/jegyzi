@@ -12,7 +12,7 @@
                     {{profile.profileType}}
                 </div>
                 <div class="relative w-8 h-8 text-center" matTooltip="Követők száma">
-                    <span class="ph-fill ph-heart ph-2x text-red-100 text-center"></span>
+                    <span class="ph-fill ph-heart ph-2x text-heart-100 text-center"></span>
                     <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{profile.followersNumber}}</span>
                 </div>
                 <button type="button" (click)="modify()" matTooltip="Profil szerkesztése">
@@ -70,7 +70,7 @@
                     </div>
                     <div class="flex flex-col mr-0 ml-auto justify-between h-full" >
                         <div class="relative w-8 h-8 text-center" matTooltip="Követők száma">
-                            <span class="ph-fill ph-heart ph-2x text-red-100 text-center"></span>
+                            <span class="ph-fill ph-heart ph-2x text-heart-100 text-center"></span>
                             <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{profile.followersNumber}}</span>
                         </div>
                         <a [routerLink]="'/profiles/'+profile.id" matTooltip="Profil megtekintése">
@@ -81,7 +81,7 @@
                 </div>
             }
             @empty {
-                <div class="text-red-100 font-semibold text-lg">Nincsenek még követéseid!</div>
+                <div class="text-heart-100 font-semibold text-lg">Nincsenek még követéseid!</div>
             }
         </div>
        
