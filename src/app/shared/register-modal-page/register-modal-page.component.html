@@ -1,0 +1,128 @@
+<button type="button" class="text-primary-600 absolute right-2 top-2" (click)="close()" matTooltip="Bezárás">
+    <span class="ph-bold ph-x ph-xl"></span>
+</button>
+<div class="flex flex-col my-4 gap-4">
+    <div class="flex flex-col gap-1">
+        <span class="font-semibold text-xl text-primary-600 mx-4">Regisztráció</span>
+        <span class="text-primary-500 mx-4">Itt tudod megadni a regisztrációhoz szükséges adatokat</span>
+    </div>
+    
+    <div class="w-full bg-background-200 rounded-t-3xl px-6 py-4">
+        
+        <form [formGroup]="form">
+            @if(actualStep === 0) {
+                <div class="flex flex-col gap-1 mb-6">
+                    <span class="font-semibold text-xl text-primary-600">Kötelező adatok</span>
+                    <span class="text-primary-500">Itt található mezők kitöltése kötelező!</span>
+                </div>
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="form-control">
+                            <div class="label"> Email cím </div>
+                            <input matInput type="email" formControlName="email" />
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="form-control" >
+                            <div class="label"> Jelszó </div>
+                            <input matInput type="password" formControlName="password" />
+                        </div>
+                        <div class="form-control" >
+                            <div class="label"> Megerősítő jelszó </div>
+                            <input matInput type="password" formControlName="passwordConfirm" />
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="form-control" >
+                            <div class="label"> Vezetéknév </div>
+                            <input matInput type="text" formControlName="lastName" />
+                        </div>
+                        <div class="form-control" >
+                            <div class="label"> Keresztnév </div>
+                            <input matInput type="text" formControlName="firstName" />
+                        </div>
+                    </div>
+                    @if(this.form.controls.email.invalid && this.form.controls.email.touched) {
+                    <span class="text-heart-100 font-semibold text-sm">Létező email cím megadása kötelező!</span>
+                  }
+                  @if((this.form.controls.password.invalid && this.form.controls.password.touched) || (this.form.controls.passwordConfirm.invalid && this.form.controls.passwordConfirm.touched)) {
+                    <span class="text-heart-100 font-semibold text-sm">Jelszó megadása kötelező (minimum 6 karakter)!</span>
+                  } @else {
+                    @if(this.form.controls.password.value !== this.form.controls.passwordConfirm.value && ( this.form.controls.password.touched && this.form.controls.passwordConfirm.touched)) {
+                        <span class="text-heart-100 font-semibold text-sm">Jelszavak nem egyeznek meg!</span>
+                    }
+                  }
+                    
+            }
+            
+            @if(actualStep === 1){
+                <div class="flex flex-col gap-1 mb-6">
+                    <span class="font-semibold text-xl text-primary-600">Kiegészítő adatok</span>
+                    <span class="text-primary-500">Az itt található mezőket üresen hagyhatod, bármikor tudod őket módosítania profil oldaladon.</span>
+                </div>
+                <div class="grid grid-cols-2">
+                    <div class="form-control">
+                        <div class="label"> Profil típusa </div>
+                        <mat-select formControlName="profileType"> 
+                            <mat-option [value]="profileTypes.student">{{profileTypes.student}}</mat-option>
+                            <mat-option [value]="profileTypes.teacher">{{profileTypes.teacher}}</mat-option>
+                            <mat-option [value]="profileTypes.other">{{profileTypes.other}}</mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+                
+                <div formGroupName="education" >
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="form-control" >
+                            <div class="label"> Intézmény típusa </div>
+                            <mat-select formControlName="type"  class="w-full"> 
+                                <mat-option [value]="educationTypes.primary">{{educationTypes.primary}}</mat-option>
+                                <mat-option [value]="educationTypes.secondary">{{educationTypes.secondary}}</mat-option>
+                                <mat-option [value]="educationTypes.upper">{{educationTypes.upper}}</mat-option>
+                                <mat-option [value]="educationTypes.university">{{educationTypes.university}}</mat-option>
+                            </mat-select>
+                        </div>
+                        <div class="form-control" >
+                            <div class="label"> Intézmény neve </div>
+                            <input matInput type="text" formControlName="institution" />
+                        </div>
+                        
+                    </div>
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="form-control" >
+                            <div class="label"> Szak, specializáció</div>
+                            <input matInput type="text" formControlName="specialization" />
+                        </div>
+                        <div class="form-control" >
+                            <div class="label"> Évfolyam </div>
+                            <input matInput type="number" formControlName="year" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if(actualStep === 2) {
+                <div class="flex flex-col gap-1 mb-6">
+                    <span class="font-semibold text-xl text-primary-600">Ki is vagy te?</span>
+                    <span class="text-primary-500">A Bemutatkozás megadása nem kötelező, ezt is bármikor módosíthatod a profil oldaladon.</span>
+                </div>
+                <div class="form-control h-full transition-all">
+                    <div class="label"> Bemutatkozás </div>
+                    <textarea matInput type="text" formControlName="introduction" rows="7"></textarea>
+                </div>
+            }
+        </form>
+        
+    </div>
+    <div class="flex justify-between mx-4 bottom-0">
+        
+        <button type="button" class="btn-secondary w-min btn-small" (click)="prew()">{{actualStep===0?"Mégsem":"Előző"}}</button>
+        <div class="flex gap-2 items-center">
+            @for(step of steps; track step){
+                <div class="w-3 h-3 rounded-full bg-background-200" [ngClass]="{'bg-background-600':step===actualStep}"></div>
+            }
+        </div>
+        <button type="submit" class="btn-primary w-min btn-small" (click)="next()">{{actualStep === this.steps.length-1?"Megerősítés":"Következő"}}</button>
+    </div>
+</div>

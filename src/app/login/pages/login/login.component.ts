@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -13,6 +13,8 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { ToastService } from '../../../shared/services/toast.service';
 import { UserService } from '../../../shared/services/user.service';
+import { MatDialog } from '@angular/material/dialog';
+import { RegisterModalPageComponent } from '../../../shared/register-modal-page/register-modal-page.component';
 
 @Component({
   selector: 'jegyzi-login',
@@ -30,6 +32,8 @@ import { UserService } from '../../../shared/services/user.service';
   ],
 })
 export class LoginComponent {
+  readonly dialog = inject(MatDialog);
+  
   loginForm = new FormGroup({
     email: new FormControl<string>('', {
       validators: [Validators.email, Validators.required],
@@ -41,7 +45,7 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router,
     private toastService: ToastService,
-    private userService: UserService
+    private userService: UserService,
   ) {}
 
   login() {
@@ -60,5 +64,17 @@ export class LoginComponent {
         console.error(error);
         this.toastService.error('Hiba a bejelentkezés során!');
       });
+  }
+
+  register() {
+    const dialogRef = this.dialog.open(RegisterModalPageComponent, {
+      minWidth: '50vw',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loginForm.controls.email.setValue(result.email)
+      }
+    });
   }
 }

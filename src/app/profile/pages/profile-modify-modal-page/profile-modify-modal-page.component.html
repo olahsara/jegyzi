@@ -10,64 +10,67 @@
     <div class="w-full bg-background-200 rounded-t-3xl px-6 py-4">
         <form [formGroup]="form">
             @if(actualStep === 0) {
-                <div class="grid grid-cols-2 gap-8">
-                    <div class="form-control w-full">
-                        <div class="label"> Profil típusa </div>
-                        <!-- <input matInput type="text" formControlName="profileType" class="w-full"/> -->
-                        <mat-select formControlName="profileType"  class="w-full"> 
-                            <mat-option [value]="profileTypes.student">{{profileTypes.student}}</mat-option>
-                            <mat-option [value]="profileTypes.teacher">{{profileTypes.teacher}}</mat-option>
-                            <mat-option [value]="profileTypes.other">{{profileTypes.other}}</mat-option>
-                        </mat-select>
-                    </div>
-                    <div class="form-control">
-                        <div class="label"> Email cím </div>
-                        <input matInput type="email" formControlName="email" />
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-2 gap-8">
-                    <div class="form-control" >
-                        <div class="label"> Név </div>
-                        <input matInput type="text" formControlName="name" />
-                    </div>
-                    <!-- <div class="form-control" >
-                        <div class="label"> Kereszt név </div>
-                        <input matInput type="text" formControlName="firstName" />
-                    </div> -->
-                </div>
-                
-                <div formGroupName="education" >
-                    <div class="grid grid-cols-2 gap-8">
-                        <div class="form-control" >
-                            <div class="label"> Intézmény neve </div>
-                            <input matInput type="text" formControlName="institution" />
-                        </div>
-                        <div class="form-control" >
-                            <div class="label"> Intézmény típusa </div>
-                            <mat-select formControlName="type"  class="w-full"> 
-                                <mat-option [value]="educationTypes.primary">{{educationTypes.primary}}</mat-option>
-                                <mat-option [value]="educationTypes.secondary">{{educationTypes.secondary}}</mat-option>
-                                <mat-option [value]="educationTypes.upper">{{educationTypes.upper}}</mat-option>
-                                <mat-option [value]="educationTypes.university">{{educationTypes.university}}</mat-option>
+                <div class="transition-all">
+                    <div class="grid grid-cols-2 gap-8 transition-all">
+                        <div class="form-control w-full">
+                            <div class="label"> Profil típusa </div>
+                            <!-- <input matInput type="text" formControlName="profileType" class="w-full"/> -->
+                            <mat-select formControlName="profileType"  class="w-full"> 
+                                <mat-option [value]="profileTypes.student">{{profileTypes.student}}</mat-option>
+                                <mat-option [value]="profileTypes.teacher">{{profileTypes.teacher}}</mat-option>
+                                <mat-option [value]="profileTypes.other">{{profileTypes.other}}</mat-option>
                             </mat-select>
                         </div>
+                        <div class="form-control">
+                            <div class="label"> Email cím </div>
+                            <input matInput type="email" formControlName="email" />
+                        </div>
                     </div>
+                    
                     <div class="grid grid-cols-2 gap-8">
                         <div class="form-control" >
-                            <div class="label"> Évfolyam </div>
-                            <input matInput type="number" formControlName="year" />
+                            <div class="label"> Vezetéknév </div>
+                            <input matInput type="text" formControlName="lastName" />
                         </div>
                         <div class="form-control" >
-                            <div class="label"> Szak, specializáció</div>
-                            <input matInput type="text" formControlName="specialization" />
+                            <div class="label"> Keresztnév </div>
+                            <input matInput type="text" formControlName="firstName" />
                         </div>
                     </div>
+                    
+                    <div formGroupName="education" >
+                        <div class="grid grid-cols-2 gap-8">
+                            <div class="form-control" >
+                                <div class="label"> Intézmény neve </div>
+                                <input matInput type="text" formControlName="institution" />
+                            </div>
+                            <div class="form-control" >
+                                <div class="label"> Intézmény típusa </div>
+                                <mat-select formControlName="type"  class="w-full"> 
+                                    <mat-option [value]="educationTypes.primary">{{educationTypes.primary}}</mat-option>
+                                    <mat-option [value]="educationTypes.secondary">{{educationTypes.secondary}}</mat-option>
+                                    <mat-option [value]="educationTypes.upper">{{educationTypes.upper}}</mat-option>
+                                    <mat-option [value]="educationTypes.university">{{educationTypes.university}}</mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-8">
+                            <div class="form-control" >
+                                <div class="label"> Évfolyam </div>
+                                <input matInput type="number" formControlName="year" />
+                            </div>
+                            <div class="form-control" >
+                                <div class="label"> Szak, specializáció</div>
+                                <input matInput type="text" formControlName="specialization" />
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             }
             
             @if(actualStep === 1){
-                 <div class="form-control h-full">
+                 <div class="form-control h-full transition-all">
                     <div class="label"> Bemutatkozás </div>
                     <textarea matInput type="text" formControlName="introduction" rows="7"></textarea>
                 </div>
@@ -90,6 +93,4 @@
         </div>
         <button type="submit" class="btn-primary w-min btn-small" (click)="next()">{{actualStep === this.steps.length-1?"Megerősítés":"Következő"}}</button>
     </div>
-    
-
 </div>

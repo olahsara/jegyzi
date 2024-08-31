@@ -4,7 +4,6 @@ import {
   MAT_DIALOG_DATA,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { MyProfilePageComponent } from '../my-profile-page/my-profile-page.component';
 import { ProfileTypes, User } from '../../../shared/models/user.model';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -29,7 +28,7 @@ import { EducationType } from '../../../shared/models/eductaion.model';
   styleUrl: './profile-modify-modal-page.component.scss',
 })
 export class ProfileModifyModalPageComponent implements OnInit{
-  readonly dialogRef = inject(MatDialogRef<MyProfilePageComponent>);
+  readonly dialogRef = inject(MatDialogRef<ProfileModifyModalPageComponent>);
   readonly data = inject<User>(MAT_DIALOG_DATA);
 
   steps = [0,1];
@@ -43,8 +42,8 @@ export class ProfileModifyModalPageComponent implements OnInit{
     email: new FormControl<string | null>(null, {
       validators: Validators.email,
     }),
-    name: new FormControl<string | null>(null),
-    nickname: new FormControl<string | null>(null),
+    firstName: new FormControl<string | null>(null),
+    lastName: new FormControl<string | null>(null),
     profileType: new FormControl<string | null>(null),
     education: new FormGroup({
       institution: new FormControl<string | null>(null),
@@ -59,8 +58,8 @@ export class ProfileModifyModalPageComponent implements OnInit{
     if(this.data){
       this.form.setValue({
         email: this.data.email || null,
-        name: this.data.name || null,
-        nickname: this.data.nickname || null,
+        firstName: this.data.firstName || null,
+        lastName: this.data.lastName || null,
         profileType: this.data.profileType || null,
         education: {
           institution: this.data.education?.institution || null,

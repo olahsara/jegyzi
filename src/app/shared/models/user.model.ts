@@ -3,8 +3,8 @@ import { Education } from "./eductaion.model"
 export interface User {
     id: string,
     email: string,
-    name? : string,
-    nickname?: string,
+    firstName? : string,
+    lastName?: string,
     education?: Education,
     introduction?: string,
     profilePicture?: string,
