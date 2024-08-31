@@ -6,12 +6,10 @@ import { User } from '../models/user.model';
   standalone: true,
 })
 export class NamePipe implements PipeTransform {
-
   transform(value: User): string {
-    if(value.name){
-        return value.name;
+    if (value.firstName && value.lastName) {
+      return value.lastName + ' ' + value.firstName;
     }
     return 'Nincs megadva!';
   }
-
 }

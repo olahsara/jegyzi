@@ -8,12 +8,7 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class AuthService {
-
-  constructor(
-    private auth: AngularFireAuth,
-    private store: AngularFirestore,
-    private userService: UserService,
-  ) {}
+  constructor(private auth: AngularFireAuth, private store: AngularFirestore, private userService: UserService) {}
 
   login(email: string, password: string) {
     return this.auth.signInWithEmailAndPassword(email, password);
@@ -32,15 +27,9 @@ export class AuthService {
     return this.auth.signOut();
   }
 
-  createProfile(user: firebase.default.User | null) {
+  createProfile(user: User) {
     if (user) {
-      return this.store.collection<User>('Users').doc(user.uid).set({
-        email: user.email!,
-        id: user.uid,
-        follow: [],
-        followers: [],
-        followersNumber: 0,
-      });
+      return this.store.collection<User>('Users').doc(user.id).set(user);
     }
     return;
   }

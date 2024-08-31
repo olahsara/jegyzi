@@ -1,41 +1,213 @@
 <jegyzi-title></jegyzi-title>
 <div class="flex">
-    <div class="w-1/3">
-        <img src="./assets/img/login-img.svg" alt="Login image" class="object-contain">
-    </div>
-    <div class="flex flex-col gap-10 w-1/3 self-center mx-auto">
-        <div class="bg-background-200 rounded-3xl px-10 py-6">
-            <form [formGroup]="registerForm">
-                <div class="form-control">
-                    <div class="flex gap-1 ">
-                        <span class="label">Email cím</span> 
-                        <span class="required-star ph-bold ph-asterisk text-red-100 ph-xs"></span>
-                    </div>
+  <div class="w-1/3">
+    <img src="./assets/img/login-img.svg" alt="Login image" class="object-contain" />
+  </div>
+  <div class="flex flex-col gap-10 w-1/3 self-center mx-auto">
+    <div class="bg-background-200 rounded-3xl px-10 py-6">
+      @if(actualStep === 0) {
+      <form [formGroup]="authForm">
+        <div class="font-semibold text-xl text-primary-600">Kötelező adatok</div>
+        <div class="text-primary-500 mb-6">Az itt található adatok megadása kötelező!</div>
+        <div class="form-control">
+          <div class="flex gap-1">
+            <div class="flex justify-between items-center w-full">
+              <div>
+                <span class="label">Email cím</span>
+                <span class="required-star ph-bold ph-asterisk text-red-100 ph-xs"></span>
+              </div>
+              @if(this.authForm.controls.email.invalid && this.authForm.controls.email.touched) {
+              <div class="text-red-100 text-sm">Valós e-mail cím megadása kötelező!</div>
+              }
+            </div>
+          </div>
+          <input matInput type="text" formControlName="email" />
+        </div>
+        <div class="grid grid-cols-2 gap-x-6">
+          <div class="form-control">
+            <div class="flex gap-1">
+              <span class="label">Jelszó</span>
 
-                    <input matInput type="text" formControlName="email" />
-                </div>
-                <div class="form-control">
-                    <div class="flex gap-1 ">
-                        <span class="label">Jelszó</span> 
-                        <span class="required-star ph-bold ph-asterisk text-red-100 ph-xs"></span>
-                    </div>
-                    <input matInput type="password" formControlName="password" />
-                </div>
-                <div class="form-control">
-                    <div class="flex gap-1 ">
-                        <span class="label">Jelszó megerősítő</span> 
-                        <span class="required-star ph-bold ph-asterisk text-red-100 ph-xs"></span>
-                    </div>
-                    <input matInput type="password" formControlName="passwordConfirm" />
-                </div>
-            </form>
-            @if ( disabled ){
-                @if (this.registerForm.controls.passwordConfirm.touched && this.registerForm.controls.password.value !== this.registerForm.controls.passwordConfirm.value) {
-                    <div class="text-red-100 mb-4">A jelszó és megerősítő jelszó nem egyezik meg!</div>
-                }
-            }
-            <button class="btn-primary ml-auto mr-0" type="submit" [disabled]="disabled" (click)="register()">Regisztráció</button>
+              <span class="required-star ph-bold ph-asterisk text-red-100 ph-xs"></span>
+            </div>
+            <input matInput type="password" formControlName="password" placeholder="Minimum 6 karakter" />
+          </div>
+          <div class="form-control">
+            <div class="flex gap-1">
+              <div class="flex justify-between w-full">
+                <span class="label">Jelszó megerősítő</span>
+                @if(this.authForm.controls.passwordConfirm.touched && this.authForm.controls.password.touched ) {
+                @if(this.authForm.value.password === null || this.authForm.value.passwordConfirm === null) {
+                <div class="text-red-100 text-sm">A jelszavak megadása kötelező!</div>
+                } @else if(this.authForm.value.password !== this.authForm.value.passwordConfirm) {
+                <div class="text-red-100 text-sm">A jelszavak nem egyeznek meg!</div>
+                } @else if(this.authForm.controls.password.invalid){
+                <div class="text-red-100 text-sm">Hibás jelszó!</div>
+                } }
+              </div>
+              <span class="required-star ph-bold ph-asterisk text-red-100 ph-xs"></span>
+            </div>
+            <input matInput type="password" formControlName="passwordConfirm" />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-x-6">
+          <div class="form-control">
+            <div class="flex gap-1">
+              <span class="label">Vezetéknév</span>
+              <span class="required-star ph-bold ph-asterisk text-red-100 ph-xs"></span>
+            </div>
+            <input matInput type="text" formControlName="lastName" />
+          </div>
+          <div class="form-control">
+            <div class="flex gap-1">
+              <span class="label">Keresztnév</span>
+              <span class="required-star ph-bold ph-asterisk text-red-100 ph-xs"></span>
+            </div>
+            <input matInput type="text" formControlName="firstName" />
+          </div>
+        </div>
+      </form>
+
+      @if((authForm.value.firstName === null || authForm.value.lastName === null) && authForm.controls.firstName.touched &&
+      authForm.controls.lastName.touched) {
+      <div class="text-red-100">Név megadása kötelező!</div>
+      } }
+      <form [formGroup]="registerForm">
+        @if(actualStep=== 1) {
+        <div class="font-semibold text-xl text-primary-600">Kiegészítő adatok</div>
+        <div class="text-primary-500 mb-6">
+          Az itt található adatok megadása nem kötelező, bármikor tudod ezeket szerkeszteni a profilodban.
         </div>
 
+        <div class="form-control w-full">
+          <div class="label">Profil típusa</div>
+          <!-- <input matInput type="text" formControlName="profileType" class="w-full"/> -->
+          <mat-select formControlName="profileType" class="w-full">
+            <mat-option>Nem adom meg</mat-option>
+            <mat-option [value]="profileTypes.student">{{ profileTypes.student }}</mat-option>
+            <mat-option [value]="profileTypes.teacher">{{ profileTypes.teacher }}</mat-option>
+            <mat-option [value]="profileTypes.work">{{ profileTypes.work }}</mat-option>
+            <mat-option [value]="profileTypes.other">{{ profileTypes.other }}</mat-option>
+          </mat-select>
+        </div>
+        @switch (this.registerForm.controls.profileType.value) { @case (profileTypes.student) {
+        <div formGroupName="education">
+          <div class="grid grid-cols-2 gap-8">
+            <div class="form-control">
+              <div class="label">Intézmény neve</div>
+              <input matInput type="text" formControlName="institution" />
+            </div>
+            <div class="form-control">
+              <div class="label">Intézmény típusa</div>
+              <mat-select formControlName="type" class="w-full">
+                <mat-option [value]="educationTypes.primary">{{ educationTypes.primary }}</mat-option>
+                <mat-option [value]="educationTypes.secondary">{{ educationTypes.secondary }}</mat-option>
+                <mat-option [value]="educationTypes.upper">{{ educationTypes.upper }}</mat-option>
+                <mat-option [value]="educationTypes.university">{{ educationTypes.university }}</mat-option>
+              </mat-select>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-8">
+            <div class="form-control">
+              <div class="label">Évfolyam</div>
+              <input matInput type="number" formControlName="year" />
+            </div>
+            <div class="form-control">
+              <div class="label">Szak, specializáció</div>
+              <input matInput type="text" formControlName="specialization" />
+            </div>
+          </div>
+        </div>
+
+        } @case(profileTypes.teacher) {
+        <div formGroupName="education">
+          <div class="grid grid-cols-2 gap-8">
+            <div class="form-control">
+              <div class="label">Intézmény neve</div>
+              <input matInput type="text" formControlName="institution" />
+            </div>
+            <div class="form-control">
+              <div class="label">Intézmény típusa</div>
+              <mat-select formControlName="type" class="w-full">
+                <mat-option [value]="educationTypes.primary">{{ educationTypes.primary }}</mat-option>
+                <mat-option [value]="educationTypes.secondary">{{ educationTypes.secondary }}</mat-option>
+                <mat-option [value]="educationTypes.upper">{{ educationTypes.upper }}</mat-option>
+                <mat-option [value]="educationTypes.university">{{ educationTypes.university }}</mat-option>
+              </mat-select>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-8">
+            <div class="form-control">
+              <div class="label">Tanítás ideje (év)</div>
+              <input matInput type="number" formControlName="year" />
+            </div>
+            <div class="form-control">
+              <div class="label">Tanított tárgy, tárgyak</div>
+              <input matInput type="text" formControlName="specialization" />
+            </div>
+          </div>
+        </div>
+        } @case(profileTypes.work) {
+        <div formGroupName="work">
+          <div class="grid grid-cols-2 gap-8">
+            <div class="form-control">
+              <div class="label">Munkahely neve</div>
+              <input matInput type="text" formControlName="workPlace" />
+            </div>
+            <div class="form-control">
+              <div class="label">Munkahely típusa</div>
+              <input matInput type="text" formControlName="type" />
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-8">
+            <div class="form-control">
+              <div class="label">Alkalmazás ideje (év)</div>
+              <input matInput type="number" formControlName="year" />
+            </div>
+            <div class="form-control">
+              <div class="label">Munkakör</div>
+              <input matInput type="text" formControlName="position" />
+            </div>
+          </div>
+        </div>
+
+        } @case(profileTypes.other) {
+        <div formGroupName="other">
+          <div class="form-control">
+            <div class="label">Leírás</div>
+            <input matInput type="text" formControlName="description" />
+          </div>
+        </div>
+
+        } } } @if(actualStep === 2) {
+        <div class="font-semibold text-xl text-primary-600">Bemutatkozás</div>
+        <div class="text-primary-500 mb-6">A bemutatkozó szöveg megadása nem kötelező, bármikor módosíthatod a profilodban.</div>
+        <div class="form-control h-full">
+          <textarea
+            matInput
+            type="text"
+            formControlName="introduction"
+            rows="7"
+            placeholder="Ide kezd el gépelni a bemutatkozásodat"
+          ></textarea>
+        </div>
+        }
+      </form>
+
+      <div class="grid grid-cols-3 bottom-0">
+        @if(actualStep !== 0) {
+        <button type="button" class="btn-secondary w-min btn-small col-start-1 basis-1/3 justify-self-start" (click)="prew()">Előző</button>
+        }
+
+        <div class="flex gap-2 items-center col-start-2 basis-1/3 justify-self-center">
+          @for(step of steps; track step){
+          <div class="w-3 h-3 rounded-full bg-background-300" [ngClass]="{ 'bg-background-600': step === actualStep }"></div>
+          }
+        </div>
+        <button type="submit" class="btn-primary w-min btn-small col-start-3 basis-1/3 justify-self-end" (click)="next()">
+          {{ actualStep === this.steps.length - 1 ? 'Regisztráció' : 'Következő' }}
+        </button>
+      </div>
     </div>
+  </div>
 </div>
