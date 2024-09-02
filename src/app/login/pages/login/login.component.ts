@@ -20,7 +20,7 @@ import { UserService } from '../../../shared/services/user.service';
 })
 export class LoginComponent {
   readonly dialog = inject(MatDialog);
-  
+
   loginForm = new FormGroup({
     email: new FormControl<string>('', [Validators.email, Validators.required]),
     password: new FormControl<string>('', Validators.required),
@@ -55,8 +55,8 @@ export class LoginComponent {
               this.toastService.error('Hiba a bejelentkezés során!');
           }
         });
+    }
   }
-
   register() {
     const dialogRef = this.dialog.open(RegisterModalPageComponent, {
       minWidth: '50vw',
@@ -64,9 +64,8 @@ export class LoginComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.loginForm.controls.email.setValue(result.email)
+        this.loginForm.controls.email.setValue(result.email);
       }
     });
-    }
   }
 }

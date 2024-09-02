@@ -10,7 +10,7 @@
           <div class="label">Email cím</div>
           <input matInput type="text" formControlName="email" />
           @if(loginForm.controls.email.invalid && loginForm.controls.email.touched) {
-          <div class="text-red-100 text-sm">Nem adtál meg email címet, vagy az általad megadott email cím hibás!</div>
+          <div class="text-heart-100 text-sm">Nem adtál meg email címet, vagy az általad megadott email cím hibás!</div>
           }
         </div>
 
@@ -18,7 +18,7 @@
           <div class="label">Jelszó</div>
           <input matInput type="password" formControlName="password" />
           @if(loginForm.controls.password.invalid && loginForm.controls.password.touched) {
-          <div class="text-red-100 text-sm">Jelszó megadása kötelező!</div>
+          <div class="text-heart-100 text-sm">Jelszó megadása kötelező!</div>
           }
         </div>
       </form>
