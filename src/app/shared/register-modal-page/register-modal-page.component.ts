@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { EducationType } from '../models/eductaion.model';
 import { ProfileTypes, User } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
@@ -14,7 +15,16 @@ import { ToastService } from '../services/toast.service';
 @Component({
   selector: 'jegyzi-profile-modify-modal-page',
   standalone: true,
-  imports: [CommonModule, MatTooltipModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatInputModule, MatSelectModule],
+  imports: [
+    CommonModule,
+    MatTooltipModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatSelectModule,
+    NgxSkeletonLoaderModule,
+  ],
   templateUrl: './register-modal-page.component.html',
   styleUrl: './register-modal-page.component.scss',
 })

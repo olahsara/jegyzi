@@ -38,7 +38,17 @@
           <input matInput type="text" formControlName="firstName" />
         </div>
       </div>
-      @switch (this.form.controls.profileType.value) { @case (profileTypes.student) {
+      @if(!this.form.controls.profileType.value) {
+      <div class="grid grid-cols-2 gap-8 my-6">
+        <ngx-skeleton-loader [theme]="{height: '36px',}" />
+        <ngx-skeleton-loader [theme]="{height: '36px',}" />
+      </div>
+      <div class="grid grid-cols-2 gap-8 my-6">
+        <ngx-skeleton-loader [theme]="{height: '36px',}" />
+        <ngx-skeleton-loader [theme]="{height: '36px',}" />
+      </div>
+
+      } @else { @switch (this.form.controls.profileType.value) { @case (profileTypes.student) {
       <div formGroupName="education">
         <div class="grid grid-cols-2 gap-8">
           <div class="form-control">
@@ -123,11 +133,11 @@
       <div formGroupName="other">
         <div class="form-control">
           <div class="label">Leírás</div>
-          <input matInput type="text" formControlName="description" />
+          <textarea matInput type="text" formControlName="description" rows="4"></textarea>
         </div>
       </div>
 
-      }} } @if(actualStep === 1){
+      }} } } @if(actualStep === 1){
       <div class="form-control h-full">
         <div class="label">Bemutatkozás</div>
         <textarea matInput type="text" formControlName="introduction" rows="7"></textarea>
