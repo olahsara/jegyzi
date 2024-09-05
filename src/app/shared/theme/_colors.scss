@@ -6,31 +6,34 @@
   --primary-500: 107 79 79;
   --primary-600: 108 74 74;
   --primary-700: 72 52 52;
+  --primary-link: 158 119 119;
 
   --background-100: 245 235 235;
   --background-200: 228 208 208;
   --background-300: 193 163 163;
   --background-400: 202 166 166;
-  --background-500: 134 112 112;
+  //--background-500: 134 112 112;
   --background-600: 129 91 91;
   --background-loader: 211 181 181;
-  --heart-100: 169 68 56; //dark: yellow
+  --heart-100: 169 68 56; //dark: ugyanaz
 }
 
 .dark {
-  --primary-100: 163 177 138;
-  --primary-200: 173 185 150;
-  --primary-300: 183 194 163;
-  --primary-400: 193 202 176;
-  --primary-500: 203 211 189;
-  --primary-600: 214 220 202;
+  --primary-100: 0 0 34;
+  --primary-200: 55 44 74;
+  --primary-300: 163 157 173;
+  --primary-400: 104 94 116;
+  --primary-500: 190 184 199;
+  --primary-600: 210 210 214;
+  --primary-link: 55 44 74;
 
-  --background-100: 52 78 65;
-  --background-200: 72 96 84;
-  --background-300: 93 114 103;
-  --background-400: 115 133 123;
-  --background-500: 137 152 144;
-  --background-600: 159 172 165;
-  --background-loader: 212 182 182;
-  --heart-100: 226 221 120; //yellow
+  --background-100: 0 0 34;
+  --background-200: 36 32 54;
+  --background-300: 70 63 89;
+  --background-400: 104 94 116;
+  //--background-500: 137 124 143;
+  --background-600: 137 124 143;
+
+  --background-loader: 98 92 114;
+  --heart-100: 169 68 56;
 }

@@ -1,9 +1,22 @@
 <jegyzi-title></jegyzi-title>
-<div class="flex">
-  <div class="w-1/3">
-    <img src="./assets/img/login-img.svg" alt="Login image" class="object-contain" />
+<div class="flex h-screen justify-around">
+  <div class="w-1/5 h-1/2 bg-background-300 rounded-r-[64px] relative mt-20">
+    <div class="absolute left-1/2 bottom-1/3">
+      <div class="w-fit p-6 bg-background-200 rounded-[42px] relative">
+        <span class="ph ph-student ph-login-x text-primary-500"></span>
+      </div>
+      <div class="w-fit p-4 bg-background-600 rounded-2xl absolute left-8 -bottom-6">
+        <span class="ph ph-pencil ph-4x text-primary-200"></span>
+      </div>
+      <div class="w-fit p-4 bg-background-600 rounded-2xl absolute -left-8 -top-8">
+        <span class="ph ph-books ph-4x text-primary-200"></span>
+      </div>
+      <div class="w-fit p-4 bg-background-600 rounded-2xl absolute -right-10 bottom-auto top-1/3">
+        <span class="ph ph-heart ph-4x text-primary-200"></span>
+      </div>
+    </div>
   </div>
-  <div class="flex flex-col gap-10 w-1/3 self-center mx-auto">
+  <div class="flex flex-col gap-10 w-1/3 self-start mx-auto">
     <div class="bg-background-200 rounded-3xl px-10 py-6">
       <form [formGroup]="loginForm">
         <div class="form-control">
