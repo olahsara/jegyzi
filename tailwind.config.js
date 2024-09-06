@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./src/**/*.{html,js}"],
+  content: ['./src/**/*.{html,js}'],
   theme: {
     darkMode: 'class',
     extend: {
@@ -12,6 +12,7 @@ module.exports = {
           500: 'rgb(var(--primary-500) / <alpha-value>)',
           600: 'rgb(var(--primary-600) / <alpha-value>)',
           700: 'rgb(var(--primary-700) / <alpha-value>)',
+          link: 'rgb(var(--primary-link) / <alpha-value>)',
         },
         background: {
           100: 'rgb(var(--background-100) / <alpha-value>)',
@@ -20,10 +21,10 @@ module.exports = {
           400: 'rgb(var(--background-400) / <alpha-value>)',
           500: 'rgb(var(--background-500) / <alpha-value>)',
           600: 'rgb(var(--background-600) / <alpha-value>)',
-
+          loader: 'rgb(var(--background-loader) / <alpha-value>)',
         },
-        red: {
-          100: 'rgb(var(--red-100) / <alpha-value>)'
+        heart: {
+          100: 'rgb(var(--heart-100) / <alpha-value>)',
         },
       },
     },

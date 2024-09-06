@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
 import { TitleComponent } from '../../../shared/components/title/title.component';
+import { RegisterModalPageComponent } from '../../../shared/register-modal-page/register-modal-page.component';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { UserService } from '../../../shared/services/user.service';
@@ -17,6 +19,8 @@ import { UserService } from '../../../shared/services/user.service';
   imports: [CommonModule, TitleComponent, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatInputModule, RouterLink],
 })
 export class LoginComponent {
+  readonly dialog = inject(MatDialog);
+
   loginForm = new FormGroup({
     email: new FormControl<string>('', [Validators.email, Validators.required]),
     password: new FormControl<string>('', Validators.required),
@@ -52,5 +56,16 @@ export class LoginComponent {
           }
         });
     }
+  }
+  register() {
+    const dialogRef = this.dialog.open(RegisterModalPageComponent, {
+      minWidth: '50vw',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loginForm.controls.email.setValue(result.email);
+      }
+    });
   }
 }

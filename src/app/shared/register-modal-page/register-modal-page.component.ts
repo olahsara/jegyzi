@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,8 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { EducationType } from '../../../shared/models/eductaion.model';
-import { ProfileTypes, User } from '../../../shared/models/user.model';
+import { EducationType } from '../models/eductaion.model';
+import { ProfileTypes, User } from '../models/user.model';
+import { AuthService } from '../services/auth.service';
+import { ToastService } from '../services/toast.service';
 
 @Component({
   selector: 'jegyzi-profile-modify-modal-page',
@@ -23,26 +25,27 @@ import { ProfileTypes, User } from '../../../shared/models/user.model';
     MatSelectModule,
     NgxSkeletonLoaderModule,
   ],
-  templateUrl: './profile-modify-modal-page.component.html',
-  styleUrl: './profile-modify-modal-page.component.scss',
+  templateUrl: './register-modal-page.component.html',
+  styleUrl: './register-modal-page.component.scss',
 })
-export class ProfileModifyModalPageComponent implements OnInit {
-  readonly dialogRef = inject(MatDialogRef<ProfileModifyModalPageComponent>);
+export class RegisterModalPageComponent {
+  readonly dialogRef = inject(MatDialogRef<RegisterModalPageComponent>);
   readonly data = inject<User>(MAT_DIALOG_DATA);
+  private authService = inject(AuthService);
+  private toastService = inject(ToastService);
 
-  steps = [0, 1];
+  steps = [0, 1, 2];
   actualStep = 0;
 
-  error?: string;
   profileTypes = ProfileTypes;
   educationTypes = EducationType;
 
   form = new FormGroup({
-    email: new FormControl<string | null>(null, {
-      validators: Validators.email,
-    }),
-    lastName: new FormControl<string | null>(null),
+    email: new FormControl<string | null>(null, { validators: [Validators.email, Validators.required] }),
+    password: new FormControl<string | null>(null, { validators: [Validators.required, Validators.minLength(6)] }),
+    passwordConfirm: new FormControl<string | null>(null, { validators: Validators.required }),
     firstName: new FormControl<string | null>(null),
+    lastName: new FormControl<string | null>(null),
     profileType: new FormControl<string | null>(null),
     education: new FormGroup({
       institution: new FormControl<string | null>(null),
@@ -62,20 +65,18 @@ export class ProfileModifyModalPageComponent implements OnInit {
     introduction: new FormControl<string | null>(null),
   });
 
-  ngOnInit(): void {
-    if (this.data) {
-      this.form.patchValue(this.data);
-    }
-  }
-
   close() {
-    this.dialogRef.close(false);
+    this.dialogRef.close(undefined);
   }
 
   next() {
     this.actualStep++;
     if (this.steps.length === this.actualStep) {
-      this.modify();
+      if (this.form.valid) {
+        this.register();
+      } else {
+        this.actualStep = 0;
+      }
     }
   }
   prew() {
@@ -85,37 +86,18 @@ export class ProfileModifyModalPageComponent implements OnInit {
     this.actualStep--;
   }
 
-  modify() {
-    if (this.form.valid) {
-      if (this.form.value.profileType !== this.data.profileType) {
-        this.remowePorpertiesAccordingType();
-      }
-      this.actualStep = 0;
-      this.dialogRef.close(this.form.getRawValue());
-    } else {
-      this.error = 'Email cím formátuma nem megfelelő!';
-    }
-  }
+  register() {
+    this.authService
+      .signup(this.form.controls.email.value as string, this.form.controls.password.value as string)
+      .then((cred) => {
+        if (cred.user) {
+          this.authService.createProfile(this.form.value as User);
+        }
 
-  remowePorpertiesAccordingType() {
-    switch (this.form.value.profileType) {
-      case null:
-        this.form.controls.education.reset();
-        this.form.controls.work.reset();
-        this.form.controls.other.reset();
-        break;
-      case ProfileTypes.student:
-        this.form.controls.work.reset();
-        this.form.controls.other.reset();
-        break;
-      case ProfileTypes.work:
-        this.form.controls.education.reset();
-        this.form.controls.other.reset();
-        break;
-      case ProfileTypes.other:
-        this.form.controls.education.reset();
-        this.form.controls.work.reset();
-        break;
-    }
+        this.dialogRef.close(cred.user);
+      })
+      .catch((error) => {
+        this.toastService.error('Váratlan hiba a regisztráció során!');
+      });
   }
 }

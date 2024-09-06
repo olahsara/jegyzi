@@ -1,43 +1,51 @@
 // Select
 .mat-mdc-select {
-    --mat-select-enabled-trigger-text-color: theme("colors.primary.500");
-    --mat-select-trigger-text-size: 14px;
-    --mat-select-trigger-text-line-height: 20px;
-    @apply bg-background-300 text-primary-500 rounded-2xl px-5 py-2;
+  --mat-select-enabled-trigger-text-color: theme("colors.primary.500");
+  --mat-select-trigger-text-size: 14px;
+  --mat-select-trigger-text-line-height: 20px;
+  @apply bg-background-300 text-primary-500 rounded-2xl px-5 py-2;
 }
 
 .mat-mdc-select-arrow-wrapper {
-    --mat-select-enabled-arrow-color: theme("colors.primary.500");
-    height: 20px !important;
+  --mat-select-enabled-arrow-color: theme("colors.primary.500");
+  height: 20px !important;
 }
 
 .mat-mdc-select-panel {
-    --mat-select-panel-background-color: theme("colors.background.200");
+  --mat-select-panel-background-color: theme("colors.background.200");
 }
 .mat-mdc-option {
-    --mat-option-label-text-color: theme("colors.primary.500");
-    --mat-option-label-text-size: 14px;
-    --mat-option-label-text-line-height: 20px;
-    --mat-option-selected-state-label-text-color: theme("colors.primary.400");
+  --mat-option-label-text-color: theme("colors.primary.500");
+  --mat-option-label-text-size: 14px;
+  --mat-option-label-text-line-height: 20px;
+  --mat-option-selected-state-label-text-color: theme("colors.primary.400");
 }
 
 .mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after {
-    width: 10px;
-    height: 4px;
+  width: 10px;
+  height: 4px;
 }
-.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after, .mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-indeterminate::after {
-    --mat-minimal-pseudo-checkbox-selected-checkmark-color: theme("colors.red.100");
+.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after,
+.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-indeterminate::after {
+  --mat-minimal-pseudo-checkbox-selected-checkmark-color: theme("colors.red.100");
 }
 
 // Modal
 .mat-mdc-dialog-container {
-    // relative - static needed to absolute position the close button outside the modal panel
-    .mdc-dialog__container {
-      @apply relative;
-  
-      .mdc-dialog__surface {
-        // transition-none - the default transition is switched off because it animates the static setting and a horizontal scrollbar briefly shows on screen
-        @apply static transition-none rounded-2xl bg-background-300;
-      }
+  // relative - static needed to absolute position the close button outside the modal panel
+  .mdc-dialog__container {
+    @apply relative;
+
+    .mdc-dialog__surface {
+      // transition-none - the default transition is switched off because it animates the static setting and a horizontal scrollbar briefly shows on screen
+      @apply static transition-none rounded-2xl bg-background-300;
     }
   }
+}
+
+ngx-skeleton-loader {
+  .skeleton-loader {
+    @apply rounded-2xl #{!important};
+    @apply bg-background-loader #{!important};
+  }
+}

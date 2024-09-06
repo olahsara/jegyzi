@@ -11,7 +11,7 @@
       <a routerLink="/my-profile" routerLinkActive="active">Profilom</a>
     } @else {
       <a routerLink="/login" routerLinkActive="active">Belépés</a>
-      <a routerLink="/register" routerLinkActive="active">Regisztráció</a>
+      <button type="button" (click)="register()">Regisztráció</button>
     }
 
   </div>
@@ -23,8 +23,7 @@
       </div>
       <button class="sign-out text-primary-500" (click)="logout()" matTooltip="Kijelentkezés"><span class="ph-fill ph-sign-out ph-xl"></span></button>
   }
-    <jegyzi-switch-button></jegyzi-switch-button>
-    
+    <jegyzi-switch-button></jegyzi-switch-button>  
 
   </div>
 
