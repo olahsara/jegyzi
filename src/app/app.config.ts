@@ -8,6 +8,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getVertexAI, provideVertexAI } from '@angular/fire/vertexai-preview';
 import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions } from '@angular/material/tooltip';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { QuillModule } from 'ngx-quill';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { provideToastr } from 'ngx-toastr';
 import { firebaseConfig } from '../ignore/firebase_options';
@@ -23,7 +24,14 @@ export const appConfig: ApplicationConfig = {
     provideVertexAI(() => getVertexAI()),
     provideAnimationsAsync(),
     provideToastr(TOASTR_CONFIG),
-    importProvidersFrom(NgxSkeletonLoaderModule.forRoot()),
+    importProvidersFrom(
+      NgxSkeletonLoaderModule.forRoot(),
+      QuillModule.forRoot({
+        modules: {
+          toolbar: true,
+        },
+      }),
+    ),
     { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: { position: 'above' } as MatTooltipDefaultOptions },
     { provide: FIREBASE_OPTIONS, useValue: firebaseConfig },
   ],

@@ -1,0 +1,55 @@
+<div class="mx-10"></div>
+<quill-editor class="w-full" placeholder="Ide kezd el gépelni a jegyzetet...">
+  <div below-quill-editor-toolbar>
+    <form [formGroup]="form">
+      <div class="title-form">
+        <input matInput type="text" formControlName="title" placeholder="Cím" />
+      </div>
+      <div class="subtitle-form">
+        <input matInput type="text" formControlName="subTitle" placeholder="Alcím" />
+      </div>
+    </form>
+  </div>
+  <div quill-editor-toolbar>
+    <span class="ql-formats">
+      <button class="ql-bold" [title]="'Bold'"></button>
+    </span>
+    <span class="ql-formats">
+      <select class="ql-font">
+        <option value="aref">Aref Ruqaa</option>
+        <option value="mirza">Mirza</option>
+        <option selected value="roboto">Roboto</option>
+      </select>
+      <select class="ql-align" [title]="'Aligment'">
+        <option selected></option>
+        <option value="center"></option>
+        <option value="right"></option>
+        <option value="justify"></option>
+      </select>
+      <select class="ql-align" [title]="'Aligment2'">
+        <option selected></option>
+        <option value="center"></option>
+        <option value="right"></option>
+        <option value="justify"></option>
+      </select>
+
+      <select class="ql-color" [title]="'Color'"></select>
+
+      <select class="ql-background" [title]="'BackgroundColor'"></select>
+    </span>
+  </div>
+  <div quill-editor-element></div>
+</quill-editor>
+<div class="text-container my-10"></div>
+<div class="mx-10">
+  <div class="flex flex-col gap-y-2">
+    <span class="text-primary-600 text-xl font-semibold">Címkék hozzáadása</span>
+    <div class="flex items-center gap-x-2">
+      <span class="ph-fill ph-info text-primary-400"></span>
+      <span class="text-primary-500 text-sm"
+        >Címkék hozzáadásával megkönnyíted a felhasználók számára a böngészést. Válaszd ki a címkék közül azokat, amelyek a legpontosabban
+        jellemzik a jegyzetedet!</span
+      >
+    </div>
+  </div>
+</div>
