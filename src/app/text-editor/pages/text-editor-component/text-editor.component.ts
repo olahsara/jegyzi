@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { QuillEditorComponent } from 'ngx-quill';
 import { TitleComponent } from '../../../shared/components/title/title.component';
@@ -21,6 +22,7 @@ import { TitleComponent } from '../../../shared/components/title/title.component
     MatInputModule,
     RouterLink,
     QuillEditorComponent,
+    MatTooltip,
   ],
 })
 export class TextEditorComponent {

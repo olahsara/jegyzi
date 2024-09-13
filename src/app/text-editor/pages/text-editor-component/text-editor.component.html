@@ -12,35 +12,53 @@
   </div>
   <div quill-editor-toolbar>
     <span class="ql-formats">
-      <button class="ql-bold" [title]="'Bold'"></button>
+      <button class="ql-bold" matTooltip="Félkövér"></button>
+      <button class="ql-italic" matTooltip="Dőlt"></button>
+      <button class="ql-underline" matTooltip="Aláhúzott"></button>
+      <button class="ql-strike" matTooltip="Áthúzott"></button>
     </span>
-    <span class="ql-formats">
+    <span class="ql-formats" matTooltip="Betűtípus">
       <select class="ql-font">
         <option value="aref">Aref Ruqaa</option>
         <option value="mirza">Mirza</option>
         <option selected value="roboto">Roboto</option>
       </select>
-      <select class="ql-align" [title]="'Aligment'">
-        <option selected></option>
-        <option value="center"></option>
-        <option value="right"></option>
-        <option value="justify"></option>
-      </select>
-      <select class="ql-align" [title]="'Aligment2'">
-        <option selected></option>
-        <option value="center"></option>
-        <option value="right"></option>
-        <option value="justify"></option>
-      </select>
+    </span>
 
-      <select class="ql-color" [title]="'Color'"></select>
+    <span class="ql-formats" matTooltip="Betűméret">
+      <select class="ql-size">
+        <option value="small">Kicsi</option>
+        <option selected value="normal">Közepes</option>
+        <option value="large">Nagy</option>
+        <option value="huge">Hatalmas</option>
+      </select>
+    </span>
 
-      <select class="ql-background" [title]="'BackgroundColor'"></select>
+    <span class="ql-formats" matTooltip="Rendezés">
+      <select class="ql-align">
+        <option selected></option>
+        <option value="center" matTooltip="Középre"></option>
+        <option value="right" matTooltip="Jobbra"></option>
+        <option value="justify" matTooltip="Sorkizárt"></option>
+      </select>
+    </span>
+
+    <span class="ql-formats">
+      <span matTooltip="Betűszín">
+        <select class="ql-color"></select>
+      </span>
+      <span matTooltip="Kiemelés">
+        <select class="ql-background"></select>
+      </span>
+    </span>
+    <span class="ql-formats">
+      <button class="ql-list" value="bullet" matTooltip="Lista"></button>
+      <button class="ql-list" value="ordered" matTooltip="Számozott lista"></button>
     </span>
   </div>
   <div quill-editor-element></div>
 </quill-editor>
-<div class="text-container my-10"></div>
+
 <div class="mx-10">
   <div class="flex flex-col gap-y-2">
     <span class="text-primary-600 text-xl font-semibold">Címkék hozzáadása</span>
