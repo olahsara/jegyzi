@@ -17,6 +17,7 @@
       <button class="ql-underline" matTooltip="Aláhúzott"></button>
       <button class="ql-strike" matTooltip="Áthúzott"></button>
     </span>
+
     <span class="ql-formats" matTooltip="Betűtípus">
       <select class="ql-font">
         <option value="aref">Aref Ruqaa</option>
@@ -34,6 +35,20 @@
       </select>
     </span>
 
+    <span class="ql-formats">
+      <span matTooltip="Betűszín">
+        <select class="ql-color"></select>
+      </span>
+      <span matTooltip="Kiemelés">
+        <select class="ql-background"></select>
+      </span>
+    </span>
+
+    <span class="ql-formats">
+      <button class="ql-script" value="sub"></button>
+      <button class="ql-script" value="super"></button>
+    </span>
+
     <span class="ql-formats" matTooltip="Rendezés">
       <select class="ql-align">
         <option selected></option>
@@ -44,16 +59,20 @@
     </span>
 
     <span class="ql-formats">
-      <span matTooltip="Betűszín">
-        <select class="ql-color"></select>
-      </span>
-      <span matTooltip="Kiemelés">
-        <select class="ql-background"></select>
-      </span>
-    </span>
-    <span class="ql-formats">
       <button class="ql-list" value="bullet" matTooltip="Lista"></button>
       <button class="ql-list" value="ordered" matTooltip="Számozott lista"></button>
+    </span>
+
+    <span class="ql-formats">
+      <button class="ql-blockquote" matTooltip="Idézet blokk"></button>
+      <button class="ql-code-block" matTooltip="Forráskód blokk"></button>
+    </span>
+
+    <span class="ql-formats">
+      <button class="ql-link" matTooltip="Link beszúrás"></button>
+      <button class="ql-image" matTooltip="Kép beszúrás"></button>
+      <button class="ql-video" matTooltip="Videó beszúrás"></button>
+      <button class="ql-formula" matTooltip="Egyenlet beszúrás"></button>
     </span>
   </div>
   <div quill-editor-element></div>

@@ -55,3 +55,8 @@
 ::ng-deep .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {
   @apply border-none bg-background-300 shadow-none rounded-b-lg;
 }
+
+::ng-deep .ql-snow .ql-fill,
+.ql-snow .ql-stroke.ql-fill {
+  @apply fill-primary-600;
+}
