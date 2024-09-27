@@ -13,6 +13,8 @@ export class UserService {
 
   constructor(private store: AngularFirestore, private toastService: ToastService, private storage: AngularFireStorage) {}
 
+  refreshLoggedInUser() {}
+
   async getTopUsers(): Promise<User[]> {
     let users: User[] = [];
     const data = await this.store.collection<User>(this.collectionName).ref.orderBy('followersNumber', 'desc').limit(3).get();
@@ -118,7 +120,7 @@ export class UserService {
       });
   }
 
-  async uploadProfilPic(img: File, id: string) {
+  async uploadProfilPic(img: File, id: string): Promise<User[]> {
     return await this.storage
       .ref('profiles/' + id)
       .put(img)
@@ -126,6 +128,10 @@ export class UserService {
         this.store.collection(this.collectionName).doc(this.user()?.id).update({
           profilePicture: true,
         });
+      })
+      .finally(() => {
+        console.log('jsbds');
+        return this.getUserById(id);
       });
   }
 
@@ -138,7 +144,7 @@ export class UserService {
       .ref('profiles/' + id)
       .delete()
       .subscribe(() => {
-        this.store.collection(this.collectionName).doc(this.user()?.id).update({
+        this.store.collection(this.collectionName).doc(id).update({
           profilePicture: false,
         });
       });

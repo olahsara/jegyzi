@@ -1,9 +1,13 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { User } from '../../../models/user.model';
 import { NamePipe } from '../../../pipes/name.pipe';
 import { UserService } from '../../../services/user.service';
+
+export interface ImageUploadEvent {
+  file: File;
+}
 
 @Component({
   selector: 'jegyzi-avatar',
@@ -23,10 +27,12 @@ export class AvatarComponent {
     return this.userService.getProfilPic(this.profile().id);
   });
 
-  upload(event: Event) {
-    const img = (event.target as HTMLInputElement).files;
-    if (img) {
-      this.userService.uploadProfilPic(img[0], this.profile().id);
+  upload = output<ImageUploadEvent>();
+
+  async onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files;
+    if (file) {
+      this.upload.emit({ file: file[0] });
     }
   }
 

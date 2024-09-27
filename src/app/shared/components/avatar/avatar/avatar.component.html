@@ -1,4 +1,4 @@
-<input type="file" (change)="upload($event)" #fileUpload class="file-input" />
+<input type="file" (change)="onFileSelected($event)" #fileUpload class="file-input" />
 @if ( profile().profilePicture ) {
 <div class="rounded-full bg-primary-200 relative ww">
   @if(profilePic() | async; as profilPic) {
