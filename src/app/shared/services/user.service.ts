@@ -132,4 +132,15 @@ export class UserService {
   getProfilPic(id: string) {
     return this.storage.ref('profiles/' + id).getDownloadURL();
   }
+
+  deleteProfilPic(id: string) {
+    this.storage
+      .ref('profiles/' + id)
+      .delete()
+      .subscribe(() => {
+        this.store.collection(this.collectionName).doc(this.user()?.id).update({
+          profilePicture: false,
+        });
+      });
+  }
 }

@@ -1,16 +1,18 @@
-import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
-import { EducationType } from '../models/eductaion.model';
-import { ProfileTypes, User } from '../models/user.model';
+import { Education, EducationType } from '../models/eductaion.model';
+import { Other, ProfileTypes, User, Work } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
 import { ToastService } from '../services/toast.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'jegyzi-profile-modify-modal-page',
@@ -24,6 +26,8 @@ import { ToastService } from '../services/toast.service';
     MatInputModule,
     MatSelectModule,
     NgxSkeletonLoaderModule,
+    MatProgressSpinnerModule,
+    NgOptimizedImage,
   ],
   templateUrl: './register-modal-page.component.html',
   styleUrl: './register-modal-page.component.scss',
@@ -32,7 +36,12 @@ export class RegisterModalPageComponent {
   readonly dialogRef = inject(MatDialogRef<RegisterModalPageComponent>);
   readonly data = inject<User>(MAT_DIALOG_DATA);
   private authService = inject(AuthService);
+  private userService = inject(UserService);
   private toastService = inject(ToastService);
+
+  profilPic = signal<File | null>(null);
+  profilPicSrc = signal<string>('');
+  loading = signal<boolean>(false);
 
   steps = [0, 1, 2];
   actualStep = 0;
@@ -91,7 +100,24 @@ export class RegisterModalPageComponent {
       .signup(this.form.controls.email.value as string, this.form.controls.password.value as string)
       .then((cred) => {
         if (cred.user) {
-          this.authService.createProfile(this.form.value as User);
+          const newUser: User = {
+            id: cred.user.uid,
+            email: this.form.value.email as string,
+            firstName: this.form.value.firstName as string,
+            lastName: this.form.value.lastName as string,
+            education: this.form.value.education as Education | undefined,
+            work: this.form.value.work as Work | undefined,
+            other: this.form.value.other as Other | undefined,
+            introduction: this.form.value.introduction as string | undefined,
+            profileType: this.form.value.profileType as string | undefined,
+            followers: [],
+            follow: [],
+            followersNumber: 0,
+          };
+          this.authService.createProfile(newUser);
+          if (this.profilPic()) {
+            this.userService.uploadProfilPic(this.profilPic()!, cred.user.uid);
+          }
         }
 
         this.dialogRef.close(cred.user);
@@ -99,5 +125,30 @@ export class RegisterModalPageComponent {
       .catch((error) => {
         this.toastService.error('Váratlan hiba a regisztráció során!');
       });
+  }
+
+  uploadProfilPic(event: Event) {
+    this.loading.set(true);
+    const img = (event.target as HTMLInputElement).files;
+    if (img) {
+      this.profilPic.set(img[0]);
+      this.saveFile(img[0]);
+      this.loading.set(false);
+    }
+  }
+
+  saveFile(file: File) {
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      this.profilPicSrc.set(reader.result as string);
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  deletePic() {
+    this.profilPic.set(null);
+    this.profilPicSrc.set('');
   }
 }

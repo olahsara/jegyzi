@@ -4,6 +4,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./shared/layout/header/header.component').then((c) => c.HeaderComponent),
+    runGuardsAndResolvers: 'always',
     children: [
       {
         path: '',
