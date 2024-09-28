@@ -24,7 +24,7 @@
 }
 
 ::ng-deep .ql-toolbar.ql-snow {
-  @apply mt-10 mb-0 #{!important};
+  @apply mt-10 mb-0 mx-auto w-fit #{!important};
 }
 
 ::ng-deep .ql-toolbar.ql-snow {

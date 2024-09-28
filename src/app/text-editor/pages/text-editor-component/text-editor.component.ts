@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -25,10 +26,18 @@ import { TitleComponent } from '../../../shared/components/title/title.component
     MatTooltip,
   ],
 })
-export class TextEditorComponent {
+export class TextEditorComponent implements OnInit {
+  private destroyRef = inject(DestroyRef);
+
   form = new FormGroup({
     title: new FormControl<string | null>(null, Validators.required),
     subTitle: new FormControl<string | null>(null),
     text: new FormControl<string | null>(null),
   });
+
+  ngOnInit(): void {
+    this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
+      console.log(value);
+    });
+  }
 }
