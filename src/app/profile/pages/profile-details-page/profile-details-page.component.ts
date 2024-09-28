@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, Input } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
-import { ProfileTypes, User } from '../../../shared/models/user.model';
+import { ProfileTypes } from '../../../shared/models/user.model';
 import { NamePipe } from '../../../shared/pipes/name.pipe';
 import { UserService } from '../../../shared/services/user.service';
+import { ProfilePageService } from '../../services/profile-page.service';
 
 @Component({
   selector: 'jegyzi-profile-details-page',
@@ -13,21 +14,23 @@ import { UserService } from '../../../shared/services/user.service';
   templateUrl: './profile-details-page.component.html',
   styleUrl: './profile-details-page.component.scss',
   imports: [CommonModule, AvatarComponent, NamePipe, RouterLink, MatTooltip],
+  providers: [ProfilePageService],
 })
 export class ProfileDetailsPageComponent {
-  @Input() profile?: User;
+  private pageService = inject(ProfilePageService);
+  profile = this.pageService.profile;
 
   readonly profileTypes = ProfileTypes;
 
   loggedInUser = this.userService.user();
-  followedUser = computed(() => (this.loggedInUser?.follow.find((e) => e === this.profile?.id) ? true : false));
+  followedUser = computed(() => (this.loggedInUser?.follow.find((e) => e === this.profile().id) ? true : false));
 
   constructor(private userService: UserService) {}
 
   follow() {
-    this.userService.followUser(this.profile!);
+    this.userService.followUser(this.profile());
   }
   unFollow() {
-    this.userService.unFollowUser(this.profile!);
+    this.userService.unFollowUser(this.profile());
   }
 }
