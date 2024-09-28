@@ -1,13 +1,7 @@
-import {
-  Injectable,
-  Optional,
-  Inject,
-  WritableSignal,
-  signal,
-} from '@angular/core';
-import { LOCAL_STORAGE } from '@ng-web-apis/common';
-import { User } from '../models/user.model';
+import { Injectable, WritableSignal, signal } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { User } from '../models/user.model';
 import { ToastService } from './toast.service';
 
 @Injectable({
@@ -17,19 +11,13 @@ export class UserService {
   readonly collectionName = 'Users';
   user: WritableSignal<User | undefined> = signal(undefined);
 
-  constructor(
-    private store: AngularFirestore,
-    private toastService: ToastService,
-    @Optional() @Inject(LOCAL_STORAGE) private storage?: Storage
-  ) {}
+  constructor(private store: AngularFirestore, private toastService: ToastService, private storage: AngularFireStorage) {}
+
+  refreshLoggedInUser() {}
 
   async getTopUsers(): Promise<User[]> {
     let users: User[] = [];
-    const data = await this.store
-      .collection<User>(this.collectionName)
-      .ref.orderBy('followersNumber', 'desc')
-      .limit(3)
-      .get();
+    const data = await this.store.collection<User>(this.collectionName).ref.orderBy('followersNumber', 'desc').limit(3).get();
 
     if (data) {
       data.docs.forEach((element) => {
@@ -41,10 +29,7 @@ export class UserService {
 
   async getAllUsers() {
     let users: User[] = [];
-    const data = await this.store
-      .collection<User>(this.collectionName)
-      .ref.orderBy('followersNumber', 'desc')
-      .get();
+    const data = await this.store.collection<User>(this.collectionName).ref.orderBy('followersNumber', 'desc').get();
 
     if (data) {
       data.docs.forEach((element) => {
@@ -117,18 +102,14 @@ export class UserService {
 
   async unFollowUser(followedUser: User) {
     //Bejelentkezett felhasználó követésiből kitöröljük a felhasználót
-    const newFollowings = this.user()?.follow!.filter(
-      (userId) => userId !== followedUser.id
-    );
+    const newFollowings = this.user()?.follow!.filter((userId) => userId !== followedUser.id);
 
     this.store.collection(this.collectionName).doc(this.user()?.id).update({
       follow: newFollowings,
     });
 
     //Felhasználó követőiből kitöröljük a bejelentkezett felhasználót
-    const newFollowers = followedUser.followers.filter(
-      (userId) => userId !== this.user()?.id
-    );
+    const newFollowers = followedUser.followers.filter((userId) => userId !== this.user()?.id);
 
     return await this.store
       .collection(this.collectionName)
@@ -136,6 +117,36 @@ export class UserService {
       .update({
         followers: newFollowers,
         followersNumber: followedUser.followersNumber - 1,
+      });
+  }
+
+  async uploadProfilPic(img: File, id: string): Promise<User[]> {
+    return await this.storage
+      .ref('profiles/' + id)
+      .put(img)
+      .then(() => {
+        this.store.collection(this.collectionName).doc(this.user()?.id).update({
+          profilePicture: true,
+        });
+      })
+      .finally(() => {
+        console.log('jsbds');
+        return this.getUserById(id);
+      });
+  }
+
+  getProfilPic(id: string) {
+    return this.storage.ref('profiles/' + id).getDownloadURL();
+  }
+
+  deleteProfilPic(id: string) {
+    this.storage
+      .ref('profiles/' + id)
+      .delete()
+      .subscribe(() => {
+        this.store.collection(this.collectionName).doc(id).update({
+          profilePicture: false,
+        });
       });
   }
 }

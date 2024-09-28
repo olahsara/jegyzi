@@ -2,7 +2,7 @@
   @if(profile(); as profile) {
   <div class="flex items-center justify-between w-full">
     <div class="flex gap-6 items-center">
-      <jegyzi-avatar [profile]="profile" size="lg" [editable]="true"></jegyzi-avatar>
+      <jegyzi-avatar [profile]="profile" size="lg" [editable]="true" (upload)="uploadProfilPic($event)"></jegyzi-avatar>
 
       <div class="font-semibold text-primary-500 text-2xl">{{ profile | name }}</div>
     </div>

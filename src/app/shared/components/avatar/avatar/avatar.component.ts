@@ -1,34 +1,42 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { Component, computed, inject, input, output } from '@angular/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { User } from '../../../models/user.model';
 import { NamePipe } from '../../../pipes/name.pipe';
 import { UserService } from '../../../services/user.service';
-import { MatTooltipModule } from '@angular/material/tooltip';
+
+export interface ImageUploadEvent {
+  file: File;
+}
 
 @Component({
   selector: 'jegyzi-avatar',
   standalone: true,
-  imports: [
-    CommonModule, NamePipe, MatTooltipModule
-  ],
+  imports: [CommonModule, NamePipe, MatTooltipModule, NgOptimizedImage],
   templateUrl: './avatar.component.html',
   styleUrl: './avatar.component.scss',
 })
-export class AvatarComponent implements OnInit {
-  
-  @Input({required: true}) profile!: User;
-  @Input() size: string = "md";
-  @Input() editable: boolean = false;
+export class AvatarComponent {
+  private userService = inject(UserService);
 
-  constructor(private userService: UserService) {}
+  profile = input.required<User>();
+  size = input<string>('md');
+  editable = input<boolean>(false);
 
-  ngOnInit(): void {
-    if(this.userService.user()?.id !== this.profile.id) {
-      this.editable = false;
+  profilePic = computed(() => {
+    return this.userService.getProfilPic(this.profile().id);
+  });
+
+  upload = output<ImageUploadEvent>();
+
+  async onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files;
+    if (file) {
+      this.upload.emit({ file: file[0] });
     }
   }
 
-  upload(){
-    // TODO: Képfeltöltés
+  deleteProfilPic() {
+    this.userService.deleteProfilPic(this.profile().id);
   }
- }
+}
