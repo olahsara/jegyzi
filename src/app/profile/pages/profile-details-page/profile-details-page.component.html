@@ -12,22 +12,22 @@
         {{ profile().profileType }}
       </div>
 
-      } @if(loggedInUser) { @if(followedUser(); as followedUser){
+      } @if(loggedInUser() && loggedInUser()?.id !== profile().id) { @if(followedUser(); as followedUser){ }
       <button
         type="button"
-        (click)="followedUser ? unFollow() : follow()"
+        (click)="followedUser() ? unFollow() : follow()"
         class="relative w-8 h-8 text-center"
-        [matTooltip]="followedUser ? 'Felhasználó kikövetése' : 'Felhasználó követése'"
+        [matTooltip]="followedUser() ? 'Felhasználó kikövetése' : 'Felhasználó követése'"
       >
-        <span class="ph-heart ph-2x text-heart-100 text-center" [ngClass]="[followedUser ? 'ph-fill' : 'ph']"></span>
+        <span class="ph-heart ph-2x text-heart-100 text-center" [ngClass]="[followedUser() ? 'ph-fill' : 'ph']"></span>
         <span
           class="absolute text-[12px] text-center w-8 left-0 top-1.5 font-semibold"
-          [ngClass]="[followedUser ? 'text-white' : 'text-heart-100']"
+          [ngClass]="[followedUser() ? 'text-white' : 'text-heart-100']"
           >{{ profile().followersNumber }}</span
         >
       </button>
-      } } @else {
-      <div type="button" class="relative w-8 h-8 text-center" matTooltip="Felhasználó követői">
+      } @else {
+      <div class="relative w-8 h-8 text-center" matTooltip="Felhasználó követői">
         <span class="ph-fill ph-heart ph-2x text-heart-100 text-center"></span>
         <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{ profile().followersNumber }}</span>
       </div>

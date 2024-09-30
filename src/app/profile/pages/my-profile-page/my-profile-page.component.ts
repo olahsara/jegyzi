@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, computed, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -42,28 +42,35 @@ export class MyProfilePageComponent implements OnInit {
   private pageService = inject(MyProfilePageService);
 
   profile = this.pageService.profile;
-  following: User[] = [];
+  following = computed(() => {
+    const array: User[] = [];
+    this.profile()?.follow.forEach((element) => {
+      this.userService.getUserById(element).then((el) => {
+        array.push(el[0]);
+      });
+    });
+    return array;
+  });
   readonly dialog = inject(MatDialog);
   readonly profileTypes = ProfileTypes;
 
   constructor(private userService: UserService, private toastService: ToastService) {}
 
-  ngOnInit(): void {
-    this.profile()?.followers.forEach((element) => {
-      this.userService.getUserById(element).then((el) => {
-        el.forEach((user) => {
-          this.following.push(user);
-        });
+  ngOnInit(): void {}
+
+  uploadProfilPic(event: ImageUploadEvent) {
+    this.userService.uploadProfilPic(event.file, this.profile()!.id).then(() => {
+      this.userService.getUserById(this.profile()!.id).then((value) => {
+        this.pageService.reload(value[0]);
       });
     });
   }
 
-  uploadProfilPic(event: ImageUploadEvent) {
-    this.userService.uploadProfilPic(event.file, this.profile()!.id).then((value) => {
-      console.log(value);
-      if (value) {
+  deleteProfilPic() {
+    this.userService.deleteProfilPic(this.profile()!.id).then(() => {
+      this.userService.getUserById(this.profile()!.id).then((value) => {
         this.pageService.reload(value[0]);
-      }
+      });
     });
   }
 
@@ -75,7 +82,9 @@ export class MyProfilePageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.userService.modifyUser(result);
+        this.userService.modifyUser(result).then(() => {
+          this.pageService.reload(result);
+        });
       }
     });
   }

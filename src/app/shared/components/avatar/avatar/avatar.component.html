@@ -1,5 +1,12 @@
 <input type="file" (change)="onFileSelected($event)" #fileUpload class="file-input" />
-@if ( profile().profilePicture ) {
+@if(loading()) {
+<div
+  [ngClass]="{ 'w-20 h-20': size() === 'lg', 'w-12 h-12 ': size() === 'md' }"
+  class="relative flex rounded-full items-center justify-center"
+>
+  <mat-spinner></mat-spinner>
+</div>
+} @else if ( profile().profilePicture ) {
 <div class="rounded-full bg-primary-200 relative ww">
   @if(profilePic() | async; as profilPic) {
   <div
@@ -13,7 +20,7 @@
 
   <button
     type="button"
-    (click)="deleteProfilPic()"
+    (click)="deleteProfilPic.emit()"
     class="absolute right-0 top-0 rounded-full bg-primary-200 px-1 text-heart-100"
     matTooltip="Profilkép t"
   >
