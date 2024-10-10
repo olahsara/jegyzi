@@ -29,7 +29,11 @@ export class AuthService {
 
   createProfile(user: User) {
     if (user) {
-      return this.store.collection<User>('Users').doc(user.id).set(user);
+      return this.store
+        .collection<User>('Users')
+        .doc(user.id)
+        .set(user)
+        .then(() => {});
     }
     return;
   }
