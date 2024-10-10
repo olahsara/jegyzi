@@ -10,4 +10,12 @@ export interface Notification {
   linkedEntityId?: string; //kommentnél a jegyzet id-ja kerüljön ide
 }
 
-export type NotificationType = 'REVIEW' | 'MODIFY_REQUEST' | 'COMMENT' | 'NEW_FOLLOWER' | 'NEW_NOTE';
+export type NotificationType = 'REVIEW' | 'MODIFY_REQUEST' | 'COMMENT' | 'NEW_FOLLOWER' | 'NEW_NOTE' | 'OTHER';
+
+export interface SystemNotificationCreateRequest {
+  user: string;
+  type: NotificationType;
+  title: string;
+  description?: string;
+  linkedEntityId?: string; //kommentnél a jegyzet id-ja kerüljön ide
+}
