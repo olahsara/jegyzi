@@ -2,7 +2,7 @@
 <div class="flex flex-col gap-20">
   <div class="flex gap-24">
     <div class="flex flex-col gap-6 w-[80%] bg-background-300 rounded-r-[200px] p-6">
-      <div class="title">Jegyzetek</div>
+      <div class="title">Népszerű Jegyzetek</div>
       <!-- TODO: jegyzetek kilistázása -->
       <div class="text-heart-100 font-semibold text-lg">Nincs adat!</div>
     </div>
@@ -14,7 +14,7 @@
 
   <div class="flex flex-row-reverse gap-24">
     <div class="flex flex-col gap-6 w-[80%] bg-background-300 rounded-l-[200px] pl-40 py-10 mr-0">
-      <div class="title">Felhasználók</div>
+      <div class="title">Népszerű felhasználók</div>
       @if(profiles$ | async; as profiles) { @for (profile of profiles; track profile.id) {
       <div class="flex gap-8 rounded-3xl bg-background-200 p-6 items-center mr-20">
         <jegyzi-avatar [profileId]="profile.id"></jegyzi-avatar>
