@@ -2,7 +2,6 @@ import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, computed, inject, input, model, output } from '@angular/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { User } from '../../../models/user.model';
 import { NamePipe } from '../../../pipes/name.pipe';
 import { UserService } from '../../../services/user.service';
 
@@ -20,13 +19,13 @@ export interface ImageUploadEvent {
 export class AvatarComponent {
   private userService = inject(UserService);
 
-  profile = input.required<User>();
+  profileId = input.required<string>();
   size = input<string>('md');
   editable = input<boolean>(false);
   loading = model(false);
 
   profilePic = computed(() => {
-    return this.userService.getProfilPic(this.profile().id);
+    return this.userService.getProfilPic(this.profileId());
   });
 
   upload = output<ImageUploadEvent>();

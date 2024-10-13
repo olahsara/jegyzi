@@ -1,0 +1,12 @@
+:host {
+  display: block;
+}
+::ng-deep .ql-container.ql-snow {
+  @apply bg-background-paper rounded-r-[48px] pr-20 py-6 w-2/3 min-h-96 border-none;
+}
+::ng-deep .ql-formats {
+  @apply text-white;
+}
+::ng-deep .ql-toolbar.ql-snow {
+  @apply hidden;
+}

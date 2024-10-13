@@ -1,26 +1,32 @@
-
 .btn-icon {
-    @apply bg-background-400 border border-primary-500 text-primary-500 p-1 rounded-lg ph-lg
+  @apply bg-background-400 border border-primary-500 text-primary-500 p-1 rounded-lg ph-lg;
 }
 
 .btn-icon-nav {
-    @apply bg-background-400 text-primary-100 p-2 rounded-xl ph-xl cursor-pointer;
+  @apply bg-background-400 text-primary-100 p-2 rounded-xl ph-xl cursor-pointer;
 }
 
 .btn-primary {
-    @apply flex bg-background-600 text-primary-100 py-2 px-4 rounded-xl
+  @apply flex bg-background-600 text-primary-100 py-2 px-4 rounded-xl;
 }
 .btn-primary:disabled {
-    @apply flex bg-background-400 text-primary-100 py-2 px-4 rounded-xl
+  @apply flex bg-background-400 text-primary-100 py-2 px-4 rounded-xl;
 }
 .btn-secondary {
-    @apply flex bg-background-100 border border-primary-500 text-primary-500 py-2 px-4 rounded-xl
+  @apply flex bg-background-100 border border-primary-500 text-primary-500 py-2 px-4 rounded-xl;
 }
 
 .btn-small {
-    @apply text-sm py-1 items-center rounded-lg;
+  @apply text-sm py-1 items-center rounded-lg;
 }
 
 .btn-light {
-    @apply flex text-primary-500 py-2 px-4 rounded-xl border border-primary-500;
+  @apply flex text-primary-500 py-2 px-4 rounded-xl border border-primary-500;
+}
+
+.label {
+  @apply bg-background-400 text-primary-100 py-2 px-4 rounded-full;
+}
+.label-selected {
+  @apply bg-background-600;
 }

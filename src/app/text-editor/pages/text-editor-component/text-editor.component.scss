@@ -60,3 +60,9 @@
 .ql-snow .ql-stroke.ql-fill {
   @apply fill-primary-600;
 }
+
+::ng-deep .ql-snow .ql-editor .ql-code-block-container {
+  background-color: var("color.background.300");
+  color: #f8f8f2;
+  overflow: visible;
+}

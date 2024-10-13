@@ -1,5 +1,5 @@
-<form [formGroup]="form">
-  <quill-editor class="w-full" placeholder="Ide kezd el gépelni a jegyzetet..." formControlName="text">
+<form [formGroup]="form" (submit)="submit()">
+  <quill-editor class="w-full" placeholder="Ide kezd el gépelni a jegyzetet..." formControlName="note">
     <div below-quill-editor-toolbar>
       <div class="title-form">
         <input matInput type="text" formControlName="title" placeholder="Cím" />
@@ -8,7 +8,7 @@
         <input matInput type="text" formControlName="subTitle" placeholder="Alcím" />
       </div>
     </div>
-    <div quill-editor-toolbar>
+    <div quill-editor-toolbar class="sticky top-3 z-50">
       <span class="ql-formats">
         <button class="ql-bold" matTooltip="Félkövér"></button>
         <button class="ql-italic" matTooltip="Dőlt"></button>
@@ -73,17 +73,28 @@
     </div>
     <div quill-editor-element></div>
   </quill-editor>
-</form>
 
-<div class="mx-10">
-  <div class="flex flex-col gap-y-2">
-    <span class="text-primary-600 text-xl font-semibold">Címkék hozzáadása</span>
-    <div class="flex items-center gap-x-2">
-      <span class="ph-fill ph-info text-primary-400"></span>
-      <span class="text-primary-500 text-sm"
-        >Címkék hozzáadásával megkönnyíted a felhasználók számára a böngészést. Válaszd ki a címkék közül azokat, amelyek a legpontosabban
-        jellemzik a jegyzetedet!</span
-      >
+  <div class="m-10">
+    <div class="flex flex-col gap-y-2">
+      <span class="text-primary-600 text-xl font-semibold">Címkék hozzáadása</span>
+      <div class="flex items-center gap-x-2">
+        <span class="ph-fill ph-info text-primary-400"></span>
+        <span class="text-primary-500 text-sm"
+          >Címkék hozzáadásával megkönnyíted a felhasználók számára a böngészést. Válaszd ki a címkék közül azokat, amelyek a legpontosabban
+          jellemzik a jegyzetedet!</span
+        >
+      </div>
     </div>
+    @if(labels$ | async; as labels) { @for (label of labels; track label.id) {
+    <div class="m-4">
+      <span class="text-primary-600 font-semibold">{{ label.name }}</span>
+      <div class="flex gap-x-4">
+        <jegyzi-label-group [items]="label" [(control)]="form.controls.labels"></jegyzi-label-group>
+      </div>
+    </div>
+    } }
   </div>
-</div>
+  <div class="m-10">
+    <button type="submit" class="btn-primary ml-auto mr-0">Feltöltés</button>
+  </div>
+</form>

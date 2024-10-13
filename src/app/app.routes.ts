@@ -40,6 +40,10 @@ export const routes: Routes = [
         pathMatch: 'full',
         loadComponent: () => import('./text-editor/pages/text-editor-component/text-editor.component').then((c) => c.TextEditorComponent),
       },
+      {
+        path: 'notes',
+        loadChildren: () => import('./note/routes').then((c) => c.ROUTES),
+      },
     ],
   },
 ];
