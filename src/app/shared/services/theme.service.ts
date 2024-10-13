@@ -1,14 +1,14 @@
-import { Inject, Injectable, Optional, Renderer2, RendererFactory2, signal} from '@angular/core';
-import {DOCUMENT} from "@angular/common";
-import {LOCAL_STORAGE, WINDOW} from "@ng-web-apis/common";
+import { DOCUMENT } from '@angular/common';
+import { Inject, Injectable, Optional, Renderer2, RendererFactory2, signal } from '@angular/core';
+import { LOCAL_STORAGE, WINDOW } from '@ng-web-apis/common';
 
 export type Theme = 'light' | 'dark';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
-  theme = signal<Theme>('light')
+  theme = signal<Theme>('light');
 
   private STORAGE_THEME_KEY = 'theme';
   private DEFAULT_THEME: Theme = 'light';
