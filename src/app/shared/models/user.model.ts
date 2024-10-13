@@ -9,7 +9,7 @@ export interface User {
   work?: Work;
   other?: Other;
   introduction?: string;
-  profilePicture?: string;
+  profilePicture?: boolean;
   profileType?: string;
   followers: string[]; //user id
   follow: string[]; //user id

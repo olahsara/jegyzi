@@ -29,7 +29,7 @@
             <span class="ph-fill ph-heart ph-2x text-heart-100 text-center"></span>
             <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{ profile.followersNumber }}</span>
           </div>
-          <a [routerLink]="'/profiles/' + profile.id" matTooltip="Profil megtekintése">
+          <a [routerLink]="user()?.uid === profile.id ? '/my-profile' : '/profiles/' + profile.id" matTooltip="Profil megtekintése">
             <span class="btn-icon ph-bold ph-caret-right"></span>
           </a>
         </div>
