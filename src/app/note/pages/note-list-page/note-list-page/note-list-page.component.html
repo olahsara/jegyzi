@@ -75,7 +75,7 @@
             <div class="label">Létrhozás dátuma</div>
             <mat-date-range-input [formGroup]="filterForm.controls.createdDate" [rangePicker]="createdDatePicker">
               <input matStartDate formControlName="createdDateMin" placeholder="Létrehozás dátuma (-tól)" />
-              <input matEndDate formControlName="createdDateMax" placeholder="Létrehozás dátuma (-ig)" class="text-red-700" />
+              <input matEndDate formControlName="createdDateMax" placeholder="Létrehozás dátuma (-ig)" />
             </mat-date-range-input>
             <mat-hint></mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="createdDatePicker"></mat-datepicker-toggle>
