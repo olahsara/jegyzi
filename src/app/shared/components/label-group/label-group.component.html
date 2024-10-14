@@ -1,6 +1,6 @@
 <div class="flex gap-x-4 flex-wrap">
   @for (item of items().items; track item.value) {
-  <button type="button" (click)="select(item)" class="label my-2" jegyziLabelButton [selectedItems]="control().value" [item]="item">
+  <button type="button" (click)="select(item)" class="note-label my-2" jegyziLabelButton [selectedItems]="control().value" [item]="item">
     {{ item.value }}
   </button>
   }

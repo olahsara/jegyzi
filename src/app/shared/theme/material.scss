@@ -53,3 +53,15 @@ ngx-skeleton-loader {
 .mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic {
   stroke: theme("colors.background.loader") !important;
 }
+
+.mat-date-range-input-wrapper {
+  background-color: theme("colors.background.300");
+  padding: 0.5rem 1.25rem;
+  color: theme("colors.primary.500");
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-radius: 1rem;
+  position: relative;
+  overflow: hidden;
+  max-width: calc(50% - 4px);
+}

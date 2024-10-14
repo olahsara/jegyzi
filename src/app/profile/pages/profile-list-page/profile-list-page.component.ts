@@ -32,7 +32,6 @@ import { UserService } from '../../../shared/services/user.service';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatInputModule,
     MatSelectModule,
     TypePipe,
   ],

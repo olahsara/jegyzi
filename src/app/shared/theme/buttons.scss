@@ -24,9 +24,9 @@
   @apply flex text-primary-500 py-2 px-4 rounded-xl border border-primary-500;
 }
 
-.label {
+.note-label {
   @apply bg-background-400 text-primary-100 py-2 px-4 rounded-full;
 }
-.label-selected {
+.note-label-selected {
   @apply bg-background-600;
 }

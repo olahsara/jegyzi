@@ -29,14 +29,14 @@ export class LabelButtonDirective {
   }
 
   setSelectedClass(element: HTMLButtonElement) {
-    const selected = element.querySelector("[class*='label-selected']");
+    const selected = element.querySelector("[class*='note-label-selected']");
 
     if (!selected) {
-      this.renderer.addClass(element, 'label-selected');
+      this.renderer.addClass(element, 'note-label-selected');
     }
   }
 
   removeSelectedClass(element: HTMLButtonElement) {
-    this.renderer.removeClass(element, 'label-selected');
+    this.renderer.removeClass(element, 'note-label-selected');
   }
 }
