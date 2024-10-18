@@ -4,9 +4,10 @@ export interface ModifyRequest {
   id: string;
   date: Timestamp;
   seriousness: number;
-  creator: string; //user id
+  creatorId?: string; //user id
+  creatorName: string;
   note: string; //note id
-  noteCreator: string; //user is
+  noteCreator: string; //user id
   status: ModifyRequestStatus;
   declineNote?: string;
 }

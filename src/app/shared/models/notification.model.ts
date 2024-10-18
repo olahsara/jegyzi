@@ -1,21 +1,22 @@
+import { Timestamp } from '@angular/fire/firestore';
+
 export interface Notification {
   id: string;
   type: NotificationType;
   user: string; //user id
-  from?: string; //user id
-  date: string;
+  // from?: string; //user id
+  date: Timestamp;
   new: boolean;
   title: string;
   description?: string;
-  linkedEntityId?: string; //kommentnél a jegyzet id-ja kerüljön ide
+  linkedEntityId?: string; //kommentnél: a jegyzet id-ja, értékelésnél: értékelés id, új követőnél: követő id-ja, új jegyzetnél: jegyzet id, módosítási kérés: m. k. id
 }
 
-export type NotificationType = 'REVIEW' | 'MODIFY_REQUEST' | 'COMMENT' | 'NEW_FOLLOWER' | 'NEW_NOTE' | 'OTHER';
-
-export interface SystemNotificationCreateRequest {
-  user: string;
-  type: NotificationType;
-  title: string;
-  description?: string;
-  linkedEntityId?: string; //kommentnél a jegyzet id-ja kerüljön ide
+export enum NotificationType {
+  'REVIEW',
+  'MODIFY_REQUEST',
+  'COMMENT',
+  'NEW_FOLLOWER',
+  'NEW_NOTE',
+  'OTHER',
 }
