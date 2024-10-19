@@ -1,7 +1,7 @@
 import { Injectable, WritableSignal, signal } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFirestore, Query } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { User } from '../models/user.model';
+import { User, UserFilterModel } from '../models/user.model';
 import { ToastService } from './toast.service';
 
 @Injectable({
@@ -45,6 +45,29 @@ export class UserService {
     return users;
   }
 
+  async getUsersByFilter(filter: UserFilterModel): Promise<User[]> {
+    let result = this.store.collection<User>(this.collectionName).ref as Query<User>;
+    if (filter.name) {
+      const firstName = filter.name.split(' ')[1];
+      const lastName = filter.name.split(' ')[0];
+      if (firstName) result = result.where('firstName', '==', firstName);
+      if (lastName) result = result.where('lastName', '==', lastName);
+    }
+    if (filter.numberOfFollowers) result = result.where('numberOfFollowers', '==', filter.numberOfFollowers);
+    if (filter.numberOfNotes) result = result.where('numberOfNotes', '==', filter.numberOfNotes);
+    if (filter.profileType) result = result.where('profileType', '==', filter.profileType);
+    if (filter.educationType) result = result.where('education.type', '==', filter.educationType);
+    if (filter.educationYear) result = result.where('education.year', '==', filter.educationYear);
+
+    const data = await result.get().then((data) => {
+      return data.docs.map((e) => {
+        return e.data();
+      });
+    });
+
+    return data;
+  }
+
   async getUserById(id: string): Promise<User[]> {
     const data = await this.store
       .collection<User>(this.collectionName)
@@ -70,7 +93,6 @@ export class UserService {
       })
       .catch((error) => {
         this.toastService.error('Hiba a profil módosítása során!');
-        console.log(error);
       });
   }
 

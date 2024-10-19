@@ -3,7 +3,13 @@
   <div class="mx-10">
     <div class="flex items-center justify-between w-full">
       <div class="flex gap-4 items-center">
-        <jegyzi-avatar [profileId]="note.creatorId" size="lg" [editable]="false"></jegyzi-avatar>
+        <jegyzi-avatar
+          [profileId]="note.creatorId"
+          size="lg"
+          [editable]="false"
+          [link]="'/profiles/' + note.creatorId"
+          [profilPicEnabled]="note.creatorProfilPic"
+        ></jegyzi-avatar>
 
         @if(loggedInUser() && loggedInUser()?.id !== note.creatorId) { @if(followedNote(); as followedNote){ }
         <button
@@ -38,7 +44,7 @@
     <div class="my-6">
       <div class="flex flex-wrap gap-y-2 gap-x-4">
         @for(label of note.labels; track label.label.id) {
-        <div class="label">{{ label.label.value }}</div>
+        <div class="note-label">{{ label.label.value }}</div>
         }
       </div>
     </div>

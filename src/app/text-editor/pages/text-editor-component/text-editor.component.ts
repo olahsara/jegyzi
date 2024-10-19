@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -34,7 +33,7 @@ import { UserService } from '../../../shared/services/user.service';
     LabelGroupComponent,
   ],
 })
-export class TextEditorComponent implements OnInit {
+export class TextEditorComponent {
   private userService = inject(UserService);
   private labelService = inject(LabelService);
   private noteService = inject(NoteService);
@@ -57,16 +56,18 @@ export class TextEditorComponent implements OnInit {
     reviews: new FormControl<string[]>([]),
     updateRequests: new FormControl<string[]>([]),
     lastModify: new FormControl<Timestamp>(Timestamp.fromDate(new Date()) as Timestamp),
+    creatorProfilPic: new FormControl<boolean>(false),
   });
 
-  ngOnInit(): void {
-    this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
-      console.log(value);
-    });
-  }
+  // ngOnInit(): void {
+  //   this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
+  //     console.log(value);
+  //   });
+  // }
 
   submit() {
     this.form.controls.creatorId.setValue(this.profile()?.id!);
+    this.form.controls.creatorProfilPic.setValue(this.profile()?.profilePicture ?? false);
 
     this.noteService.createNote(this.form.value as Note);
   }

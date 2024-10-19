@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
@@ -8,15 +8,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterLink } from '@angular/router';
-import { AvatarComponent } from '../../../../shared/components/avatar/avatar/avatar.component';
-import { LabelGroupComponent } from '../../../../shared/components/label-group/label-group.component';
-import { TitleComponent } from '../../../../shared/components/title/title.component';
-import { LabelNote } from '../../../../shared/models/label.model';
-import { NamePipe } from '../../../../shared/pipes/name.pipe';
-import { LabelService } from '../../../../shared/services/label.service';
-import { NoteService } from '../../../../shared/services/note.service';
-import { UserService } from '../../../../shared/services/user.service';
-import { toDatePipe } from '../../../pipes/to-date.pipe';
+import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
+import { LabelGroupComponent } from '../../../shared/components/label-group/label-group.component';
+import { TitleComponent } from '../../../shared/components/title/title.component';
+import { LabelNote } from '../../../shared/models/label.model';
+import { NoteFilterModel } from '../../../shared/models/note.model';
+import { NamePipe } from '../../../shared/pipes/name.pipe';
+import { LabelService } from '../../../shared/services/label.service';
+import { NoteService } from '../../../shared/services/note.service';
+import { UserService } from '../../../shared/services/user.service';
+import { toDatePipe } from '../../pipes/to-date.pipe';
 
 @Component({
   selector: 'jegyzi-note-list-page',
@@ -45,7 +46,7 @@ export class NoteListPageComponent {
   private userService = inject(UserService);
   private labelService = inject(LabelService);
 
-  notes$ = this.noteService.getNotes();
+  notes$ = signal(this.noteService.getNotes());
   labels$ = this.labelService.getLabels();
   users$ = this.userService.getAllUsers();
 
@@ -65,6 +66,6 @@ export class NoteListPageComponent {
   });
 
   filter() {
-    //TODO: filter
+    this.notes$.set(this.noteService.getNotesByFilter(this.filterForm.value as NoteFilterModel));
   }
 }

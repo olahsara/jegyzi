@@ -23,6 +23,7 @@ module.exports = {
           600: 'rgb(var(--background-600) / <alpha-value>)',
           loader: 'rgb(var(--background-loader) / <alpha-value>)',
           paper: 'rgb(var(--background-paper) / <alpha-value>)',
+          label: 'rgb(var(--background-label) / <alpha-value>)',
         },
         heart: {
           100: 'rgb(var(--heart-100) / <alpha-value>)',

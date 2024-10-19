@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { EducationType } from '../../../shared/models/eductaion.model';
-import { ProfileTypes } from '../../../shared/models/user.model';
+import { ProfileTypes, UserFilterModel } from '../../../shared/models/user.model';
 import { NamePipe } from '../../../shared/pipes/name.pipe';
 import { NoValuePipe } from '../../../shared/pipes/no-value.pipe';
 import { TypePipe } from '../../../shared/pipes/type.pipe';
@@ -37,7 +37,7 @@ import { UserService } from '../../../shared/services/user.service';
   ],
 })
 export class ProfileListPageComponent {
-  profiles$ = this.userService.getAllUsers();
+  profiles$ = signal(this.userService.getAllUsers());
   loggedInUser = this.userService.user;
 
   profileTypes = ProfileTypes;
@@ -55,6 +55,6 @@ export class ProfileListPageComponent {
   constructor(private userService: UserService) {}
 
   filter() {
-    //TODO: filter
+    this.profiles$.set(this.userService.getUsersByFilter(this.filterForm.value as UserFilterModel));
   }
 }

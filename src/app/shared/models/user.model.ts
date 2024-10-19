@@ -13,7 +13,17 @@ export interface User {
   profileType?: string;
   followers: string[]; //user id
   follow: string[]; //user id
+  //followedNotes: string[]; //note id
   followersNumber: number;
+}
+
+export interface UserFilterModel {
+  name: string;
+  numberOfNotes: number;
+  numberOfFollowers: number;
+  profileType: string;
+  educationYear: number;
+  educationType: string;
 }
 
 export const ProfileTypes = {

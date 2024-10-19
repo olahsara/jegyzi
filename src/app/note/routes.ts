@@ -4,7 +4,7 @@ export const ROUTES: Route[] = [
   {
     path: '',
     data: { title: 'Jegyzetek' },
-    loadComponent: () => import('./pages/note-list-page/note-list-page/note-list-page.component').then((c) => c.NoteListPageComponent),
+    loadComponent: () => import('./pages/note-list-page/note-list-page.component').then((c) => c.NoteListPageComponent),
   },
   {
     path: ':id',

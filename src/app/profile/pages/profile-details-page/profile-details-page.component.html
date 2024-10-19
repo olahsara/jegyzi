@@ -2,7 +2,12 @@
   @if(profile()) {
   <div class="flex items-center justify-between w-full">
     <div class="flex gap-6 items-center">
-      <jegyzi-avatar [profileId]="profile().id" size="lg" [editable]="false"></jegyzi-avatar>
+      <jegyzi-avatar
+        [profileId]="profile().id"
+        size="lg"
+        [editable]="false"
+        [profilPicEnabled]="profile().profilePicture ?? false"
+      ></jegyzi-avatar>
 
       <div class="font-semibold text-primary-500 text-2xl">{{ profile() | name }}</div>
     </div>
