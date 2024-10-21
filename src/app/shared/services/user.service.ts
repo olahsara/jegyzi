@@ -2,7 +2,7 @@ import { Inject, Injectable, Optional, WritableSignal, inject, signal } from '@a
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Timestamp } from '@angular/fire/firestore';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
-import { Notification, NotificationTypes } from '../models/notification.model';
+import { Notification, NotificationType } from '../models/notification.model';
 import { User } from '../models/user.model';
 import { getName } from '../utils/name';
 import { NotificationService } from './notifictaion.service';
@@ -112,7 +112,7 @@ export class UserService {
           new: true,
           title: 'Új követés!',
           description: getName(this.user()!) + ' bekövetett téged!',
-          type: NotificationTypes.NEW_FOLLOWER,
+          type: NotificationType.NEW_FOLLOWER,
           user: followedUser.id,
           linkedEntityId: this.user()?.id,
         };
