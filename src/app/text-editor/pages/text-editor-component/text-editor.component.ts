@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Timestamp } from '@angular/fire/firestore';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltip } from '@angular/material/tooltip';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { QuillEditorComponent } from 'ngx-quill';
 import { LabelGroupComponent } from '../../../shared/components/label-group/label-group.component';
 import { TitleComponent } from '../../../shared/components/title/title.component';
@@ -13,6 +14,7 @@ import { LabelNote } from '../../../shared/models/label.model';
 import { Note } from '../../../shared/models/note.model';
 import { LabelService } from '../../../shared/services/label.service';
 import { NoteService } from '../../../shared/services/note.service';
+import { ToastService } from '../../../shared/services/toast.service';
 import { UserService } from '../../../shared/services/user.service';
 
 @Component({
@@ -33,12 +35,14 @@ import { UserService } from '../../../shared/services/user.service';
     LabelGroupComponent,
   ],
 })
-export class TextEditorComponent {
+export class TextEditorComponent implements OnInit {
   private userService = inject(UserService);
   private labelService = inject(LabelService);
   private noteService = inject(NoteService);
   private destroyRef = inject(DestroyRef);
   private profile = this.userService.user;
+  private toastService = inject(ToastService);
+  private router = inject(Router);
 
   labels$ = this.labelService.getLabels();
 
@@ -59,16 +63,20 @@ export class TextEditorComponent {
     creatorProfilPic: new FormControl<boolean>(false),
   });
 
-  // ngOnInit(): void {
-  //   this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
-  //     console.log(value);
-  //   });
-  // }
+  ngOnInit(): void {
+    this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
+      console.log(value);
+    });
+  }
 
   submit() {
     this.form.controls.creatorId.setValue(this.profile()?.id!);
     this.form.controls.creatorProfilPic.setValue(this.profile()?.profilePicture ?? false);
 
-    this.noteService.createNote(this.form.value as Note);
+    this.noteService.createNote(this.form.value as Note).finally(() => {
+      this.toastService.success('Sikeres feltöltés!');
+      //TODO: my-notes
+      this.router.navigate(['/notes']);
+    });
   }
 }

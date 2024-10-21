@@ -19,12 +19,17 @@ export class NoteService {
   private toastService = inject(ToastService);
   private storage = inject(AngularFireStorage);
 
-  createNote(note: Note) {
+  async createNote(note: Note) {
     if (note) {
       note.id = this.store.createId();
-      return this.store.collection<Note>(this.collectionName).doc(note.id).set(note);
+      return await this.store
+        .collection<Note>(this.collectionName)
+        .doc(note.id)
+        .set(note)
+        .finally(() => {
+          return note.id;
+        });
     }
-    return;
   }
 
   async getNotes() {
