@@ -14,6 +14,7 @@ export interface User {
   followers: string[]; //user id
   follow: string[]; //user id
   followersNumber: number;
+  reviews: string[]; //értékelés id
 }
 
 export const ProfileTypes = {
