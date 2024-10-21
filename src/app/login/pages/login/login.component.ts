@@ -49,7 +49,7 @@ export class LoginComponent {
               this.toastService.error('Az általad megadott e-mail cím rossz!');
               break;
             case 'auth/invalid-credential':
-              this.toastService.error('Az általad megadott e-mail címmel még nem regisztráltak az oldalra!');
+              this.toastService.error('Hibás bejeletkezési adatok!');
               break;
             default:
               this.toastService.error('Hiba a bejelentkezés során!');

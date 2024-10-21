@@ -49,3 +49,72 @@ ngx-skeleton-loader {
     @apply bg-background-loader #{!important};
   }
 }
+
+.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic {
+  stroke: theme("colors.background.loader") !important;
+}
+
+.mat-date-range-input-container {
+    @apply grid grid-cols-1 md:grid-cols-2  gap-x-3 gap-y-2 items-center #{!important}
+}
+
+.mat-date-range-input-wrapper {
+  background-color: theme("colors.background.300");
+  padding: 0.5rem 1.25rem;
+  color: theme("colors.primary.500");
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-radius: 1rem;
+  position: relative;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.mat-date-range-input-wrapper {
+    max-width: 100% !important;
+}
+
+.mat-date-range-input-inner {
+    @apply px-4 py-2 w-auto #{!important};
+}
+
+.mat-date-range-input-separator {
+    @apply hidden #{!important};
+}
+
+.mat-mdc-icon-button .mat-mdc-button-ripple {
+  @apply hidden #{!important};
+}
+
+.mat-date-range-input-end-wrapper {
+    flex-grow: 0; 
+}
+.mat-mdc-icon-button .mat-mdc-button-ripple,
+.mat-mdc-icon-button .mat-mdc-button-persistent-ripple,
+.mat-mdc-icon-button .mat-mdc-button-persistent-ripple::before {
+  @apply hidden #{!important};
+}
+
+html {
+  --mat-datepicker-calendar-container-background-color: theme("colors.background.loader");
+  --mdc-icon-button-icon-color: theme("colors.primary.500");
+  
+  --mat-datepicker-calendar-date-selected-state-background-color: theme("colors.background.300")
+  --mat-datepicker-calendar-date-today-selected-state-outline-color: theme("colors.background.300");
+  --mat-datepicker-calendar-date-focus-state-background-color: theme("colors.background.300");
+  --mat-datepicker-calendar-date-hover-state-background-color: theme("colors.background.300");
+  --mat-datepicker-calendar-date-in-range-state-background-color: theme("colors.background.300");
+  --mat-datepicker-calendar-date-in-comparison-range-state-background-color: theme("colors.background.300");
+  --mat-datepicker-calendar-date-in-overlap-range-state-background-color:theme("colors.background.300");
+  --mat-datepicker-calendar-date-in-overlap-range-selected-state-background-color:theme("colors.background.300")
+   
+  --mat-datepicker-calendar-date-selected-state-text-color:  theme("colors.primary.600");
+  --mat-datepicker-calendar-body-label-text-color: theme("colors.primary.600");
+  --mat-datepicker-calendar-period-button-text-color: theme("colors.primary.600");
+  --mat-datepicker-calendar-period-button-icon-color: theme("colors.primary.600");
+  --mat-datepicker-calendar-navigation-button-icon-color: theme("colors.primary.600");
+  --mat-datepicker-calendar-header-text-color: theme("colors.primary.600");
+  --mat-datepicker-calendar-date-text-color: theme("colors.primary.600");
+  --mat-datepicker-calendar-date-selected-state-text-color: theme("colors.primary.100");
+
+}

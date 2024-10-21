@@ -1,0 +1,58 @@
+<div class="my-10">
+  @if(note(); as note) {
+  <div class="mx-10">
+    <div class="flex items-center justify-between w-full">
+      <div class="flex gap-4 items-center">
+        <jegyzi-avatar
+          [profileId]="note.creatorId"
+          size="lg"
+          [editable]="false"
+          [link]="'/profiles/' + note.creatorId"
+          [profilPicEnabled]="note.creatorProfilPic"
+        ></jegyzi-avatar>
+
+        @if(loggedInUser() && loggedInUser()?.id !== note.creatorId) { @if(followedNote(); as followedNote){ }
+        <button
+          type="button"
+          (click)="followedNote() ? unFollow() : follow()"
+          class="relative w-8 h-8 text-center"
+          [matTooltip]="followedNote() ? 'Jegyzet kikövetése' : 'Jegyzet követése'"
+        >
+          <span class="ph-heart ph-2x text-heart-100 text-center" [ngClass]="[followedNote() ? 'ph-fill' : 'ph']"></span>
+          <span
+            class="absolute text-[12px] text-center w-8 left-0 top-1.5 font-semibold"
+            [ngClass]="[followedNote() ? 'text-white' : 'text-heart-100']"
+            >{{ note.followersNumber }}</span
+          >
+        </button>
+        } @else {
+        <div class="relative w-8 h-8 text-center" matTooltip="Jegyzet követői">
+          <span class="ph-fill ph-heart ph-2x text-heart-100 text-center"></span>
+          <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{ note.followersNumber }}</span>
+        </div>
+        }
+
+        <div class="font-semibold text-primary-500 text-2xl">{{ note.title }}</div>
+      </div>
+      <div class="flex gap-4 items-center">
+        <div class="text-primary-600 font-semibold">Utoljára módosítva: {{ note.lastModify | toDate | date : 'YYYY.MM.dd HH:MM' }}</div>
+        <button class="btn-icon" (click)="modifyRequest()" matTooltip="Módosítási kérés küldése">
+          <span class="ph ph-warning"></span>
+        </button>
+      </div>
+    </div>
+    <div class="my-6">
+      <div class="flex flex-wrap gap-y-2 gap-x-4">
+        @for(label of note.labels; track label.label.id) {
+        <div class="note-label">{{ label.label.value }}</div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="mx-10 font-semibold text-primary-600 text-xl mb-3">{{ note.subTitle }}</div>
+  <quill-editor class="w-full" [formControl]="noteForm"> </quill-editor>
+  <div class="font-semibold text-primary-600 my-3 mx-6">Létrehozva: {{ note.created | toDate | date : 'YYYY.MM.dd HH:MM' }}</div>
+
+  }
+</div>

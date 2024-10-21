@@ -1,10 +1,12 @@
-import { Inject, Injectable, Optional, WritableSignal, inject, signal } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Injectable, WritableSignal, inject, signal } from '@angular/core';
+import { AngularFirestore, Query } from '@angular/fire/compat/firestore';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Timestamp } from '@angular/fire/firestore';
-import { LOCAL_STORAGE } from '@ng-web-apis/common';
+import { Note } from '../models/note.model';
 import { Notification, NotificationType } from '../models/notification.model';
-import { User } from '../models/user.model';
+import { User, UserFilterModel } from '../models/user.model';
 import { getName } from '../utils/name';
+import { NoteService } from './note.service';
 import { NotificationService } from './notifictaion.service';
 import { ToastService } from './toast.service';
 
@@ -14,13 +16,20 @@ import { ToastService } from './toast.service';
 export class UserService {
   readonly collectionName = 'Users';
   private notificationService = inject(NotificationService);
+  private noteService = inject(NoteService);
+  private store = inject(AngularFirestore);
+  private toastService = inject(ToastService);
+  private storage = inject(AngularFireStorage);
+
   user: WritableSignal<User | undefined> = signal(undefined);
 
-  constructor(
-    private store: AngularFirestore,
-    private toastService: ToastService,
-    @Optional() @Inject(LOCAL_STORAGE) private storage?: Storage,
-  ) {}
+  refreshLoggedInUser(id: string) {
+    this.getUserById(id).then((value) => {
+      if (value) {
+        this.user.set(value[0]);
+      }
+    });
+  }
 
   async getTopUsers(): Promise<User[]> {
     let users: User[] = [];
@@ -37,13 +46,35 @@ export class UserService {
   async getAllUsers() {
     let users: User[] = [];
     const data = await this.store.collection<User>(this.collectionName).ref.orderBy('followersNumber', 'desc').get();
-
     if (data) {
       data.docs.forEach((element) => {
         users.push(element.data());
       });
     }
     return users;
+  }
+
+  async getUsersByFilter(filter: UserFilterModel): Promise<User[]> {
+    let result = this.store.collection<User>(this.collectionName).ref as Query<User>;
+    if (filter.name) {
+      const firstName = filter.name.split(' ')[1];
+      const lastName = filter.name.split(' ')[0];
+      if (firstName) result = result.where('firstName', '==', firstName);
+      if (lastName) result = result.where('lastName', '==', lastName);
+    }
+    if (filter.numberOfFollowers) result = result.where('numberOfFollowers', '==', filter.numberOfFollowers);
+    if (filter.numberOfNotes) result = result.where('numberOfNotes', '==', filter.numberOfNotes);
+    if (filter.profileType) result = result.where('profileType', '==', filter.profileType);
+    if (filter.educationType) result = result.where('education.type', '==', filter.educationType);
+    if (filter.educationYear) result = result.where('education.year', '==', filter.educationYear);
+
+    const data = await result.get().then((data) => {
+      return data.docs.map((e) => {
+        return e.data();
+      });
+    });
+
+    return data;
   }
 
   async getUserById(id: string): Promise<User[]> {
@@ -71,7 +102,6 @@ export class UserService {
       })
       .catch((error) => {
         this.toastService.error('Hiba a profil módosítása során!');
-        console.log(error);
       });
   }
 
@@ -139,5 +169,57 @@ export class UserService {
         followers: newFollowers,
         followersNumber: followedUser.followersNumber - 1,
       });
+  }
+
+  async followNote(note: Note) {
+    //Bejelentkezett felhasználó követésihez adjuk új jegyzetet
+    let newFollowings: string[] = [];
+    if (this.user()?.followedNotes) {
+      this.user()?.followedNotes.push(note.id);
+      newFollowings = this.user()?.followedNotes!;
+    } else {
+      newFollowings = [note.id];
+    }
+
+    this.store.collection(this.collectionName).doc(this.user()?.id).update({
+      followedNotes: newFollowings,
+    });
+
+    //A jegyzet követéseit növeljük, a szerzőnek küldjünk értesítést a követésről
+    return await this.noteService.addNewFollower(this.user()!, note);
+  }
+
+  async unFollowNote(note: Note) {
+    //Bejelentkezett felhasználó követésiből kitöröljük a felhasználót
+    const newFollowings = this.user()?.followedNotes!.filter((id) => id !== note.id);
+
+    this.store.collection(this.collectionName).doc(this.user()?.id).update({
+      followedNotes: newFollowings,
+    });
+
+    //Felhasználó követőiből kitöröljük a bejelentkezett felhasználót
+    return await this.noteService.deleteFollower(this.user()!, note);
+  }
+
+  async uploadProfilPic(img: File, id: string): Promise<User[]> {
+    return await this.storage
+      .ref('profiles/' + id)
+      .put(img)
+      .then(() => {
+        this.store.collection(this.collectionName).doc(this.user()?.id).update({
+          profilePicture: true,
+        });
+      });
+  }
+
+  getProfilPic(id: string) {
+    return this.storage.ref('profiles/' + id).getDownloadURL();
+  }
+
+  deleteProfilPic(id: string) {
+    this.storage.ref('profiles/' + id).delete();
+    return this.store.collection(this.collectionName).doc(id).update({
+      profilePicture: false,
+    });
   }
 }

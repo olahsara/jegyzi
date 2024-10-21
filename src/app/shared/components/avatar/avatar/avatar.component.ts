@@ -1,34 +1,50 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
-import { User } from '../../../models/user.model';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { Component, computed, inject, input, model, output } from '@angular/core';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { Router } from '@angular/router';
 import { NamePipe } from '../../../pipes/name.pipe';
 import { UserService } from '../../../services/user.service';
-import { MatTooltipModule } from '@angular/material/tooltip';
+
+export interface ImageUploadEvent {
+  file: File;
+}
 
 @Component({
   selector: 'jegyzi-avatar',
   standalone: true,
-  imports: [
-    CommonModule, NamePipe, MatTooltipModule
-  ],
+  imports: [CommonModule, NamePipe, MatTooltipModule, NgOptimizedImage, MatProgressSpinner],
   templateUrl: './avatar.component.html',
   styleUrl: './avatar.component.scss',
 })
-export class AvatarComponent implements OnInit {
-  
-  @Input({required: true}) profile!: User;
-  @Input() size: string = "md";
-  @Input() editable: boolean = false;
+export class AvatarComponent {
+  private userService = inject(UserService);
+  private route = inject(Router);
 
-  constructor(private userService: UserService) {}
+  profileId = input.required<string>();
+  profilPicEnabled = input.required<boolean>();
+  size = input<string>('md');
+  editable = input<boolean>(false);
+  loading = model(false);
+  link = input<string>();
 
-  ngOnInit(): void {
-    if(this.userService.user()?.id !== this.profile.id) {
-      this.editable = false;
+  profilePic = computed(() => {
+    return this.profilPicEnabled() ? this.userService.getProfilPic(this.profileId()) : null;
+  });
+
+  upload = output<ImageUploadEvent>();
+  deleteProfilPic = output<void>();
+
+  async onFileSelected(event: Event) {
+    const file = (event.target as HTMLInputElement).files;
+    if (file) {
+      this.upload.emit({ file: file[0] });
     }
   }
 
-  upload(){
-    // TODO: Képfeltöltés
+  navigate() {
+    if (this.link()) {
+      this.route.navigate([this.link()]);
+    }
   }
- }
+}

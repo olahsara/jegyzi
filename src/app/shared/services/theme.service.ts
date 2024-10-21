@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable, Optional, Renderer2, RendererFactory2, signal } from '@angular/core';
+import { computed, Inject, Injectable, Optional, Renderer2, RendererFactory2, signal } from '@angular/core';
 import { LOCAL_STORAGE, WINDOW } from '@ng-web-apis/common';
 
 export type Theme = 'light' | 'dark';
@@ -9,6 +9,9 @@ export type Theme = 'light' | 'dark';
 })
 export class ThemeService {
   theme = signal<Theme>('light');
+  isLigth = computed(() => {
+    return this.theme() === 'light' ? true : false;
+  });
 
   private STORAGE_THEME_KEY = 'theme';
   private DEFAULT_THEME: Theme = 'light';

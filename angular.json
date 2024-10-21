@@ -9,6 +9,9 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "jegyzi",
+      "i18n": {
+        "sourceLocale": "hu"
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",

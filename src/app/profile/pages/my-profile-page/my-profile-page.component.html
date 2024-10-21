@@ -2,7 +2,14 @@
   @if(profile(); as profile) {
   <div class="flex items-center justify-between w-full">
     <div class="flex gap-6 items-center">
-      <jegyzi-avatar [profile]="profile" size="lg" [editable]="true"></jegyzi-avatar>
+      <jegyzi-avatar
+        [profileId]="profile.id"
+        [profilPicEnabled]="profile.profilePicture ?? false"
+        size="lg"
+        [editable]="true"
+        (upload)="uploadProfilPic($event)"
+        (deleteProfilPic)="deleteProfilPic()"
+      ></jegyzi-avatar>
 
       <div class="font-semibold text-primary-500 text-2xl">{{ profile | name }}</div>
     </div>
@@ -84,7 +91,7 @@
       </div>
       }
     </div>
-    <div class="flex flex-col rounded-2xl bg-background-200 p-6 gap-4">
+    <div class="flex flex-col rounded-3xl bg-background-200 p-6 gap-4">
       <span class="text-primary-600 text-xl font-semibold">Bemutatkozás</span>
       <span class="text-primary-500">{{ profile.introduction | noValue }}</span>
     </div>
@@ -94,24 +101,18 @@
       <span class="text-[28px] text-primary-500 font-semibold">Követés</span>
       <hr class="border border-background-300 w-full h-min" />
     </div>
-    @for(follow of following; track follow.id ){
+    @for(follow of following(); track follow.id ){
     <div class="flex gap-8 rounded-3xl bg-background-200 p-6 items-center mr-20">
-      <jegyzi-avatar [profile]="profile"></jegyzi-avatar>
+      <jegyzi-avatar [profileId]="follow.id" [profilPicEnabled]="follow.profilePicture ?? false"></jegyzi-avatar>
       <div class="flex flex-col gap-1 text-primary-600">
-        <div class="font-semibold mb-1">{{ profile | name }}</div>
-        <div class="text-sm">{{ profile.profileType | noValue }}</div>
-        <div class="text-sm">{{ profile | type }}</div>
+        <div class="font-semibold mb-1">{{ follow | name }}</div>
+        <div class="text-sm">{{ follow.profileType | noValue }}</div>
+        <div class="text-sm">{{ follow | type }}</div>
         <div class="text-sm">Jegyzetek száma: 0</div>
       </div>
-      <div class="flex flex-col mr-0 ml-auto justify-between h-full">
-        <div class="relative w-8 h-8 text-center" matTooltip="Követők száma">
-          <span class="ph-fill ph-heart ph-2x text-heart-100 text-center"></span>
-          <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{ profile.followersNumber }}</span>
-        </div>
-        <a [routerLink]="'/profiles/' + profile.id" matTooltip="Profil megtekintése">
-          <span class="btn-icon ph-bold ph-caret-right"></span>
-        </a>
-      </div>
+      <a [routerLink]="'/profiles/' + follow.id" matTooltip="Profil megtekintése" class="mr-0 ml-auto self-end">
+        <span class="btn-icon ph-bold ph-caret-right"></span>
+      </a>
     </div>
     } @empty {
     <div class="text-heart-100 font-semibold text-lg">Nincsenek még követéseid!</div>

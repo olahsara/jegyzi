@@ -1,7 +1,6 @@
 {
   "eslint.validate": ["json"],
   "peacock.color": "#661900",
-
   "eslint.format.enable": true,
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {

@@ -1,0 +1,100 @@
+<form [formGroup]="form" (submit)="submit()">
+  <quill-editor class="w-full" placeholder="Ide kezd el gépelni a jegyzetet..." formControlName="note">
+    <div below-quill-editor-toolbar>
+      <div class="title-form">
+        <input matInput type="text" formControlName="title" placeholder="Cím" />
+      </div>
+      <div class="subtitle-form">
+        <input matInput type="text" formControlName="subTitle" placeholder="Alcím" />
+      </div>
+    </div>
+    <div quill-editor-toolbar class="sticky top-3 z-50">
+      <span class="ql-formats">
+        <button class="ql-bold" matTooltip="Félkövér"></button>
+        <button class="ql-italic" matTooltip="Dőlt"></button>
+        <button class="ql-underline" matTooltip="Aláhúzott"></button>
+        <button class="ql-strike" matTooltip="Áthúzott"></button>
+      </span>
+
+      <span class="ql-formats" matTooltip="Betűtípus">
+        <select class="ql-font">
+          <option value="aref">Aref Ruqaa</option>
+          <option value="mirza">Mirza</option>
+          <option selected value="roboto">Roboto</option>
+        </select>
+      </span>
+
+      <span class="ql-formats" matTooltip="Betűméret">
+        <select class="ql-size">
+          <option value="small">Kicsi</option>
+          <option selected value="normal">Közepes</option>
+          <option value="large">Nagy</option>
+          <option value="huge">Hatalmas</option>
+        </select>
+      </span>
+
+      <span class="ql-formats">
+        <span matTooltip="Betűszín">
+          <select class="ql-color"></select>
+        </span>
+        <span matTooltip="Kiemelés">
+          <select class="ql-background"></select>
+        </span>
+      </span>
+
+      <span class="ql-formats">
+        <button class="ql-script" value="sub"></button>
+        <button class="ql-script" value="super"></button>
+      </span>
+
+      <span class="ql-formats" matTooltip="Rendezés">
+        <select class="ql-align">
+          <option selected></option>
+          <option value="center" matTooltip="Középre"></option>
+          <option value="right" matTooltip="Jobbra"></option>
+          <option value="justify" matTooltip="Sorkizárt"></option>
+        </select>
+      </span>
+
+      <span class="ql-formats">
+        <button class="ql-list" value="bullet" matTooltip="Lista"></button>
+        <button class="ql-list" value="ordered" matTooltip="Számozott lista"></button>
+      </span>
+
+      <span class="ql-formats">
+        <button class="ql-blockquote" matTooltip="Idézet blokk"></button>
+        <button class="ql-code-block" matTooltip="Forráskód blokk"></button>
+      </span>
+
+      <span class="ql-formats">
+        <button class="ql-link" matTooltip="Link beszúrás"></button>
+        <button class="ql-formula" matTooltip="Egyenlet beszúrás"></button>
+      </span>
+    </div>
+    <div quill-editor-element></div>
+  </quill-editor>
+
+  <div class="m-10">
+    <div class="flex flex-col gap-y-2">
+      <span class="text-primary-600 text-xl font-semibold">Címkék hozzáadása</span>
+      <div class="flex items-center gap-x-2">
+        <span class="ph-fill ph-info text-primary-400"></span>
+        <span class="text-primary-500 text-sm"
+          >Címkék hozzáadásával megkönnyíted a felhasználók számára a böngészést. Válaszd ki a címkék közül azokat, amelyek a legpontosabban
+          jellemzik a jegyzetedet!</span
+        >
+      </div>
+    </div>
+    @if(labels$ | async; as labels) { @for (label of labels; track label.id) {
+    <div class="m-4">
+      <span class="text-primary-600 font-semibold">{{ label.name }}</span>
+      <div class="flex gap-x-4">
+        <jegyzi-label-group [items]="label" [(control)]="form.controls.labels"></jegyzi-label-group>
+      </div>
+    </div>
+    } }
+  </div>
+  <div class="m-10">
+    <button type="submit" class="btn-primary ml-auto mr-0">Feltöltés</button>
+  </div>
+</form>

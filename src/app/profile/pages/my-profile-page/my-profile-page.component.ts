@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, computed, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
+import { AvatarComponent, ImageUploadEvent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { ProfileTypes, User } from '../../../shared/models/user.model';
 import { NamePipe } from '../../../shared/pipes/name.pipe';
@@ -14,6 +14,7 @@ import { NoValuePipe } from '../../../shared/pipes/no-value.pipe';
 import { TypePipe } from '../../../shared/pipes/type.pipe';
 import { ToastService } from '../../../shared/services/toast.service';
 import { UserService } from '../../../shared/services/user.service';
+import { MyProfilePageService } from '../../services/my-profile-page.service';
 import { ProfileModifyModalPageComponent } from '../profile-modify-modal-page/profile-modify-modal-page.component';
 
 @Component({
@@ -35,21 +36,40 @@ import { ProfileModifyModalPageComponent } from '../profile-modify-modal-page/pr
     NoValuePipe,
     TypePipe,
   ],
+  providers: [MyProfilePageService],
 })
 export class MyProfilePageComponent implements OnInit {
-  profile = this.userService.user;
-  following: User[] = [];
+  private pageService = inject(MyProfilePageService);
+
+  profile = this.pageService.profile;
+  following = computed(() => {
+    const array: User[] = [];
+    this.profile()?.follow.forEach((element) => {
+      this.userService.getUserById(element).then((el) => {
+        array.push(el[0]);
+      });
+    });
+    return array;
+  });
   readonly dialog = inject(MatDialog);
   readonly profileTypes = ProfileTypes;
 
   constructor(private userService: UserService, private toastService: ToastService) {}
 
-  ngOnInit(): void {
-    this.profile()?.followers.forEach((element) => {
-      this.userService.getUserById(element).then((el) => {
-        el.forEach((user) => {
-          this.following.push(user);
-        });
+  ngOnInit(): void {}
+
+  uploadProfilPic(event: ImageUploadEvent) {
+    this.userService.uploadProfilPic(event.file, this.profile()!.id).then(() => {
+      this.userService.getUserById(this.profile()!.id).then((value) => {
+        this.pageService.reload(value[0]);
+      });
+    });
+  }
+
+  deleteProfilPic() {
+    this.userService.deleteProfilPic(this.profile()!.id).then(() => {
+      this.userService.getUserById(this.profile()!.id).then((value) => {
+        this.pageService.reload(value[0]);
       });
     });
   }
@@ -62,7 +82,9 @@ export class MyProfilePageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.userService.modifyUser(result);
+        this.userService.modifyUser(result).then(() => {
+          this.pageService.reload(result);
+        });
       }
     });
   }
