@@ -2,9 +2,11 @@ import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { AngularFirestore, Query } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Timestamp } from '@angular/fire/firestore';
+import { Note } from '../models/note.model';
 import { Notification, NotificationType } from '../models/notification.model';
 import { User, UserFilterModel } from '../models/user.model';
 import { getName } from '../utils/name';
+import { NoteService } from './note.service';
 import { NotificationService } from './notifictaion.service';
 import { ToastService } from './toast.service';
 
@@ -14,9 +16,12 @@ import { ToastService } from './toast.service';
 export class UserService {
   readonly collectionName = 'Users';
   private notificationService = inject(NotificationService);
-  user: WritableSignal<User | undefined> = signal(undefined);
+  private noteService = inject(NoteService);
+  private store = inject(AngularFirestore);
+  private toastService = inject(ToastService);
+  private storage = inject(AngularFireStorage);
 
-  constructor(private store: AngularFirestore, private toastService: ToastService, private storage: AngularFireStorage) {}
+  user: WritableSignal<User | undefined> = signal(undefined);
 
   refreshLoggedInUser(id: string) {
     this.getUserById(id).then((value) => {
@@ -164,6 +169,36 @@ export class UserService {
         followers: newFollowers,
         followersNumber: followedUser.followersNumber - 1,
       });
+  }
+
+  async followNote(note: Note) {
+    //Bejelentkezett felhasználó követésihez adjuk új jegyzetet
+    let newFollowings: string[] = [];
+    if (this.user()?.followedNotes) {
+      this.user()?.followedNotes.push(note.id);
+      newFollowings = this.user()?.followedNotes!;
+    } else {
+      newFollowings = [note.id];
+    }
+
+    this.store.collection(this.collectionName).doc(this.user()?.id).update({
+      followedNotes: newFollowings,
+    });
+
+    //A jegyzet követéseit növeljük, a szerzőnek küldjünk értesítést a követésről
+    return await this.noteService.addNewFollower(this.user()!, note);
+  }
+
+  async unFollowNote(note: Note) {
+    //Bejelentkezett felhasználó követésiből kitöröljük a felhasználót
+    const newFollowings = this.user()?.followedNotes!.filter((id) => id !== note.id);
+
+    this.store.collection(this.collectionName).doc(this.user()?.id).update({
+      followedNotes: newFollowings,
+    });
+
+    //Felhasználó követőiből kitöröljük a bejelentkezett felhasználót
+    return await this.noteService.deleteFollower(this.user()!, note);
   }
 
   async uploadProfilPic(img: File, id: string): Promise<User[]> {

@@ -113,6 +113,7 @@ export class RegisterModalPageComponent {
             followers: [],
             follow: [],
             reviews: [],
+            followedNotes: [],
             followersNumber: 0,
           };
           this.authService.createProfile(newUser);

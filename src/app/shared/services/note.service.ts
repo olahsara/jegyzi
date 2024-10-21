@@ -1,15 +1,23 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AngularFirestore, Query } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { Timestamp } from '@angular/fire/firestore';
 import { Note, NoteFilterModel } from '../models/note.model';
+import { Notification, NotificationType } from '../models/notification.model';
+import { User } from '../models/user.model';
+import { getName } from '../utils/name';
+import { NotificationService } from './notifictaion.service';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NoteService {
   readonly collectionName = 'Notes';
-
-  constructor(private store: AngularFirestore, private storage: AngularFireStorage) {}
+  private notificationService = inject(NotificationService);
+  private store = inject(AngularFirestore);
+  private toastService = inject(ToastService);
+  private storage = inject(AngularFireStorage);
 
   createNote(note: Note) {
     if (note) {
@@ -77,5 +85,49 @@ export class NoteService {
     });
 
     return data;
+  }
+
+  async addNewFollower(user: User, note: Note) {
+    let newFollowers: string[] = [];
+    if (note.followers) {
+      note.followers.push(user.id);
+      newFollowers = note.followers;
+    } else {
+      newFollowers = [user.id];
+    }
+
+    return await this.store
+      .collection(this.collectionName)
+      .doc(note.id)
+      .update({
+        followers: newFollowers,
+        followersNumber: note.followersNumber + 1,
+      })
+      .then(() => {
+        const noti: Notification = {
+          date: Timestamp.fromDate(new Date()),
+          id: 'id',
+          new: true,
+          title: 'Új követés!',
+          description: getName(user) + ' bekövette a ' + note.title + ' jegyzetedet!',
+          type: NotificationType.NEW_FOLLOWER,
+          user: user.id,
+          linkedEntityId: user.id,
+        };
+        this.notificationService.createNotification(noti);
+        this.toastService.success('Sikeres követés!');
+      });
+  }
+
+  async deleteFollower(user: User, note: Note) {
+    const newFollowers = note.followers.filter((userId) => userId !== user.id);
+
+    return await this.store
+      .collection(this.collectionName)
+      .doc(note.id)
+      .update({
+        followers: newFollowers,
+        followersNumber: note.followersNumber - 1,
+      });
   }
 }

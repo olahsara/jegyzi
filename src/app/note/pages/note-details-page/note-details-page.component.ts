@@ -45,14 +45,22 @@ export class NoteDetailsPageComponent {
 
       untracked(() => {
         this.noteForm.setValue(note.note);
-        this.followedNote.set(loggedInUser ? (loggedInUser.follow.find((e) => e === note.id) ? true : false) : false);
+        this.followedNote.set(loggedInUser ? (note.followers.find((e) => e === loggedInUser.id) ? true : false) : false);
       });
     });
   }
 
-  follow() {}
+  follow() {
+    this.userService.followNote(this.note()).finally(() => {
+      this.pageService.reload();
+    });
+  }
 
-  unFollow() {}
+  unFollow() {
+    this.userService.unFollowNote(this.note()).finally(() => {
+      this.pageService.reload();
+    });
+  }
 
   modifyRequest() {}
 }

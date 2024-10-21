@@ -20,7 +20,7 @@
               note.followers ? note.followers.length : 0
             }}</span>
           </div>
-          <a [routerLink]="'/notes/' + note.id" matTooltip="Jegyzet megtekintése">
+          <a [routerLink]="user()?.uid === note.creatorId ? '/my-notes/' + note.id : '/notes/' + note.id" matTooltip="Jegyzet megtekintése">
             <span class="btn-icon ph-bold ph-caret-right"></span>
           </a>
         </div>
