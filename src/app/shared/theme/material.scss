@@ -95,6 +95,75 @@ ngx-skeleton-loader {
   @apply hidden #{!important};
 }
 
+//accordion
+.jegyzi-accordion .mat-expansion-panel,
+.jegyzi-expansion-panel {
+  --mat-expansion-container-background-color: theme(colors.background.200);
+  --mat-expansion-container-text-color: theme(colors.primary.600);
+  --mat-expansion-header-text-color: theme(colors.primary.600);
+  --mat-expansion-header-collapsed-state-height: 64px;
+  --mat-expansion-header-expanded-state-height: 64px;
+
+  @apply mb-4 rounded-xl shadow-none #{!important};
+
+  .mat-expansion-panel-header {
+    @apply bg-background-200 p-4 #{!important};
+  }
+
+  .mat-expansion-panel-header-title {
+    @apply overflow-hidden;
+  }
+
+  .mat-expansion-indicator {
+    @apply hidden;
+  }
+
+  .mat-expansion-panel-body {
+    @apply flex flex-col gap-3 px-6 #{!important};
+  }
+}
+
+//checkbox
+.mat-mdc-checkbox {
+  --mdc-form-field-label-text-color: theme("colors.primary.600");
+}
+.mat-mdc-checkbox.mat-accent {
+  --mdc-checkbox-selected-checkmark-color: theme("colors.primary.600");
+  --mdc-checkbox-selected-focus-icon-color: theme("colors.background.100");
+  --mdc-checkbox-selected-hover-icon-color: theme("colors.background.100");
+  --mdc-checkbox-selected-icon-color: theme("colors.background.100");
+  --mdc-checkbox-selected-pressed-icon-color: theme("colors.background.100");
+  --mdc-checkbox-unselected-focus-icon-color: theme("colors.background.400");
+  --mdc-checkbox-unselected-hover-icon-color: theme("colors.background.400");
+  --mdc-checkbox-unselected-icon-color: theme("colors.background.400");
+  --mdc-checkbox-unselected-pressed-icon-color: theme("colors.primary.500");
+
+  .mat-mdc-checkbox-ripple, .mdc-checkbox__ripple {
+    @apply hidden;
+}
+  .mdc-checkbox .mdc-checkbox__ripple {
+    @apply hidden;
+  }
+
+  .mdc-checkbox {
+    @apply p-[0.9rem];
+  }
+
+  .mdc-checkbox__background {
+    @apply w-6 h-6 border rounded-md;
+
+    .mdc-checkbox__checkmark {
+      @apply p-1;
+    }
+  }
+
+  .mdc-checkbox .mdc-checkbox__native-control:enabled:checked ~ .mdc-checkbox__background,
+  .mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate ~ .mdc-checkbox__background,
+  .mdc-checkbox .mdc-checkbox__native-control:enabled ~ .mdc-checkbox__background {
+    @apply border-primary-500;
+  }
+}
+
 html {
   --mat-datepicker-calendar-container-background-color: theme("colors.background.loader");
   --mdc-icon-button-icon-color: theme("colors.primary.500");
