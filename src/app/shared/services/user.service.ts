@@ -1,7 +1,11 @@
-import { Injectable, WritableSignal, signal } from '@angular/core';
+import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { AngularFirestore, Query } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { Timestamp } from '@angular/fire/firestore';
+import { Notification, NotificationType } from '../models/notification.model';
 import { User, UserFilterModel } from '../models/user.model';
+import { getName } from '../utils/name';
+import { NotificationService } from './notifictaion.service';
 import { ToastService } from './toast.service';
 
 @Injectable({
@@ -25,7 +29,6 @@ export class UserService {
   async getTopUsers(): Promise<User[]> {
     let users: User[] = [];
     const data = await this.store.collection<User>(this.collectionName).ref.orderBy('followersNumber', 'desc').limit(3).get();
-    const data = await this.store.collection<User>(this.collectionName).ref.orderBy('followersNumber', 'desc').limit(3).get();
 
     if (data) {
       data.docs.forEach((element) => {
@@ -38,8 +41,6 @@ export class UserService {
   async getAllUsers() {
     let users: User[] = [];
     const data = await this.store.collection<User>(this.collectionName).ref.orderBy('followersNumber', 'desc').get();
-    const data = await this.store.collection<User>(this.collectionName).ref.orderBy('followersNumber', 'desc').get();
-
     if (data) {
       data.docs.forEach((element) => {
         users.push(element.data());
@@ -148,14 +149,12 @@ export class UserService {
   async unFollowUser(followedUser: User) {
     //Bejelentkezett felhasználó követésiből kitöröljük a felhasználót
     const newFollowings = this.user()?.follow!.filter((userId) => userId !== followedUser.id);
-    const newFollowings = this.user()?.follow!.filter((userId) => userId !== followedUser.id);
 
     this.store.collection(this.collectionName).doc(this.user()?.id).update({
       follow: newFollowings,
     });
 
     //Felhasználó követőiből kitöröljük a bejelentkezett felhasználót
-    const newFollowers = followedUser.followers.filter((userId) => userId !== this.user()?.id);
     const newFollowers = followedUser.followers.filter((userId) => userId !== this.user()?.id);
 
     return await this.store

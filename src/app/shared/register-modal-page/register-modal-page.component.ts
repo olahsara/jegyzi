@@ -112,6 +112,7 @@ export class RegisterModalPageComponent {
             profileType: this.form.value.profileType as string | undefined,
             followers: [],
             follow: [],
+            reviews: [],
             followersNumber: 0,
           };
           this.authService.createProfile(newUser);
