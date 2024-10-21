@@ -15,6 +15,7 @@ export interface User {
   follow: string[]; //user id
   //followedNotes: string[]; //note id
   followersNumber: number;
+  reviews: string[]; //értékelés id
 }
 
 export interface UserFilterModel {

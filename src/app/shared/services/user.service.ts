@@ -9,6 +9,7 @@ import { ToastService } from './toast.service';
 })
 export class UserService {
   readonly collectionName = 'Users';
+  private notificationService = inject(NotificationService);
   user: WritableSignal<User | undefined> = signal(undefined);
 
   constructor(private store: AngularFirestore, private toastService: ToastService, private storage: AngularFireStorage) {}
@@ -24,6 +25,7 @@ export class UserService {
   async getTopUsers(): Promise<User[]> {
     let users: User[] = [];
     const data = await this.store.collection<User>(this.collectionName).ref.orderBy('followersNumber', 'desc').limit(3).get();
+    const data = await this.store.collection<User>(this.collectionName).ref.orderBy('followersNumber', 'desc').limit(3).get();
 
     if (data) {
       data.docs.forEach((element) => {
@@ -35,6 +37,7 @@ export class UserService {
 
   async getAllUsers() {
     let users: User[] = [];
+    const data = await this.store.collection<User>(this.collectionName).ref.orderBy('followersNumber', 'desc').get();
     const data = await this.store.collection<User>(this.collectionName).ref.orderBy('followersNumber', 'desc').get();
 
     if (data) {
@@ -110,7 +113,7 @@ export class UserService {
       follow: newFollowings,
     });
 
-    //Felhasználó követőihez adjuk hozzá a bejelentkezett felhasználót
+    //Felhasználó követőihez adjuk hozzá a bejelentkezett felhasználót és küldjünk neki értesítést a követésről
     let newFollowers: string[] = [];
     if (followedUser.followers) {
       followedUser.followers.push(this.user()?.id!);
@@ -125,11 +128,26 @@ export class UserService {
       .update({
         followers: newFollowers,
         followersNumber: followedUser.followersNumber + 1,
+      })
+      .then(() => {
+        const noti: Notification = {
+          date: Timestamp.fromDate(new Date()),
+          id: 'id',
+          new: true,
+          title: 'Új követés!',
+          description: getName(this.user()!) + ' bekövetett téged!',
+          type: NotificationType.NEW_FOLLOWER,
+          user: followedUser.id,
+          linkedEntityId: this.user()?.id,
+        };
+        this.notificationService.createNotification(noti);
+        this.toastService.success('Sikeres követés!');
       });
   }
 
   async unFollowUser(followedUser: User) {
     //Bejelentkezett felhasználó követésiből kitöröljük a felhasználót
+    const newFollowings = this.user()?.follow!.filter((userId) => userId !== followedUser.id);
     const newFollowings = this.user()?.follow!.filter((userId) => userId !== followedUser.id);
 
     this.store.collection(this.collectionName).doc(this.user()?.id).update({
@@ -137,6 +155,7 @@ export class UserService {
     });
 
     //Felhasználó követőiből kitöröljük a bejelentkezett felhasználót
+    const newFollowers = followedUser.followers.filter((userId) => userId !== this.user()?.id);
     const newFollowers = followedUser.followers.filter((userId) => userId !== this.user()?.id);
 
     return await this.store
