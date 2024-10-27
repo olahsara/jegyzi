@@ -38,7 +38,7 @@ export class ReviewService {
           type: NotificationType.REVIEW,
           linkedEntityId: note.id,
           description: review.anonim
-            ? 'Új értékelést érkezett a(z) ' + note.title + ' című jegyzetedhez.'
+            ? 'Új értékelés érkezett a(z) ' + note.title + ' című jegyzetedhez.'
             : review.userName + ' értékelte a(z) ' + note.title + ' című jegyzetedet.',
         };
         this.notificationService.createNotification(noti);

@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AngularFirestore, Query } from '@angular/fire/compat/firestore';
 import { Notification } from '../models/notification.model';
 
 @Injectable({
@@ -19,6 +19,20 @@ export class NotificationService {
         });
     }
     return;
+  }
+
+  async getNotifications(userId: string) {
+    let result = this.store.collection<Notification>(this.collection).ref as Query<Notification>;
+    result = result.where('user', '==', userId);
+    result = result.where('new', '==', true);
+
+    const data = await result.get().then((data) => {
+      return data.docs.map((e) => {
+        return e.data();
+      });
+    });
+
+    return data;
   }
 
   readNotification(notificationId: string) {

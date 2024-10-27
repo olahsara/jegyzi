@@ -1,4 +1,4 @@
-<div class="grid grid-cols-3 bg-background-300 items-center">
+<div class="grid grid-cols-3 bg-background-300 items-center fixed z-50 w-full h-20">
   <a routerLink="/home">
     @if(imgUrl(); as imgUrl) {
     <img [src]="imgUrl" alt="Jegyzi logó" class="h-20 object-contain" />
@@ -18,11 +18,33 @@
     }
   </div>
   <div class="flex gap-4 mx-4 justify-self-end items-center">
-    @if(user(); as user ){
-    <div class="relative">
-      <span class="ph ph-bell-simple ph-2x text-primary-500"></span>
-      <div class="absolute -top-1 left-4 rounded-full bg-primary-100 w-min h-min px-1 text-xs text-primary-500">0</div>
-    </div>
+    @if(user(); as user ){ @if(notifications(); as notifications){
+
+    <button mat-button [matMenuTriggerFor]="menu">
+      <div class="relative">
+        <span
+          class="ph-2x text-primary-500"
+          [ngClass]="[notifications.length > 0 ? 'ph-fill ph-bell-simple-ringing' : 'ph ph-bell-simple']"
+        ></span>
+        <div class="absolute -top-1 left-4 rounded-full bg-primary-100 w-min h-min px-1 text-xs text-primary-500">
+          {{ notifications.length }}
+        </div>
+      </div>
+    </button>
+    <mat-menu #menu="matMenu" class="text-primary-500">
+      @for(noti of notifications; track noti.id) {
+      <div mat-menu-item class="flex flex-col gap-y-1">
+        <div class="flex justify-between text-sm">
+          <span>{{ noti.date | toDate | date : 'shortDate' }}</span>
+          <span>{{ noti.date | toDate | date : 'shortTime' }}</span>
+        </div>
+        <div class="mb-3 font-semibold text-sm">{{ noti.title }}</div>
+      </div>
+
+      }
+    </mat-menu>
+    }
+
     <button class="sign-out text-primary-500" (click)="logout()" matTooltip="Kijelentkezés">
       <span class="ph-fill ph-sign-out ph-xl"></span>
     </button>
@@ -30,4 +52,3 @@
     <jegyzi-switch-button></jegyzi-switch-button>
   </div>
 </div>
-<router-outlet></router-outlet>
