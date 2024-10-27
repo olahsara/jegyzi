@@ -1,11 +1,8 @@
 name: CI Workflow
 on:
   push:
-    branches:
-      - master  
     tags:
       - ‘commit/*’
-     
 
 jobs:
   build:
