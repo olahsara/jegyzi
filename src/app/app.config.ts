@@ -12,7 +12,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { QuillModule } from 'ngx-quill';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { provideToastr } from 'ngx-toastr';
-import { firebaseConfig } from '../ignore/firebase_options';
+import { firebaseConfig } from '../environment/environment';
 import { routes } from './app.routes';
 import { TOASTR_CONFIG } from './shared/services/toast.service';
 
