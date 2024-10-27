@@ -9,7 +9,7 @@ export interface Notification {
   new: boolean;
   title: string;
   description?: string;
-  linkedEntityId?: string; //kommentnél: a jegyzet id-ja, értékelésnél: értékelés id, új követőnél: követő id-ja, új jegyzetnél: jegyzet id, módosítási kérés: m. k. id
+  linkedEntityId?: string; //kommentnél: a jegyzet id-ja, értékelésnél: jegyzet id, új követőnél: követő id-ja, új jegyzetnél: jegyzet id, módosítási kérés: m. k. id
 }
 
 export enum NotificationType {

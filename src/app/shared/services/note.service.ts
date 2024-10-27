@@ -135,4 +135,15 @@ export class NoteService {
         followersNumber: note.followersNumber - 1,
       });
   }
+
+  async addReview(reviewId: string, note: Note) {
+    let newReviews: string[] = [];
+    if (note.reviews) {
+      newReviews = [...note.reviews, reviewId];
+    } else {
+      newReviews = [reviewId];
+    }
+
+    return await this.store.collection(this.collectionName).doc(note.id).update({ reviews: newReviews });
+  }
 }
