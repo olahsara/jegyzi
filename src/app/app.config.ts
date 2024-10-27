@@ -19,7 +19,7 @@ import { TOASTR_CONFIG } from './shared/services/toast.service';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
-    provideFirebaseApp(() => initializeApp(firebaseConfig)),
+    provideFirebaseApp(() => initializeApp(firebaseConfig || {})), //hogy a ci pipline lefusson
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideVertexAI(() => getVertexAI()),
