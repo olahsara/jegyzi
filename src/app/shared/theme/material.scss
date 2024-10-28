@@ -166,17 +166,17 @@ ngx-skeleton-loader {
 
 //menu
 .cdk-overlay-connected-position-bounding-box {
-  @apply right-5 top-16 #{!important} ;
+  @apply right-5 top-20  #{!important} ;
 }
 
 .mat-elevation-z8, .mat-mdc-elevation-specific.mat-elevation-z8 {
-  @apply shadow-sm;
+  @apply shadow-sm ;
 }
 .mat-mdc-menu-panel {
-  @apply rounded-b-2xl  #{!important};
+  @apply rounded-b-2xl rounded-t-none  #{!important};
 }
 .mat-mdc-menu-content {
-    @apply px-4 py-2 rounded-b-xl #{!important};
+    @apply pt-0 #{!important};
 }
 
 html {

@@ -33,16 +33,20 @@
     </button>
     <mat-menu #menu="matMenu" class="text-primary-500">
       @for(noti of notifications; track noti.id) {
-      <div mat-menu-item class="flex flex-col gap-y-1">
-        <div class="flex justify-between text-sm">
+      <button
+        type="button"
+        (click)="notificationDetails(noti.id)"
+        class="flex flex-col gap-y-1 hover:bg-background-loader px-4 py-2 transition-all"
+      >
+        <div class="flex justify-between gap-x-10 text-sm">
           <span>{{ noti.date | toDate | date : 'shortDate' }}</span>
           <span>{{ noti.date | toDate | date : 'shortTime' }}</span>
         </div>
-        <div class="mb-3 font-semibold text-sm">{{ noti.title }}</div>
-        <div class="mb-3 font-semibold text-sm">{{ noti.date | toDate | date }}</div>
-      </div>
+        <div class="font-medium text-sm">{{ noti.title }}</div>
+      </button>
 
       }
+      <button type="button" (click)="allNotification()" class="btn-ligth w-full mt-2 mb-4">Összes értesítés</button>
     </mat-menu>
     }
 
