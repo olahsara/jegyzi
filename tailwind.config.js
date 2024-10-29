@@ -13,6 +13,7 @@ module.exports = {
           600: 'rgb(var(--primary-600) / <alpha-value>)',
           700: 'rgb(var(--primary-700) / <alpha-value>)',
           link: 'rgb(var(--primary-link) / <alpha-value>)',
+          disabled: 'rgb(var(--primary-disabled) / <alpha-value>)',
         },
         background: {
           100: 'rgb(var(--background-100) / <alpha-value>)',

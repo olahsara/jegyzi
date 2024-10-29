@@ -15,7 +15,7 @@ import { ToastService } from '../services/toast.service';
 import { UserService } from '../services/user.service';
 
 @Component({
-  selector: 'jegyzi-profile-modify-modal-page',
+  selector: 'jegyzi-register-modal-page',
   standalone: true,
   imports: [
     CommonModule,

@@ -19,10 +19,34 @@ export class NoteService {
   private toastService = inject(ToastService);
   private storage = inject(AngularFireStorage);
 
-  createNote(note: Note) {
+  async createNote(note: Note, userFollowers: string[]) {
     if (note) {
       note.id = this.store.createId();
-      return this.store.collection<Note>(this.collectionName).doc(note.id).set(note);
+      return await this.store
+        .collection<Note>(this.collectionName)
+        .doc(note.id)
+        .set(note)
+        .then(() => {
+          userFollowers.map((id) => {
+            const noti: Notification = {
+              id: '',
+              user: id,
+              date: Timestamp.fromDate(new Date()),
+              new: true,
+              title: 'Új jegyzet!',
+              type: NotificationType.NEW_NOTE,
+              linkedEntityId: note.id,
+              description:
+                'Egy általad követett felhasználó új jegyzetet hozott létre ' +
+                note.title +
+                ' címmel és ' +
+                note.labels.join(', ') +
+                ' címkékkel',
+            };
+            this.notificationService.createNotification(noti);
+          });
+          return note.id;
+        });
     }
     return;
   }
@@ -129,5 +153,16 @@ export class NoteService {
         followers: newFollowers,
         followersNumber: note.followersNumber - 1,
       });
+  }
+
+  async addReview(reviewId: string, note: Note) {
+    let newReviews: string[] = [];
+    if (note.reviews) {
+      newReviews = [...note.reviews, reviewId];
+    } else {
+      newReviews = [reviewId];
+    }
+
+    return await this.store.collection(this.collectionName).doc(note.id).update({ reviews: newReviews });
   }
 }

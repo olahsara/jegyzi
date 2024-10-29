@@ -21,15 +21,15 @@ export class AvatarComponent {
   private userService = inject(UserService);
   private route = inject(Router);
 
-  profileId = input.required<string>();
-  profilPicEnabled = input.required<boolean>();
+  profileId = input<string>();
+  profilPicEnabled = input<boolean>();
   size = input<string>('md');
   editable = input<boolean>(false);
   loading = model(false);
   link = input<string>();
 
   profilePic = computed(() => {
-    return this.profilPicEnabled() ? this.userService.getProfilPic(this.profileId()) : null;
+    return this.profilPicEnabled() ? this.userService.getProfilPic(this.profileId()!) : null;
   });
 
   upload = output<ImageUploadEvent>();

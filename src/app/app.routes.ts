@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./shared/layout/header/header.component').then((c) => c.HeaderComponent),
+    loadComponent: () => import('./shared/layout/shell/shell.component').then((c) => c.ShellComponent),
     children: [
       {
         path: '',
