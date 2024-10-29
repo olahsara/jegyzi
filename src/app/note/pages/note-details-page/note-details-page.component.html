@@ -56,8 +56,9 @@
       <quill-editor class="w-full" [formControl]="noteForm"> </quill-editor>
       <div class="font-semibold text-primary-600 my-3 mx-6">Létrehozva: {{ note.created | toDate | date : 'short' }}</div>
     </div>
-    <div class="flex felx-col gap-y-6 basis-1/4 mx-10">
+    <div class="flex flex-col gap-y-10 basis-1/4 mx-10">
       <jegyzi-note-review [note]="this.note" [loggedInUser]="this.loggedInUser()" (newReview)="newReview($event)"></jegyzi-note-review>
+      <jegyzi-note-comment [note]="this.note" [loggedInUser]="this.loggedInUser()" (newComment)="newComment($event)"></jegyzi-note-comment>
     </div>
   </div>
 
