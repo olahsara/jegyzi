@@ -70,7 +70,6 @@ export class ReviewService {
         });
       });
 
-    console.log(data.length);
     return data;
   }
 
