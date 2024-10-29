@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal, untracked } from '@angular/core';
-import { Timestamp } from '@angular/fire/firestore';
+import { ChangeDetectionStrategy, Component, effect, inject, signal, untracked } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInput } from '@angular/material/input';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
@@ -14,7 +13,7 @@ import { TitleComponent } from '../../../shared/components/title/title.component
 import { Review } from '../../../shared/models/review.model';
 import { ReviewService } from '../../../shared/services/review.service';
 import { UserService } from '../../../shared/services/user.service';
-import { getName } from '../../../shared/utils/name';
+import { NoteReviewComponent } from '../../components/note-review/note-review.component';
 import { toDatePipe } from '../../pipes/to-date.pipe';
 import { NotePageService } from '../../services/note-page.service';
 
@@ -34,6 +33,7 @@ import { NotePageService } from '../../services/note-page.service';
     MatCheckboxModule,
     RatingComponent,
     MatInput,
+    NoteReviewComponent,
   ],
   templateUrl: './note-details-page.component.html',
   styleUrl: './note-details-page.component.scss',
@@ -49,16 +49,6 @@ export class NoteDetailsPageComponent {
   loggedInUser = this.userService.user;
   followedNote = signal(false);
 
-  reviews = computed(() => {
-    const result: Review[] = [];
-    this.note().reviews.map((r) => {
-      this.reviewService.getReviewById(r).then((value) => {
-        result.push(value[0]);
-      });
-    });
-    return result;
-  });
-
   noteForm = new FormControl<string | null>(null);
 
   filterForm = new FormGroup({
@@ -68,17 +58,6 @@ export class NoteDetailsPageComponent {
     profileType: new FormControl<string | null>(null),
     educationYear: new FormControl<number | null>(null),
     educationType: new FormControl<string | null>(null),
-  });
-
-  reviewForm = new FormGroup({
-    anonim: new FormControl<boolean | null>(null),
-    userId: new FormControl<string | null>(null),
-    userProfilPic: new FormControl<boolean | null>(null),
-    userName: new FormControl<string | null>(null),
-    submitDate: new FormControl<Timestamp>(Timestamp.fromDate(new Date()) as Timestamp),
-    stars: new FormControl<number | null>(null),
-    description: new FormControl<string | null>(null),
-    notesId: new FormControl<string | null>(null),
   });
 
   constructor() {
@@ -105,20 +84,8 @@ export class NoteDetailsPageComponent {
     });
   }
 
-  selectStar(rating: number) {
-    this.reviewForm.controls.stars.setValue(rating);
-  }
-
-  newReview(panel: MatExpansionPanel) {
-    if (!this.reviewForm.value.anonim) {
-      this.reviewForm.controls.userId.setValue(this.loggedInUser()!.id!);
-      this.reviewForm.controls.userProfilPic.setValue(this.loggedInUser()!.profilePicture!);
-      this.reviewForm.controls.userName.setValue(getName(this.loggedInUser()!));
-    }
-    this.reviewForm.controls.notesId.setValue(this.note().id);
-    this.reviewService.createReview(this.reviewForm.value as Review, this.note()).then((id) => {
-      this.reviewForm.reset();
-      panel.close();
+  newReview(review: Review) {
+    this.reviewService.createReview(review, this.note()).then((id) => {
       this.pageService.reload();
     });
   }

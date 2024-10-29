@@ -32,26 +32,32 @@ export class UserService {
   }
 
   async getTopUsers(): Promise<User[]> {
-    let users: User[] = [];
-    const data = await this.store.collection<User>(this.collectionName).ref.orderBy('followersNumber', 'desc').limit(3).get();
-
-    if (data) {
-      data.docs.forEach((element) => {
-        users.push(element.data());
+    const data = await this.store
+      .collection<User>(this.collectionName)
+      .ref.orderBy('followersNumber', 'desc')
+      .limit(3)
+      .get()
+      .then((data) => {
+        return data.docs.map((e) => {
+          return e.data();
+        });
       });
-    }
-    return users;
+
+    return data;
   }
 
   async getAllUsers() {
-    let users: User[] = [];
-    const data = await this.store.collection<User>(this.collectionName).ref.orderBy('followersNumber', 'desc').get();
-    if (data) {
-      data.docs.forEach((element) => {
-        users.push(element.data());
+    const data = await this.store
+      .collection<User>(this.collectionName)
+      .ref.orderBy('followersNumber', 'desc')
+      .get()
+      .then((data) => {
+        return data.docs.map((e) => {
+          return e.data();
+        });
       });
-    }
-    return users;
+
+    return data;
   }
 
   async getUsersByFilter(filter: UserFilterModel): Promise<User[]> {

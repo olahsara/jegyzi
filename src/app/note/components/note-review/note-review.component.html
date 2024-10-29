@@ -1,0 +1,49 @@
+<div class="text-sm">
+  @if(loggedInUser()) {
+  <mat-accordion class="jegyzi-accordion">
+    <mat-expansion-panel hideToggle #review>
+      <mat-expansion-panel-header>
+        <div class="flex justify-between items-center w-full">
+          <span class="text-lg text-primary-600"> Új értékelés küldése </span>
+          <span
+            class="ph text-2xl text-primary-500"
+            aria-hidden="true"
+            [ngClass]="review.expanded ? 'ph-caret-up' : 'ph-caret-down'"
+          ></span>
+        </div>
+      </mat-expansion-panel-header>
+      <form [formGroup]="reviewForm" (submit)="submit(review)" class="flex flex-col">
+        <jegyzi-rating-component [currentRate]="reviewForm.value.stars ?? 0" (selectRate)="selectStar($event)"></jegyzi-rating-component>
+        <div class="form-control h-full col-span-2 mt-6">
+          <div class="text-primary-600">Szöveges visszajelzés</div>
+          <textarea matInput type="text" formControlName="description" rows="3"></textarea>
+        </div>
+        <mat-checkbox formControlName="anonim" class="mb-6">Anonim értékelést szeretnél beküldeni?</mat-checkbox>
+        <button type="submit" class="btn-primary self-end">Küldés</button>
+      </form>
+    </mat-expansion-panel>
+  </mat-accordion>
+  } @if(reviews() | async; as reviews) { @for(review of reviews; track review.id) {
+  <div class="bg-background-200 rounded-2xl flex flex-col gap-y-2 py-2 px-4 mb-4">
+    <div class="flex justify-between items-center w-full">
+      <div class="flex items-center gap-x-2">
+        <jegyzi-avatar
+          [profileId]="review.userId"
+          size="md"
+          [editable]="false"
+          [link]="review.userId ? '/profiles/' + review.userId : undefined"
+          [profilPicEnabled]="review.userProfilPic"
+        ></jegyzi-avatar>
+        <span class="font-semibold text-primary-600">{{ review.anonim ? 'Anonim értékelés' : review.userName }}</span>
+      </div>
+      <span class="text-primary-600 font-medium">{{ review.submitDate | toDate | date : 'short' }}</span>
+    </div>
+    <jegyzi-rating-component [currentRate]="review.stars" [disabled]="true" (selectRate)="(undefined)"></jegyzi-rating-component>
+    <span class="text-primary-300">{{ review.description }}</span>
+  </div>
+  } @if(note().reviews.length > 3 && !allReviews()) {
+  <button type="button" class="btn-small btn-secondary mx-auto" (click)="loadMoreReview()">További értékelések betöltése</button>
+  } @else {
+  <button type="button" class="btn-small btn-secondary mx-auto" (click)="loadLessReview()">Kevesebb értékelés mutatása</button>
+  }}
+</div>

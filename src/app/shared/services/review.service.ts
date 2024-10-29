@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Timestamp } from '@angular/fire/firestore';
 import { Note } from '../models/note.model';
 import { Notification, NotificationType } from '../models/notification.model';
@@ -16,7 +15,6 @@ export class ReviewService {
   readonly collectionName = 'Reviews';
 
   private store = inject(AngularFirestore);
-  private storage = inject(AngularFireStorage);
   private notificationService = inject(NotificationService);
   private toastService = inject(ToastService);
   private noteService = inject(NoteService);
@@ -48,15 +46,47 @@ export class ReviewService {
   }
 
   async getReviews() {
-    let reviews: Review[] = [];
-    const data = await this.store.collection<Review>(this.collectionName).ref.get();
-
-    if (data) {
-      data.docs.forEach((element) => {
-        reviews.push(element.data());
+    const data = await this.store
+      .collection<Review>(this.collectionName)
+      .ref.get()
+      .then((data) => {
+        return data.docs.map((e) => {
+          return e.data();
+        });
       });
-    }
-    return reviews;
+
+    return data;
+  }
+
+  async getReviewsbyNote(noteId: string) {
+    const data = await this.store
+      .collection<Review>(this.collectionName)
+      .ref.where('notesId', '==', noteId)
+      .orderBy('submitDate', 'desc')
+      .get()
+      .then((data) => {
+        return data.docs.map((e) => {
+          return e.data();
+        });
+      });
+
+    console.log(data.length);
+    return data;
+  }
+
+  async getReviewsbyNoteLimited(noteId: string) {
+    const data = await this.store
+      .collection<Review>(this.collectionName)
+      .ref.where('notesId', '==', noteId)
+      .orderBy('submitDate', 'desc')
+      .limit(3)
+      .get()
+      .then((data) => {
+        return data.docs.map((e) => {
+          return e.data();
+        });
+      });
+    return data;
   }
 
   async getReviewById(id: string): Promise<Review[]> {
