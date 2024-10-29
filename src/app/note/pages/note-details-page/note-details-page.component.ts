@@ -10,9 +10,12 @@ import { QuillEditorComponent } from 'ngx-quill';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { RatingComponent } from '../../../shared/components/rating-component/rating.component';
 import { TitleComponent } from '../../../shared/components/title/title.component';
+import { Comment } from '../../../shared/models/comment.model';
 import { Review } from '../../../shared/models/review.model';
+import { CommentService } from '../../../shared/services/comment.service';
 import { ReviewService } from '../../../shared/services/review.service';
 import { UserService } from '../../../shared/services/user.service';
+import { NoteCommentComponent } from '../../components/note-comment/note-comment.component';
 import { NoteReviewComponent } from '../../components/note-review/note-review.component';
 import { toDatePipe } from '../../pipes/to-date.pipe';
 import { NotePageService } from '../../services/note-page.service';
@@ -34,6 +37,7 @@ import { NotePageService } from '../../services/note-page.service';
     RatingComponent,
     MatInput,
     NoteReviewComponent,
+    NoteCommentComponent,
   ],
   templateUrl: './note-details-page.component.html',
   styleUrl: './note-details-page.component.scss',
@@ -44,6 +48,7 @@ export class NoteDetailsPageComponent {
   private userService = inject(UserService);
   private pageService = inject(NotePageService);
   private reviewService = inject(ReviewService);
+  private commentService = inject(CommentService);
 
   note = this.pageService.note;
   loggedInUser = this.userService.user;
@@ -86,6 +91,12 @@ export class NoteDetailsPageComponent {
 
   newReview(review: Review) {
     this.reviewService.createReview(review, this.note()).then((id) => {
+      this.pageService.reload();
+    });
+  }
+
+  newComment(comment: Comment) {
+    this.commentService.createComment(comment, this.note()).then(() => {
       this.pageService.reload();
     });
   }

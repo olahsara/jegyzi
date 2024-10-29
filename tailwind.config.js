@@ -25,6 +25,7 @@ module.exports = {
           loader: 'rgb(var(--background-loader) / <alpha-value>)',
           paper: 'rgb(var(--background-paper) / <alpha-value>)',
           label: 'rgb(var(--background-label) / <alpha-value>)',
+          hover: 'rgb(var(--background-hover) / <alpha-value>)',
         },
         heart: {
           100: 'rgb(var(--heart-100) / <alpha-value>)',

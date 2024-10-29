@@ -1,4 +1,5 @@
 <div class="text-sm">
+  <div class="text-xl font-semibold text-primary-600 mb-2">Értékelések</div>
   @if(loggedInUser()) {
   <mat-accordion class="jegyzi-accordion">
     <mat-expansion-panel hideToggle #review>
@@ -41,9 +42,14 @@
     <jegyzi-rating-component [currentRate]="review.stars" [disabled]="true" (selectRate)="(undefined)"></jegyzi-rating-component>
     <span class="text-primary-300">{{ review.description }}</span>
   </div>
-  } @if(note().reviews.length > 3 && !allReviews()) {
-  <button type="button" class="btn-small btn-secondary mx-auto" (click)="loadMoreReview()">További értékelések betöltése</button>
-  } @else {
+  } @empty {
+  <div class="py-2 px-4 mb-4 text-base text-center">
+    <span class="text-primary-300">Ehhez a jegyzethez még nem érkezett értékelés!</span>
+  </div>
+
+  } @if(note().reviews.length > 3) { @if(allReviews()) {
   <button type="button" class="btn-small btn-secondary mx-auto" (click)="loadLessReview()">Kevesebb értékelés mutatása</button>
-  }}
+  } @else {
+  <button type="button" class="btn-small btn-secondary mx-auto" (click)="loadMoreReview()">További értékelések betöltése</button>
+  }}}
 </div>

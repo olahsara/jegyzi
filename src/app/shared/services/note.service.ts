@@ -158,11 +158,22 @@ export class NoteService {
   async addReview(reviewId: string, note: Note) {
     let newReviews: string[] = [];
     if (note.reviews) {
-      newReviews = [...note.reviews, reviewId];
+      newReviews = [reviewId, ...note.reviews];
     } else {
       newReviews = [reviewId];
     }
 
     return await this.store.collection(this.collectionName).doc(note.id).update({ reviews: newReviews });
+  }
+
+  async addComment(commentId: string, note: Note) {
+    let newComments: string[] = [];
+    if (note.reviews) {
+      newComments = [commentId, ...note.comments];
+    } else {
+      newComments = [commentId];
+    }
+
+    return await this.store.collection(this.collectionName).doc(note.id).update({ comments: newComments });
   }
 }
