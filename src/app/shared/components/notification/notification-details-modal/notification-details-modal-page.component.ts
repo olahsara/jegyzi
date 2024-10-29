@@ -28,8 +28,8 @@ export class NotificationDetailsModalPageComponent {
     const data: Notification[] = [];
     this.notificationService.getLatestNotifications(this.data.userId).then((value) => {
       data.push(...value);
+      this.dialogRef.close(data);
     });
-    this.dialogRef.close(data);
   }
 
   navigate(path: string) {

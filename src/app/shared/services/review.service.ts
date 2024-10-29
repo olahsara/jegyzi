@@ -34,7 +34,7 @@ export class ReviewService {
           user: note.creatorId,
           date: Timestamp.fromDate(new Date()),
           new: true,
-          title: 'Új értékelést érkezett!',
+          title: 'Új értékelés!',
           type: NotificationType.REVIEW,
           linkedEntityId: note.id,
           description: review.anonim

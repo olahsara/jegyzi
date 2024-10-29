@@ -73,8 +73,9 @@ export class TextEditorComponent implements OnInit {
     this.form.controls.creatorId.setValue(this.profile()?.id!);
     this.form.controls.creatorProfilPic.setValue(this.profile()?.profilePicture ?? false);
 
-    this.noteService.createNote(this.form.value as Note).finally(() => {
+    this.noteService.createNote(this.form.value as Note, this.profile()?.followers!).finally(() => {
       this.toastService.success('Sikeres feltöltés!');
+
       //TODO: my-notes
       this.router.navigate(['/notes']);
     });

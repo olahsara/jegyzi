@@ -45,6 +45,8 @@
         <div class="font-medium text-sm">{{ noti.title }}</div>
       </button>
 
+      } @empty {
+      <div class="text-xs px-4">Nincs olvasatlan értesítésed!</div>
       }
       <button type="button" (click)="allNotification()" class="btn-ligth w-full mt-2 mb-4">Összes értesítés</button>
     </mat-menu>

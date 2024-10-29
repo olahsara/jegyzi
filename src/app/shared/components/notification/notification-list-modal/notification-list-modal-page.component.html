@@ -1,50 +1,66 @@
 <button type="button" class="text-primary-600 absolute right-2 top-2" (click)="close()" matTooltip="Bezárás">
   <span class="ph-bold ph-x ph-xl"></span>
 </button>
-@if(notification() | async; as notification) {
 
 <div class="flex flex-col my-4 gap-4">
   <div class="flex flex-col gap-3">
-    <div class="flex items-center gap-x-2 mx-4 text-xl text-primary-600">
-      <span
-        class="ph ph-xl"
-        [ngClass]="[notification.new ? 'ph-envelope ' : 'ph-envelope-open']"
-        [matTooltip]="notification.new ? 'Olvasatlan' : 'Olvasott'"
-      ></span>
-      <span class="font-semibold">{{ notification.date | toDate | date : 'shortDate' }}</span>
-    </div>
+    <span class="font-semibold text-xl text-primary-600 mx-4">Értesítések</span>
+    <span class="text-primary-500 mx-4">Itt tudod megtekinteni az összes beérkezett értesítésedet</span>
   </div>
 
   <div class="w-full bg-background-200 rounded-t-3xl px-6 py-4 flex flex-col gap-y-4 text-primary-500">
-    <span class="text-lg font-semibold">{{ notification.title }}</span>
-    <span>{{ notification.description }}</span>
-    @if(notification.linkedEntityId) { @switch(notification.type) { @case (type.COMMENT) {
-    <div class="flex justify-between items-center">
-      <span>Tekintsd meg a jegyzetet és a hozzászólást</span>
-      <button type="button" class="btn-icon" (click)="navigate('/notes/' + notification.linkedEntityId)">
-        <span class="ph ph-caret-right"></span>
-      </button>
-    </div>
+    <!-- <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
+    </mat-form-field> -->
 
-    } @case (type.REVIEW) {
-    <div class="flex justify-between items-center">
-      <span>Tekintsd meg a jegyzetet és az értékelést</span>
-      <button type="button" class="btn-icon" (click)="navigate('/notes/' + notification.linkedEntityId)">
-        <span class="ph ph-caret-right"></span>
-      </button>
-    </div>
+    <div class="jegyzi-table">
+      @if(dataSource(); as dataSource) {
+      <table mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="new">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let row">
+            <button
+              type="button"
+              (click)="setStatus(row.new, row.id)"
+              [matTooltip]="row.new ? 'Olvasottra állítás' : 'Olvasatlanra állítás'"
+            >
+              <span class="ph ph-xl" [ngClass]="[row.new ? 'ph-envelope text-heart-100' : 'ph-envelope-open']"></span>
+            </button>
+          </td>
+        </ng-container>
 
-    } } }
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Cím</th>
+          <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Beérkezés dátuma</th>
+          <td mat-cell *matCellDef="let row">{{ row.date | toDate | date : 'short' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let row">
+            <div class="flex gap-x-2">
+              <button type="button" class="btn-icon btn-small" (click)="deleteNotification(row.id)" matTooltip="Értesítés törlése">
+                <span class="ph ph-trash ph-xl"></span>
+              </button>
+              <button type="button" class="btn-icon btn-small" (click)="toDetails(row.id)" matTooltip="Értesítés megtekintése">
+                <span class="ph ph-xl ph-caret-right"></span>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      }
+    </div>
   </div>
-  <div class="flex justify-between mx-4">
-    <button type="button" class="btn-secondary" (click)="deleteNotification(notification.id)">Értesítés törlése</button>
-    <button type="button" (click)="setStatus(notification.new, notification.id)" class="btn-primary">
-      {{ notification.new ? 'Olvasattra állítás ' : 'Olvasatlanra állítás' }}
-    </button>
+  <div class="jegyzi-paginator">
+    <mat-paginator [pageSize]="5" [hidePageSize]="true" #paginator></mat-paginator>
   </div>
 </div>
-} @else {
-<div class="flex w-full items-center justify-center h-80">
-  <mat-spinner></mat-spinner>
-</div>
-}

@@ -29,12 +29,13 @@ export class HeaderComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  user = toSignal(this.authService.loggedInUser());
   isLight = this.themeService.isLigth;
+
   imgUrl = computed(() => {
     return this.isLight() ? './assets/logo/logo_brown.svg' : './assets/logo/logo_purple.png';
   });
 
+  user = toSignal(this.authService.loggedInUser());
   notifications = signal<Notification[]>([]);
 
   constructor() {
@@ -73,6 +74,11 @@ export class HeaderComponent {
       });
   }
   allNotification() {
-    this.dialog.open(NotificationListModalPageComponent, { data: { userId: this.user()?.uid }, minWidth: '40vw' });
+    this.dialog
+      .open(NotificationListModalPageComponent, { data: { userId: this.user()?.uid }, minWidth: '40vw' })
+      .afterClosed()
+      .subscribe((data) => {
+        this.notifications.set(data);
+      });
   }
 }

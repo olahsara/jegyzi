@@ -42,11 +42,14 @@ export class NotificationService {
     let result = this.store.collection<Notification>(this.collection).ref as Query<Notification>;
     result = result.where('user', '==', userId);
 
-    const data = await result.get().then((data) => {
-      return data.docs.map((e) => {
-        return e.data();
+    const data = await result
+      .orderBy('date', 'desc')
+      .get()
+      .then((data) => {
+        return data.docs.map((e) => {
+          return e.data();
+        });
       });
-    });
 
     return data;
   }
