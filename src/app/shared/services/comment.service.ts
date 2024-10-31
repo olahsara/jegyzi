@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Timestamp } from '@angular/fire/firestore';
-import { Comment } from '../models/comment.model';
+import { Comment, CommentUpdateRequest } from '../models/comment.model';
 import { Note } from '../models/note.model';
 import { Notification, NotificationType } from '../models/notification.model';
 import { NoteService } from './note.service';
@@ -93,6 +93,27 @@ export class CommentService {
         return data.docs.map((e) => {
           return e.data();
         });
+      });
+
+    return data;
+  }
+
+  async updateComment(commentId: string, commentUpdateRequest: CommentUpdateRequest) {
+    const data = await this.store
+      .collection<Comment>(this.collectionName)
+      .doc(commentId)
+      .update({ lastModified: commentUpdateRequest.lastModified, comment: commentUpdateRequest.comment });
+
+    return data;
+  }
+
+  async deleteComment(commentId: string, note: Note) {
+    const data = await this.store
+      .collection<Comment>(this.collectionName)
+      .doc(commentId)
+      .delete()
+      .then(() => {
+        this.noteService.deleteComment(note, commentId);
       });
 
     return data;

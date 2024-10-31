@@ -95,10 +95,14 @@ export class NoteDetailsPageComponent {
     });
   }
 
-  newComment(comment: Comment) {
-    this.commentService.createComment(comment, this.note()).then(() => {
+  newComment(comment?: Comment) {
+    if (comment) {
+      this.commentService.createComment(comment, this.note()).then(() => {
+        this.pageService.reload();
+      });
+    } else {
       this.pageService.reload();
-    });
+    }
   }
 
   modifyRequest() {}

@@ -155,6 +155,14 @@ export class NoteService {
       });
   }
 
+  async deleteComment(note: Note, commentId: string) {
+    const newComments = note.comments.filter((comment) => comment !== commentId);
+
+    return await this.store.collection(this.collectionName).doc(note.id).update({
+      comments: newComments,
+    });
+  }
+
   async addReview(reviewId: string, note: Note) {
     let newReviews: string[] = [];
     if (note.reviews) {
