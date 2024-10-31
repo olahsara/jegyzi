@@ -7,14 +7,14 @@
   </a>
 
   <div class="flex gap-6 text-primary-500 font-medium text-lg justify-self-center">
-    <a routerLink="/notes" routerLinkActive="active">Jegyzetek</a>
-    <a routerLink="/profiles" routerLinkActive="active">Felhasználók</a>
+    <a routerLink="/notes" routerLinkActive="active" class="transition-colors hover:text-primary-link">Jegyzetek</a>
+    <a routerLink="/profiles" routerLinkActive="active" class="transition-colors hover:text-primary-link">Felhasználók</a>
     @if(user(); as user){
-    <a routerLink="/my-notes" routerLinkActive="active">Jegyzeteim</a>
-    <a routerLink="/my-profile" routerLinkActive="active">Profilom</a>
+    <a routerLink="/my-notes" routerLinkActive="active" class="transition-colors hover:text-primary-link">Jegyzeteim</a>
+    <a routerLink="/my-profile" routerLinkActive="active" class="transition-colors hover:text-primary-link">Profilom</a>
     } @else {
-    <a routerLink="/login" routerLinkActive="active">Belépés</a>
-    <button type="button" (click)="register()">Regisztráció</button>
+    <a routerLink="/login" routerLinkActive="active" class="transition-colors hover:text-primary-link">Belépés</a>
+    <button type="button" (click)="register()" class="transition-colors hover:text-primary-link">Regisztráció</button>
     }
   </div>
   <div class="flex gap-4 mx-4 justify-self-end items-center">
