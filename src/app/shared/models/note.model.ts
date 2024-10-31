@@ -16,6 +16,7 @@ export interface Note {
   reviews: string[]; //értékelések id-ja
   updateRequests: string[]; //módosítási javaslatok id-ja
   lastModify: Timestamp;
+  avarageStar: number;
 }
 
 export interface NoteFilterModel {

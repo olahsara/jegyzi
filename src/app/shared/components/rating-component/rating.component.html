@@ -1,5 +1,8 @@
 <div class="flex justify-between">
+  @if(label()){
   <span class="text-primary-600">Csillagok száma: </span>
+  }
+
   <div class="flex gap-x-1">
     @for(star of stars; track $index) {
     <button class="star" type="button" (click)="selectRate.emit(star)" [ngClass]="[disabled() ? 'cursor-default' : 'cursor-pointer']">

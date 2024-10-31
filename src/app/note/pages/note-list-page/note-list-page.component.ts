@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { RouterLink } from '@angular/router';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { LabelGroupComponent } from '../../../shared/components/label-group/label-group.component';
+import { RatingComponent } from '../../../shared/components/rating-component/rating.component';
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { LabelNote } from '../../../shared/models/label.model';
 import { NoteFilterModel } from '../../../shared/models/note.model';
@@ -35,6 +36,7 @@ import { toDatePipe } from '../../pipes/to-date.pipe';
     MatSelectModule,
     NamePipe,
     MatDatepickerModule,
+    RatingComponent,
   ],
   templateUrl: './note-list-page.component.html',
   styleUrl: './note-list-page.component.scss',

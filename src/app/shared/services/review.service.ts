@@ -21,6 +21,7 @@ export class ReviewService {
 
   async createReview(review: Review, note: Note) {
     review.id = this.store.createId();
+
     const data = await this.store
       .collection<Review>(this.collectionName)
       .doc(review.id)
@@ -39,9 +40,24 @@ export class ReviewService {
             ? 'Új értékelés érkezett a(z) ' + note.title + ' című jegyzetedhez.'
             : review.userName + ' értékelte a(z) ' + note.title + ' című jegyzetedet.',
         };
+        this.updateAvarageReview(note.id);
         this.notificationService.createNotification(noti);
         this.noteService.addReview(review.id, note);
       });
+    return data;
+  }
+
+  async updateAvarageReview(noteId: string) {
+    const data = await this.getReviewsbyNote(noteId).then((value) => {
+      let sum = 0;
+      value.map((review) => {
+        sum += review.stars;
+      });
+      this.store
+        .collection<Note>('Notes')
+        .doc(noteId)
+        .update({ avarageStar: Math.floor(sum / value.length) });
+    });
     return data;
   }
 

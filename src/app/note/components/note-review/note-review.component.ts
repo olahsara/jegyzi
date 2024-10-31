@@ -32,10 +32,12 @@ import { toDatePipe } from '../../pipes/to-date.pipe';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NoteReviewComponent {
-  allReviews = signal(false);
   private reviewService = inject(ReviewService);
+
   note = input.required<Note>();
   loggedInUser = input<User>();
+
+  allReviews = signal(false);
 
   reviews = computed(() => {
     if (this.allReviews()) {
@@ -54,6 +56,7 @@ export class NoteReviewComponent {
     stars: new FormControl<number | null>(null),
     description: new FormControl<string | null>(null),
     notesId: new FormControl<string | null>(null),
+    avarageStar: new FormControl<number | null>(null),
   });
 
   selectStar(rating: number) {
