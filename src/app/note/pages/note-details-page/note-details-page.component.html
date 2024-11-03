@@ -37,12 +37,7 @@
       <div class="flex gap-4 items-center">
         <div class="text-primary-600 font-semibold">Utoljára módosítva: {{ note.lastModify | toDate | date : 'short' }}</div>
         @if(note.avarageStar){
-        <jegyzi-rating-component
-          [label]="false"
-          [currentRate]="note.avarageStar"
-          [disabled]="true"
-          (selectRate)="(undefined)"
-        ></jegyzi-rating-component>
+        <jegyzi-rating-component [currentRate]="note.avarageStar" [disabled]="true" (selectRate)="(undefined)"></jegyzi-rating-component>
         }
         <button class="btn-icon" (click)="modifyRequest()" matTooltip="Módosítási kérés küldése">
           <span class="ph ph-warning"></span>

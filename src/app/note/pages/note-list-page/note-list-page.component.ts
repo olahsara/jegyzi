@@ -56,6 +56,7 @@ export class NoteListPageComponent {
 
   filterForm = new FormGroup({
     title: new FormControl<string | null>(null),
+    stars: new FormControl<number | null>(null),
     labels: new FormControl<LabelNote[] | null>([]) as FormControl<LabelNote[]>,
     followersNumber: new FormControl<number | null>(null),
     creatorId: new FormControl<string | null>(null),
@@ -71,5 +72,8 @@ export class NoteListPageComponent {
 
   filter() {
     this.notes$.set(this.noteService.getNotesByFilter(this.filterForm.value as NoteFilterModel));
+  }
+  selectStar(star: number) {
+    this.filterForm.controls.stars.setValue(star);
   }
 }

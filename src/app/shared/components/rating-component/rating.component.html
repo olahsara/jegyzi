@@ -1,6 +1,6 @@
 <div class="flex justify-between">
   @if(label()){
-  <span class="text-primary-600">Csillagok száma: </span>
+  <span class="text-primary-600">{{ label() }}</span>
   }
 
   <div class="flex" [ngClass]="[label() ? ' gap-x-1' : 'gap-x-0.5']">

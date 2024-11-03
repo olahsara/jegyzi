@@ -91,6 +91,7 @@ export class NoteService {
   async getNotesByFilter(filter: NoteFilterModel): Promise<Note[]> {
     let result = this.store.collection<Note>(this.collectionName).ref as Query<Note>;
     if (filter.creatorId) result = result.where('creatorId', '==', filter.creatorId);
+    if (filter.stars) result = result.where('avarageStar', '>=', filter.stars);
     if (filter.title) result = result.where('title', '==', filter.title);
     if (filter.followersNumber) result = result.where('followersNumber', '==', filter.followersNumber);
     if (filter.labels.length) result = result.where('labels', 'array-contains-any', filter.labels);

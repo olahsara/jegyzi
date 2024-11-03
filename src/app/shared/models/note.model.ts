@@ -21,6 +21,7 @@ export interface Note {
 
 export interface NoteFilterModel {
   title: string;
+  stars: number;
   labels: LabelNote[];
   followersNumber: number;
   creatorId: string;
