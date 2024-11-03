@@ -13,10 +13,9 @@ export interface User {
   profileType?: string;
   followers: string[]; //user id
   follow: string[]; //user id
-  followedNotes: string[];
-  //followedNotes: string[]; //note id
+  followedNotes: string[]; //notes id
   followersNumber: number;
-  reviews: string[]; //értékelés id
+  reviews: string[]; //reviews id
   notesNumber: number;
 }
 

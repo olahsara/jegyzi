@@ -1,11 +1,8 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { Education, EducationType } from '../models/eductaion.model';
@@ -13,22 +10,12 @@ import { Other, ProfileTypes, User, Work } from '../models/user.model';
 import { AuthService } from '../services/auth.service';
 import { ToastService } from '../services/toast.service';
 import { UserService } from '../services/user.service';
+import { FORM_DIRECTIVES } from '../utils/form';
 
 @Component({
   selector: 'jegyzi-register-modal-page',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatTooltipModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatSelectModule,
-    NgxSkeletonLoaderModule,
-    MatProgressSpinnerModule,
-    NgOptimizedImage,
-  ],
+  imports: [CommonModule, MatTooltipModule, FORM_DIRECTIVES, NgxSkeletonLoaderModule, MatProgressSpinnerModule, NgOptimizedImage],
   templateUrl: './register-modal-page.component.html',
   styleUrl: './register-modal-page.component.scss',
 })

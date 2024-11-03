@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Component, computed, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { AvatarComponent, ImageUploadEvent } from '../../../shared/components/avatar/avatar/avatar.component';
@@ -15,6 +12,7 @@ import { NoValuePipe } from '../../../shared/pipes/no-value.pipe';
 import { TypePipe } from '../../../shared/pipes/type.pipe';
 import { ToastService } from '../../../shared/services/toast.service';
 import { UserService } from '../../../shared/services/user.service';
+import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 import { MyProfilePageService } from '../../services/my-profile-page.service';
 import { ProfileModifyModalPageComponent } from '../profile-modify-modal-page/profile-modify-modal-page.component';
 
@@ -26,10 +24,7 @@ import { ProfileModifyModalPageComponent } from '../profile-modify-modal-page/pr
   imports: [
     CommonModule,
     TitleComponent,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatInputModule,
+    FORM_DIRECTIVES,
     RouterLink,
     AvatarComponent,
     NamePipe,
@@ -40,8 +35,13 @@ import { ProfileModifyModalPageComponent } from '../profile-modify-modal-page/pr
   ],
   providers: [MyProfilePageService],
 })
-export class MyProfilePageComponent implements OnInit {
+export class MyProfilePageComponent {
   private pageService = inject(MyProfilePageService);
+  private userService = inject(UserService);
+  private toastService = inject(ToastService);
+
+  readonly dialog = inject(MatDialog);
+  readonly profileTypes = ProfileTypes;
 
   profile = this.pageService.profile;
   following = computed(() => {
@@ -53,12 +53,6 @@ export class MyProfilePageComponent implements OnInit {
     });
     return array;
   });
-  readonly dialog = inject(MatDialog);
-  readonly profileTypes = ProfileTypes;
-
-  constructor(private userService: UserService, private toastService: ToastService) {}
-
-  ngOnInit(): void {}
 
   uploadProfilPic(event: ImageUploadEvent) {
     this.userService.uploadProfilPic(event.file, this.profile()!.id).then(() => {

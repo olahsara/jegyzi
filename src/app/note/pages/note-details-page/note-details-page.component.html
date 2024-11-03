@@ -39,8 +39,13 @@
         @if(note.avarageStar){
         <jegyzi-rating-component [currentRate]="note.avarageStar" [disabled]="true" (selectRate)="(undefined)"></jegyzi-rating-component>
         }
-        <button class="btn-icon" (click)="modifyRequest()" matTooltip="Módosítási kérés küldése">
-          <span class="ph ph-warning"></span>
+        <button class="btn-icon relative" (click)="modifyRequest()" matTooltip="Módosítási kérés küldése">
+          <span class="ph ph-warning text-center"></span>
+          @if(note.updateRequests.length) {
+          <div class="absolute -top-2 left-5 rounded-full bg-heart-100 w-min h-min text-[16px] px-1 text-white">
+            {{ note.updateRequests.length }}
+          </div>
+          }
         </button>
       </div>
     </div>

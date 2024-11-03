@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFirestore, Query } from '@angular/fire/compat/firestore';
 import { Timestamp } from '@angular/fire/firestore';
+import { ModifyRequest } from '../models/modifiy-request.model';
 import { Note, NoteFilterModel } from '../models/note.model';
 import { Notification, NotificationType } from '../models/notification.model';
 import { User } from '../models/user.model';
@@ -196,5 +197,27 @@ export class NoteService {
     }
 
     return await this.store.collection(this.collectionName).doc(note.id).update({ comments: newComments });
+  }
+
+  async addRequest(requestId: string, note: Note) {
+    let newRequests: string[] = [];
+    if (note.updateRequests) {
+      newRequests = [requestId, ...note.updateRequests];
+    } else {
+      newRequests = [requestId];
+    }
+
+    return await this.store.collection(this.collectionName).doc(note.id).update({ updateRequests: newRequests });
+  }
+
+  async deleteRequest(request: ModifyRequest) {
+    const data = await this.getNoteById(request.noteId);
+
+    if (data) {
+      const newRequest = data[0].updateRequests.filter((id) => request.id !== id);
+      return await this.store.collection(this.collectionName).doc(request.noteId).update({
+        updateRequests: newRequest,
+      });
+    }
   }
 }

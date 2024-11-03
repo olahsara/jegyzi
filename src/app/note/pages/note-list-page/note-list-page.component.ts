@@ -1,12 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { RouterLink } from '@angular/router';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { LabelGroupComponent } from '../../../shared/components/label-group/label-group.component';
@@ -19,6 +16,7 @@ import { NamePipe } from '../../../shared/pipes/name.pipe';
 import { LabelService } from '../../../shared/services/label.service';
 import { NoteService } from '../../../shared/services/note.service';
 import { UserService } from '../../../shared/services/user.service';
+import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 import { toDatePipe } from '../../pipes/to-date.pipe';
 
 @Component({
@@ -27,14 +25,11 @@ import { toDatePipe } from '../../pipes/to-date.pipe';
   imports: [
     CommonModule,
     TitleComponent,
-    ReactiveFormsModule,
+    FORM_DIRECTIVES,
     RouterLink,
     AvatarComponent,
     toDatePipe,
-    MatFormFieldModule,
-    MatInputModule,
     LabelGroupComponent,
-    MatSelectModule,
     NamePipe,
     MatDatepickerModule,
     RatingComponent,

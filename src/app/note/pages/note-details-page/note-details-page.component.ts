@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, effect, inject, signal, untracked } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInput } from '@angular/material/input';
 import { MatTooltip } from '@angular/material/tooltip';
@@ -16,6 +17,10 @@ import { CommentService } from '../../../shared/services/comment.service';
 import { ReviewService } from '../../../shared/services/review.service';
 import { UserService } from '../../../shared/services/user.service';
 import { NoteCommentComponent } from '../../components/note-comment/note-comment.component';
+import {
+  ModifyRequestModalData,
+  NoteModifyRequestModalComponent,
+} from '../../components/note-modify-request/note-modify-request.component';
 import { NoteReviewComponent } from '../../components/note-review/note-review.component';
 import { toDatePipe } from '../../pipes/to-date.pipe';
 import { NotePageService } from '../../services/note-page.service';
@@ -49,6 +54,7 @@ export class NoteDetailsPageComponent {
   private pageService = inject(NotePageService);
   private reviewService = inject(ReviewService);
   private commentService = inject(CommentService);
+  private dialog = inject(MatDialog);
 
   note = this.pageService.note;
   loggedInUser = this.userService.user;
@@ -105,5 +111,15 @@ export class NoteDetailsPageComponent {
     }
   }
 
-  modifyRequest() {}
+  modifyRequest() {
+    this.dialog
+      .open(NoteModifyRequestModalComponent, {
+        minWidth: '50vw',
+        data: { note: this.note(), creator: this.loggedInUser() } as ModifyRequestModalData,
+      })
+      .afterClosed()
+      .subscribe((value) => {
+        if (value) this.pageService.reload();
+      });
+  }
 }

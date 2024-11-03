@@ -5,11 +5,10 @@ export interface Comment {
   comment: string;
   date: Timestamp;
   lastModified?: Timestamp;
-  creatorId: string; //user id
+  creatorId: string;
   creatorProfilPic: boolean;
   creatorName: string;
-  note: string; //note id
-  //reagálás?
+  note: string;
 }
 
 export interface CommentUpdateRequest {
