@@ -228,4 +228,11 @@ export class UserService {
       profilePicture: false,
     });
   }
+
+  async createNote(user: User) {
+    return await this.store
+      .collection<User>(this.collectionName)
+      .doc(user.id)
+      .update({ notesNumber: user.notesNumber + 1 });
+  }
 }

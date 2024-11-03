@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { AvatarComponent, ImageUploadEvent } from '../../../shared/components/avatar/avatar/avatar.component';
+import { ProfileListComponent } from '../../../shared/components/profile-list/profile-list.component';
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { ProfileTypes, User } from '../../../shared/models/user.model';
 import { NamePipe } from '../../../shared/pipes/name.pipe';
@@ -35,6 +36,7 @@ import { ProfileModifyModalPageComponent } from '../profile-modify-modal-page/pr
     MatTooltipModule,
     NoValuePipe,
     TypePipe,
+    ProfileListComponent,
   ],
   providers: [MyProfilePageService],
 })

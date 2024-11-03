@@ -5,6 +5,8 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { toDatePipe } from '../../../note/pipes/to-date.pipe';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
+import { NoteListComponent } from '../../../shared/components/note-list/note-list.component';
+import { ProfileListComponent } from '../../../shared/components/profile-list/profile-list.component';
 import { RatingComponent } from '../../../shared/components/rating-component/rating.component';
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { HeaderComponent } from '../../../shared/layout/header/header.component';
@@ -30,6 +32,8 @@ import { UserService } from '../../../shared/services/user.service';
     TypePipe,
     toDatePipe,
     RatingComponent,
+    NoteListComponent,
+    ProfileListComponent,
   ],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss',

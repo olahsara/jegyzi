@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, signal, untracked } from '@angular/core';
+import { Component, computed, effect, inject, signal, untracked } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
+import { NoteListComponent } from '../../../shared/components/note-list/note-list.component';
 import { ProfileTypes } from '../../../shared/models/user.model';
 import { NamePipe } from '../../../shared/pipes/name.pipe';
+import { NoteService } from '../../../shared/services/note.service';
 import { UserService } from '../../../shared/services/user.service';
 import { ProfilePageService } from '../../services/profile-page.service';
 
@@ -13,18 +15,20 @@ import { ProfilePageService } from '../../services/profile-page.service';
   standalone: true,
   templateUrl: './profile-details-page.component.html',
   styleUrl: './profile-details-page.component.scss',
-  imports: [CommonModule, AvatarComponent, NamePipe, RouterLink, MatTooltip],
+  imports: [CommonModule, AvatarComponent, NamePipe, RouterLink, MatTooltip, NoteListComponent],
   providers: [ProfilePageService],
 })
 export class ProfileDetailsPageComponent {
   private pageService = inject(ProfilePageService);
   private userService = inject(UserService);
-  profile = this.pageService.profile;
+  private noteService = inject(NoteService);
 
   readonly profileTypes = ProfileTypes;
 
+  profile = this.pageService.profile;
   loggedInUser = this.userService.user;
   followedUser = signal(false);
+  notes = computed(() => this.noteService.getNotesByUser(this.profile().id));
 
   constructor() {
     effect(() => {

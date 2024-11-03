@@ -115,7 +115,10 @@
       <hr class="border border-background-300 w-full h-min" />
     </div>
     <!-- TODO: Jegyzetek lista-->
-    <div class="text-heart-100 font-semibold text-lg">Nincsenek még a felhasználónak jegyzetei!</div>
+    @if(notes() | async; as notes ){
+
+    <jegyzi-note-list [notes]="notes" class="w-1/2"></jegyzi-note-list>
+    }
   </div>
   }
 </div>

@@ -101,22 +101,7 @@
       <span class="text-[28px] text-primary-500 font-semibold">Követett felhasználók</span>
       <hr class="border border-background-300 h-min flex-grow" />
     </div>
-    @for(follow of following(); track follow.id ){
-    <div class="flex gap-8 rounded-3xl bg-background-200 p-6 items-center mr-20">
-      <jegyzi-avatar [profileId]="follow.id" [profilPicEnabled]="follow.profilePicture ?? false"></jegyzi-avatar>
-      <div class="flex flex-col gap-1 text-primary-600">
-        <div class="font-semibold mb-1">{{ follow | name }}</div>
-        <div class="text-sm">{{ follow.profileType | noValue }}</div>
-        <div class="text-sm">{{ follow | type }}</div>
-        <div class="text-sm">Jegyzetek száma: 0</div>
-      </div>
-      <a [routerLink]="'/profiles/' + follow.id" matTooltip="Profil megtekintése" class="mr-0 ml-auto self-end">
-        <span class="btn-icon ph-bold ph-caret-right"></span>
-      </a>
-    </div>
-    } @empty {
-    <div class="text-heart-100 font-semibold text-lg">Nincsenek még követéseid!</div>
-    }
+    <jegyzi-profile-list [profiles]="following()" />
   </div>
 
   }

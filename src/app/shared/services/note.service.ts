@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFirestore, Query } from '@angular/fire/compat/firestore';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Timestamp } from '@angular/fire/firestore';
 import { Note, NoteFilterModel } from '../models/note.model';
 import { Notification, NotificationType } from '../models/notification.model';
@@ -17,9 +16,8 @@ export class NoteService {
   private notificationService = inject(NotificationService);
   private store = inject(AngularFirestore);
   private toastService = inject(ToastService);
-  private storage = inject(AngularFireStorage);
 
-  async createNote(note: Note, userFollowers: string[]) {
+  async createNote(note: Note, user: User) {
     if (note) {
       note.id = this.store.createId();
       return await this.store
@@ -27,7 +25,7 @@ export class NoteService {
         .doc(note.id)
         .set(note)
         .then(() => {
-          userFollowers.map((id) => {
+          user.followers.map((id) => {
             const noti: Notification = {
               id: '',
               user: id,
@@ -107,6 +105,20 @@ export class NoteService {
         return e.data();
       });
     });
+
+    return data;
+  }
+
+  async getNotesByUser(id: string): Promise<Note[]> {
+    const data = await this.store
+      .collection<Note>(this.collectionName)
+      .ref.where('creatorId', '==', id)
+      .get()
+      .then((data) => {
+        return data.docs.map((e) => {
+          return e.data();
+        });
+      });
 
     return data;
   }
