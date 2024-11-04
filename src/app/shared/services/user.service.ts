@@ -2,6 +2,7 @@ import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { AngularFirestore, Query } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Timestamp } from '@angular/fire/firestore';
+import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { Note } from '../models/note.model';
 import { Notification, NotificationType } from '../models/notification.model';
 import { User, UserFilterModel } from '../models/user.model';
@@ -20,6 +21,8 @@ export class UserService {
   private store = inject(AngularFirestore);
   private toastService = inject(ToastService);
   private storage = inject(AngularFireStorage);
+  private STORAGE_THEME_KEY = 'user';
+  private localstorage = inject<Storage>(LOCAL_STORAGE, { optional: true });
 
   user: WritableSignal<User | undefined> = signal(undefined);
 
@@ -29,6 +32,13 @@ export class UserService {
         this.user.set(value[0]);
       }
     });
+  }
+
+  setUser(user: User | undefined) {
+    this.user.set(user);
+    if (this.localstorage) {
+      this.localstorage.setItem(this.STORAGE_THEME_KEY, user ? user.id : '');
+    }
   }
 
   async getTopUsers(): Promise<User[]> {

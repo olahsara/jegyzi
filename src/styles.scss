@@ -6,10 +6,7 @@
   @import "app/shared/theme/colors";
 }
 
-@layer components {
-  @import "app/shared/theme/icons";
-}
-
+@import "app/shared/theme/icons";
 @import "app/shared/theme/style";
 @import "app/shared/theme/buttons.scss";
 @import "app/shared/theme/input.scss";

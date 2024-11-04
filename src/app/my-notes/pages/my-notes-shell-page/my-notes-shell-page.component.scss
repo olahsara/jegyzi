@@ -1,0 +1,11 @@
+:host {
+  display: block;
+}
+
+.my-notes-item-active {
+  @apply bg-background-300 border border-primary-500;
+}
+
+.my-notes-item {
+  @apply flex items-center gap-x-1 px-4 py-2 rounded-full hover:bg-background-300 transition-colors;
+}

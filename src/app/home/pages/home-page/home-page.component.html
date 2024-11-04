@@ -9,7 +9,12 @@
     </div>
     <div class="flex flex-col justify-around">
       <a routerLink="/notes"><span class="btn-icon-nav ph ph-magnifying-glass" matTooltip="Jegyzetek böngészése"></span></a>
-      <a routerLink="/new-note"><span class="btn-icon-nav ph ph-pencil-simple" matTooltip="Új jegyzet írása"></span></a>
+      <a [routerLink]="user() ? '/my-notes/new-note' : '/login'"
+        ><span
+          class="btn-icon-nav ph ph-pencil-simple"
+          [matTooltip]="user() ? 'Új jegyzet írása' : 'Jegyzet íráshoz be kell jelentkezned!'"
+        ></span
+      ></a>
     </div>
   </div>
 
