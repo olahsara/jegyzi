@@ -26,8 +26,11 @@ export const routes: Routes = [
       },
       {
         path: 'profiles',
-        data: { title: 'Felhasználók' },
         loadChildren: () => import('./profile/routes').then((c) => c.ROUTES),
+      },
+      {
+        path: 'notes',
+        loadChildren: () => import('./note/routes').then((c) => c.ROUTES),
       },
 
       {
@@ -35,14 +38,10 @@ export const routes: Routes = [
         pathMatch: 'full',
         loadComponent: () => import('./profile/pages/my-profile-page/my-profile-page.component').then((c) => c.MyProfilePageComponent),
       },
+
       {
-        path: 'new-note',
-        pathMatch: 'full',
-        loadComponent: () => import('./text-editor/pages/text-editor-component/text-editor.component').then((c) => c.TextEditorComponent),
-      },
-      {
-        path: 'notes',
-        loadChildren: () => import('./note/routes').then((c) => c.ROUTES),
+        path: 'my-notes',
+        loadChildren: () => import('./my-notes/routes').then((c) => c.ROUTES),
       },
     ],
   },

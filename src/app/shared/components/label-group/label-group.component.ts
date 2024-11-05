@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { LabelButtonDirective } from '../../directives/label-button.directive';
@@ -7,7 +7,7 @@ import { Label, LabelGroup, LabelNote } from '../../models/label.model';
 @Component({
   selector: 'jegyzi-label-group',
   standalone: true,
-  imports: [NgClass, ReactiveFormsModule, LabelButtonDirective],
+  imports: [CommonModule, ReactiveFormsModule, LabelButtonDirective],
   templateUrl: './label-group.component.html',
   styleUrls: ['./label-group.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,22 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { Router, RouterLink } from '@angular/router';
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { RegisterModalPageComponent } from '../../../shared/register-modal-page/register-modal-page.component';
 import { AuthService } from '../../../shared/services/auth.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { UserService } from '../../../shared/services/user.service';
+import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 
 @Component({
   selector: 'jegyzi-login',
   standalone: true,
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
-  imports: [CommonModule, TitleComponent, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatInputModule, RouterLink],
+  imports: [CommonModule, TitleComponent, FORM_DIRECTIVES, RouterLink],
 })
 export class LoginComponent {
   readonly dialog = inject(MatDialog);

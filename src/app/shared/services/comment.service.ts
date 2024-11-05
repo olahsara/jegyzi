@@ -19,6 +19,7 @@ export class CommentService {
 
   async createComment(comment: Comment, note: Note) {
     comment.id = this.store.createId();
+
     const data = await this.store
       .collection<Comment>(this.collectionName)
       .doc(comment.id)
@@ -107,13 +108,15 @@ export class CommentService {
     return data;
   }
 
-  async deleteComment(commentId: string, note: Note) {
+  async deleteComment(commentId: string, note?: Note) {
     const data = await this.store
       .collection<Comment>(this.collectionName)
       .doc(commentId)
       .delete()
       .then(() => {
-        this.noteService.deleteComment(note, commentId);
+        if (note) {
+          this.noteService.deleteComment(note, commentId);
+        }
       });
 
     return data;

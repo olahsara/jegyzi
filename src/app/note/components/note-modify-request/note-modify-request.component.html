@@ -1,0 +1,32 @@
+<button type="button" class="text-primary-600 absolute right-2 top-2" (click)="close()" matTooltip="Bezárás">
+  <span class="ph-bold ph-x ph-xl"></span>
+</button>
+<form [formGroup]="form" (submit)="submit()">
+  <div class="flex flex-col my-4 gap-4">
+    <div class="flex flex-col gap-1">
+      <span class="font-semibold text-xl text-primary-600 mx-4">Módosítási kérés</span>
+      <span class="text-primary-500 mx-4">Itt tudsz módosítási javaslatot küldni a(z) {{ data.note.title }} című jegyzethez</span>
+    </div>
+
+    <div class="w-full bg-background-200 rounded-t-3xl px-6 py-4">
+      <div class="flex gap-x-6 justify-between">
+        <div class="label">Hiba és/vagy Hiányosság súlyossága</div>
+        <div class="form-control basis-1/2">
+          <mat-select formControlName="seriousness">
+            <mat-option [value]="modifyRequestSeriusness.LOW">{{ modifyRequestSeriusness.LOW }}</mat-option>
+            <mat-option [value]="modifyRequestSeriusness.MEDIUM">{{ modifyRequestSeriusness.MEDIUM }}</mat-option>
+            <mat-option [value]="modifyRequestSeriusness.HIGH">{{ modifyRequestSeriusness.HIGH }}</mat-option>
+          </mat-select>
+        </div>
+      </div>
+      <div class="form-control h-full">
+        <div class="label">Leírás</div>
+        <textarea matInput type="text" formControlName="description" rows="7"></textarea>
+      </div>
+    </div>
+    <div class="flex justify-between mx-4 bottom-0">
+      <button type="button" class="btn-secondary" (click)="close()">Mégsem</button>
+      <button type="submit" class="btn-primary">Küldés</button>
+    </div>
+  </div>
+</form>

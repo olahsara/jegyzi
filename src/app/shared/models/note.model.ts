@@ -15,12 +15,14 @@ export interface Note {
   comments: string[]; //hozzászólás id
   reviews: string[]; //értékelések id-ja
   updateRequests: string[]; //módosítási javaslatok id-ja
-  lastModify: Timestamp;
+  numberOfUpdateRequests: number;
+  lastModify?: Timestamp;
   avarageStar: number;
 }
 
 export interface NoteFilterModel {
   title: string;
+  stars: number;
   labels: LabelNote[];
   followersNumber: number;
   creatorId: string;

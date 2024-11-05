@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, effect, inject, input, output, signal, untracked } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatInput } from '@angular/material/input';
@@ -30,7 +30,13 @@ export class NoteCommentComponent {
   edit = signal(false);
   editCommentForm = new FormControl<string | null>(null);
 
-  comments = signal<Promise<Comment[]> | undefined>(undefined);
+  comments = computed(() => {
+    if (this.allComments()) {
+      return this.commentService.getCommentsbyNote(this.note().id);
+    } else {
+      return this.commentService.getCommentsbyNoteLimited(this.note().id);
+    }
+  });
 
   commentForm = new FormGroup({
     creatorId: new FormControl<string | null>(null),
@@ -42,20 +48,6 @@ export class NoteCommentComponent {
   });
 
   newComment = output<Comment | undefined>();
-
-  constructor() {
-    effect(() => {
-      const allComments = this.allComments();
-
-      untracked(() => {
-        if (allComments) {
-          this.comments.set(this.commentService.getCommentsbyNote(this.note().id));
-        } else {
-          this.comments.set(this.commentService.getCommentsbyNoteLimited(this.note().id));
-        }
-      });
-    });
-  }
 
   submit() {
     this.commentForm.controls.creatorId.setValue(this.loggedInUser()!.id!);

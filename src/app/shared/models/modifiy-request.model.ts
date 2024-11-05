@@ -3,13 +3,28 @@ import { Timestamp } from '@angular/fire/firestore';
 export interface ModifyRequest {
   id: string;
   date: Timestamp;
-  seriousness: number;
-  creatorId?: string; //user id
+  seriousness: ModifyRequestSeriusness;
+  creatorId: string;
   creatorName: string;
-  note: string; //note id
+  creatorProfilPic: boolean;
+  noteId: string;
+  noteTitle: string;
   noteCreator: string; //user id
+  description: string;
   status: ModifyRequestStatus;
   declineNote?: string;
 }
 
-export type ModifyRequestStatus = 'SUBMITTED' | 'IN_PROGRESS' | 'ACCEPTED' | 'DECLINED';
+export enum ModifyRequestStatus {
+  'SUBMITTED' = 'Beküldött',
+  'IN_PROGRESS' = 'Folyamatban',
+  'ACCEPTED' = 'Elfogadott',
+  'DECLINED' = 'Elutasított',
+  'DONE' = 'Befejezett',
+}
+
+export enum ModifyRequestSeriusness {
+  'LOW' = 'Enyhe',
+  'MEDIUM' = 'Közepes',
+  'HIGH' = 'Súlyos',
+}

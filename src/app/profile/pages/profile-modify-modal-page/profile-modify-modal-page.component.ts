@@ -1,28 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { EducationType } from '../../../shared/models/eductaion.model';
 import { ProfileTypes, User } from '../../../shared/models/user.model';
+import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 
 @Component({
   selector: 'jegyzi-profile-modify-modal-page',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatTooltipModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatSelectModule,
-    NgxSkeletonLoaderModule,
-  ],
+  imports: [CommonModule, MatTooltipModule, FORM_DIRECTIVES, NgxSkeletonLoaderModule],
   templateUrl: './profile-modify-modal-page.component.html',
   styleUrl: './profile-modify-modal-page.component.scss',
 })

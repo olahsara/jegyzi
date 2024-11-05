@@ -13,7 +13,7 @@ export class RatingComponent {
   selectRate = output<number>();
   currentRate = input.required<number>();
   disabled = input<boolean>(false);
-  label = input<boolean>(false);
+  label = input<string>();
 
   stars = [1, 2, 3, 4, 5];
 }

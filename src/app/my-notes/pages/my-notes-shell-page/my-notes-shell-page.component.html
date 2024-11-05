@@ -1,0 +1,35 @@
+<div class="mt-4 mb-10 flex gap-6 text-primary-500 font-medium justify-center border border-primary-500 rounded-3xl mx-10 px-4 py-2">
+  <a
+    [routerLink]="['./my-notes']"
+    #rlaNote="routerLinkActive"
+    routerLinkActive
+    class="my-notes-item"
+    [class.my-notes-item-active]="rlaNote.isActive"
+    ><span class="ph-note ph-lg" [ngClass]="[rlaNote.isActive ? 'ph-fill' : 'ph']"></span><span> Jegyzeteim </span></a
+  >
+  <a
+    [routerLink]="['./followed-notes']"
+    #rlaHeart="routerLinkActive"
+    routerLinkActive
+    class="my-notes-item"
+    [class.my-notes-item-active]="rlaHeart.isActive"
+    ><span class="ph-heart ph-lg" [ngClass]="[rlaHeart.isActive ? 'ph-fill' : 'ph']"></span><span> Követett jegyzetek </span></a
+  >
+  <a
+    [routerLink]="['./modify-request']"
+    #rlaWarning="routerLinkActive"
+    routerLinkActive
+    class="my-notes-item"
+    [class.my-notes-item-active]="rlaWarning.isActive"
+    ><span class="ph-warning ph-lg" [ngClass]="[rlaWarning.isActive ? 'ph-fill' : 'ph']"></span><span> Módosítási kérések </span></a
+  >
+  <a
+    [routerLink]="['./new-note']"
+    #rlaNew="routerLinkActive"
+    routerLinkActive
+    class="my-notes-item"
+    [class.my-notes-item-active]="rlaNew.isActive"
+    ><span class="ph-plus-circle ph-lg" [ngClass]="[rlaNew.isActive ? 'ph-fill' : 'ph']"></span><span> Új jegyzet készítése </span></a
+  >
+</div>
+<router-outlet></router-outlet>

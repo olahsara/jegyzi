@@ -14,7 +14,11 @@
         </div>
       </mat-expansion-panel-header>
       <form [formGroup]="reviewForm" (submit)="submit(review)" class="flex flex-col">
-        <jegyzi-rating-component [currentRate]="reviewForm.value.stars ?? 0" (selectRate)="selectStar($event)"></jegyzi-rating-component>
+        <jegyzi-rating-component
+          [currentRate]="reviewForm.value.stars ?? 0"
+          (selectRate)="selectStar($event)"
+          label="Csillagok száma"
+        ></jegyzi-rating-component>
         <div class="form-control h-full col-span-2 mt-6">
           <div class="text-primary-600">Szöveges visszajelzés</div>
           <textarea matInput type="text" formControlName="description" rows="3"></textarea>

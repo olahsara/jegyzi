@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFirestore, Query } from '@angular/fire/compat/firestore';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Timestamp } from '@angular/fire/firestore';
+import { ModifyRequest } from '../models/modifiy-request.model';
 import { Note, NoteFilterModel } from '../models/note.model';
 import { Notification, NotificationType } from '../models/notification.model';
 import { User } from '../models/user.model';
@@ -17,9 +17,8 @@ export class NoteService {
   private notificationService = inject(NotificationService);
   private store = inject(AngularFirestore);
   private toastService = inject(ToastService);
-  private storage = inject(AngularFireStorage);
 
-  async createNote(note: Note, userFollowers: string[]) {
+  async createNote(note: Note, user: User) {
     if (note) {
       note.id = this.store.createId();
       return await this.store
@@ -27,7 +26,7 @@ export class NoteService {
         .doc(note.id)
         .set(note)
         .then(() => {
-          userFollowers.map((id) => {
+          user.followers.map((id) => {
             const noti: Notification = {
               id: '',
               user: id,
@@ -93,6 +92,7 @@ export class NoteService {
   async getNotesByFilter(filter: NoteFilterModel): Promise<Note[]> {
     let result = this.store.collection<Note>(this.collectionName).ref as Query<Note>;
     if (filter.creatorId) result = result.where('creatorId', '==', filter.creatorId);
+    if (filter.stars) result = result.where('avarageStar', '>=', filter.stars);
     if (filter.title) result = result.where('title', '==', filter.title);
     if (filter.followersNumber) result = result.where('followersNumber', '==', filter.followersNumber);
     if (filter.labels.length) result = result.where('labels', 'array-contains-any', filter.labels);
@@ -107,6 +107,20 @@ export class NoteService {
         return e.data();
       });
     });
+
+    return data;
+  }
+
+  async getNotesByUser(id: string): Promise<Note[]> {
+    const data = await this.store
+      .collection<Note>(this.collectionName)
+      .ref.where('creatorId', '==', id)
+      .get()
+      .then((data) => {
+        return data.docs.map((e) => {
+          return e.data();
+        });
+      });
 
     return data;
   }
@@ -176,12 +190,74 @@ export class NoteService {
 
   async addComment(commentId: string, note: Note) {
     let newComments: string[] = [];
-    if (note.reviews) {
+    if (note.comments) {
       newComments = [commentId, ...note.comments];
     } else {
       newComments = [commentId];
     }
 
     return await this.store.collection(this.collectionName).doc(note.id).update({ comments: newComments });
+  }
+
+  async addRequest(requestId: string, note: Note) {
+    let newRequests: string[] = [];
+    if (note.updateRequests) {
+      newRequests = [requestId, ...note.updateRequests];
+    } else {
+      newRequests = [requestId];
+    }
+
+    return await this.store.collection(this.collectionName).doc(note.id).update({ updateRequests: newRequests });
+  }
+
+  async deleteRequest(request: ModifyRequest) {
+    const data = await this.getNoteById(request.noteId);
+
+    if (data) {
+      const newRequest = data[0].updateRequests.filter((id) => request.id !== id);
+      return await this.store.collection(this.collectionName).doc(request.noteId).update({
+        updateRequests: newRequest,
+      });
+    }
+  }
+
+  async deleteNote(note: Note) {
+    //Jegyzet törlése:
+    //Követőknél törlés
+    // note.followers.forEach((userId) => {
+    //   this.userService.deleteNote(note, userId);
+    //   const noti: Notification = {
+    //     id: '',
+    //     user: userId,
+    //     date: Timestamp.fromDate(new Date()),
+    //     new: true,
+    //     title: 'Törölt jegyzet',
+    //     type: NotificationType.OTHER,
+    //     description: 'Az általad követett note.title' + note.title + ' című jegyzetet a szerzője sajnos eltávolította a rendszerből.',
+    //   };
+    //   this.notificationService.createNotification(noti);
+    // });
+    //Módosítási kérések törlése
+    // note.updateRequests.forEach((requestId) => {
+    //   this.requestService.deleteModifyRequestById(requestId);
+    // });
+    //Kommentel törlése
+    // note.comments.forEach((id) => {
+    //   this.commentService.deleteComment(id);
+    // });
+    //Értékelés törlése
+    // note.reviews.forEach((id) => {
+    //   this.reviewService.deleteReview(id);
+    // });
+    await this.store.collection<Note>(this.collectionName).doc(note.id).delete();
+  }
+  async reduceUpdateRequestsNumber(noteId: string) {
+    const note = await this.getNoteById(noteId);
+    if (note[0]) {
+      return await this.store
+        .collection(this.collectionName)
+        .doc(note[0].id)
+        .update({ numberOfUpdateRequests: note[0].numberOfUpdateRequests - 1 });
+    }
   }
 }

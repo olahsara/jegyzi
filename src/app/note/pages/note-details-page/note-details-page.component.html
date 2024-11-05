@@ -35,17 +35,19 @@
         <div class="font-semibold text-primary-500 text-2xl">{{ note.title }}</div>
       </div>
       <div class="flex gap-4 items-center">
-        <div class="text-primary-600 font-semibold">Utoljára módosítva: {{ note.lastModify | toDate | date : 'short' }}</div>
+        <div class="text-primary-600 font-semibold">
+          Utoljára módosítva: {{ (note.lastModify ? note.lastModify : note.created) | toDate | date : 'short' }}
+        </div>
         @if(note.avarageStar){
-        <jegyzi-rating-component
-          [label]="false"
-          [currentRate]="note.avarageStar"
-          [disabled]="true"
-          (selectRate)="(undefined)"
-        ></jegyzi-rating-component>
+        <jegyzi-rating-component [currentRate]="note.avarageStar" [disabled]="true" (selectRate)="(undefined)"></jegyzi-rating-component>
         }
-        <button class="btn-icon" (click)="modifyRequest()" matTooltip="Módosítási kérés küldése">
-          <span class="ph ph-warning"></span>
+        <button class="btn-icon relative" (click)="modifyRequest()" matTooltip="Módosítási kérés küldése">
+          <span class="ph ph-warning text-center"></span>
+          @if(note.numberOfUpdateRequests) {
+          <div class="absolute -top-2 left-5 rounded-full bg-heart-100 w-min h-min text-[16px] px-1 text-white">
+            {{ note.numberOfUpdateRequests }}
+          </div>
+          }
         </button>
       </div>
     </div>

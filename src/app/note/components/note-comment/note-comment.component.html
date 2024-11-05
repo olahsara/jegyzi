@@ -23,7 +23,7 @@
     </button>
   </div>
 
-  } @if(comments() | async; as comments) { @for(comment of comments; track comment.id) {
+  } @if(comments() | async; as comments) { @for(comment of comments; track comment) {
   <div class="flex gap-x-4 justify-center mb-2">
     <jegyzi-avatar
       [profileId]="comment.creatorId"

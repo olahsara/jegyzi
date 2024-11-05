@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { User } from '../models/user.model';
@@ -8,7 +8,9 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private auth: AngularFireAuth, private store: AngularFirestore, private userService: UserService) {}
+  auth = inject(AngularFireAuth);
+  private store = inject(AngularFirestore);
+  private userService = inject(UserService);
 
   login(email: string, password: string) {
     return this.auth.signInWithEmailAndPassword(email, password);
@@ -23,7 +25,7 @@ export class AuthService {
   }
 
   logout() {
-    this.userService.user.set(undefined);
+    this.userService.setUser(undefined);
     return this.auth.signOut();
   }
 
