@@ -41,7 +41,9 @@
         ></jegyzi-avatar>
         <span class="font-semibold text-primary-600">{{ review.anonim ? 'Anonim értékelés' : review.userName }}</span>
       </div>
-      <span class="text-primary-600 font-medium">{{ review.submitDate | toDate | date : 'short' }}</span>
+      <span class="text-primary-600 font-medium" [matTooltip]="(review.submitDate | toDate | date : 'short') ?? ''">{{
+        review.submitDate | toDate | elapsedTime
+      }}</span>
     </div>
     <jegyzi-rating-component [currentRate]="review.stars" [disabled]="true" (selectRate)="(undefined)"></jegyzi-rating-component>
     <span class="text-primary-300">{{ review.description }}</span>

@@ -62,6 +62,30 @@ export class NoteService {
     return notes;
   }
 
+  async getMyNotes(id: string) {
+    let notes: Note[] = [];
+    const data = await this.store.collection<Note>(this.collectionName).ref.where('creatorId', '==', id).get();
+
+    if (data) {
+      data.docs.forEach((element) => {
+        notes.push(element.data());
+      });
+    }
+    return notes;
+  }
+
+  async getFollowedNotes(id: string) {
+    let notes: Note[] = [];
+    const data = await this.store.collection<Note>(this.collectionName).ref.where('followers', 'array-contains', id).get();
+
+    if (data) {
+      data.docs.forEach((element) => {
+        notes.push(element.data());
+      });
+    }
+    return notes;
+  }
+
   async getNoteById(id: string): Promise<Note[]> {
     const data = await this.store
       .collection<Note>(this.collectionName)
@@ -89,8 +113,9 @@ export class NoteService {
     return notes;
   }
 
-  async getNotesByFilter(filter: NoteFilterModel): Promise<Note[]> {
+  async getNotesByFilter(filter: NoteFilterModel, followedNotesUserId?: string): Promise<Note[]> {
     let result = this.store.collection<Note>(this.collectionName).ref as Query<Note>;
+    if (followedNotesUserId) result = result.where('followers', 'array-contains', followedNotesUserId);
     if (filter.creatorId) result = result.where('creatorId', '==', filter.creatorId);
     if (filter.stars) result = result.where('avarageStar', '>=', filter.stars);
     if (filter.title) result = result.where('title', '==', filter.title);
