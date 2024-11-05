@@ -1,6 +1,6 @@
-<div class="my-10 flex gap-6 text-primary-500 font-medium justify-self-center border border-primary-500 rounded-full px-4 py-2">
+<div class="mt-4 mb-10 flex gap-6 text-primary-500 font-medium justify-center border border-primary-500 rounded-3xl mx-10 px-4 py-2">
   <a
-    [routerLink]="['./']"
+    [routerLink]="['./my-notes']"
     #rlaNote="routerLinkActive"
     routerLinkActive
     class="my-notes-item"
@@ -32,3 +32,4 @@
     ><span class="ph-plus-circle ph-lg" [ngClass]="[rlaNew.isActive ? 'ph-fill' : 'ph']"></span><span> Új jegyzet készítése </span></a
   >
 </div>
+<router-outlet></router-outlet>

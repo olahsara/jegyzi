@@ -33,11 +33,13 @@ export class NoteModifyRequestModalComponent {
     seriousness: new FormControl<ModifyRequestSeriusness | null>(null),
     description: new FormControl<string | null>(null),
     creatorId: new FormControl<string | null>(this.data.creator.id),
-    ceratorProfilPic: new FormControl<boolean | null>(this.data.creator.profilePicture ?? false),
+    creatorProfilPic: new FormControl<boolean | null>(this.data.creator.profilePicture ?? false),
     creatorName: new FormControl<string | null>(getName(this.data.creator)),
-    note: new FormControl<string | null>(this.data.note.id),
+    noteId: new FormControl<string | null>(this.data.note.id),
+    noteTitle: new FormControl<string | null>(this.data.note.title),
     noteCreator: new FormControl<string | null>(this.data.note.creatorId),
     status: new FormControl<ModifyRequestStatus>(ModifyRequestStatus.SUBMITTED),
+    numberOfUpdateRequests: new FormControl<number>(this.data.note.numberOfUpdateRequests + 1),
   });
   modifyRequestSeriusness = ModifyRequestSeriusness;
 

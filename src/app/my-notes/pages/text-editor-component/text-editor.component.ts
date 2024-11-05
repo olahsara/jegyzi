@@ -47,8 +47,9 @@ export class TextEditorComponent implements OnInit {
     comments: new FormControl<string[]>([]),
     reviews: new FormControl<string[]>([]),
     updateRequests: new FormControl<string[]>([]),
-    lastModify: new FormControl<Timestamp>(Timestamp.fromDate(new Date()) as Timestamp),
+    lastModify: new FormControl<Timestamp | null>(null),
     creatorProfilPic: new FormControl<boolean>(false),
+    numberOfUpdateRequests: new FormControl<number>(0),
   });
 
   ngOnInit(): void {

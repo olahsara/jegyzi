@@ -1,0 +1,13 @@
+<div
+  matTooltip="Hiba jelentőssége"
+  class="px-4 py-1 rounded-full text-white"
+  [ngClass]="[
+    seriusness() === modifyRequestSeriusness.LOW
+      ? 'bg-[#CF9494]'
+      : seriusness() === modifyRequestSeriusness.MEDIUM
+      ? 'bg-[#B06161]'
+      : 'bg-heart-100'
+  ]"
+>
+  {{ seriusness() }}
+</div>

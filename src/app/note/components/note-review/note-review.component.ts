@@ -59,11 +59,11 @@ export class NoteReviewComponent {
     avarageStar: new FormControl<number | null>(null),
   });
 
+  newReview = output<Review>();
+
   selectStar(rating: number) {
     this.reviewForm.controls.stars.setValue(rating);
   }
-
-  newReview = output<Review>();
 
   submit(panel: MatExpansionPanel) {
     if (!this.reviewForm.value.anonim) {

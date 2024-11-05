@@ -190,7 +190,7 @@ export class NoteService {
 
   async addComment(commentId: string, note: Note) {
     let newComments: string[] = [];
-    if (note.reviews) {
+    if (note.comments) {
       newComments = [commentId, ...note.comments];
     } else {
       newComments = [commentId];
@@ -218,6 +218,46 @@ export class NoteService {
       return await this.store.collection(this.collectionName).doc(request.noteId).update({
         updateRequests: newRequest,
       });
+    }
+  }
+
+  async deleteNote(note: Note) {
+    //Jegyzet törlése:
+    //Követőknél törlés
+    // note.followers.forEach((userId) => {
+    //   this.userService.deleteNote(note, userId);
+    //   const noti: Notification = {
+    //     id: '',
+    //     user: userId,
+    //     date: Timestamp.fromDate(new Date()),
+    //     new: true,
+    //     title: 'Törölt jegyzet',
+    //     type: NotificationType.OTHER,
+    //     description: 'Az általad követett note.title' + note.title + ' című jegyzetet a szerzője sajnos eltávolította a rendszerből.',
+    //   };
+    //   this.notificationService.createNotification(noti);
+    // });
+    //Módosítási kérések törlése
+    // note.updateRequests.forEach((requestId) => {
+    //   this.requestService.deleteModifyRequestById(requestId);
+    // });
+    //Kommentel törlése
+    // note.comments.forEach((id) => {
+    //   this.commentService.deleteComment(id);
+    // });
+    //Értékelés törlése
+    // note.reviews.forEach((id) => {
+    //   this.reviewService.deleteReview(id);
+    // });
+    await this.store.collection<Note>(this.collectionName).doc(note.id).delete();
+  }
+  async reduceUpdateRequestsNumber(noteId: string) {
+    const note = await this.getNoteById(noteId);
+    if (note[0]) {
+      return await this.store
+        .collection(this.collectionName)
+        .doc(note[0].id)
+        .update({ numberOfUpdateRequests: note[0].numberOfUpdateRequests - 1 });
     }
   }
 }

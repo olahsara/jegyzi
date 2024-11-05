@@ -245,4 +245,15 @@ export class UserService {
       .doc(user.id)
       .update({ notesNumber: user.notesNumber + 1 });
   }
+
+  async deleteNote(note: Note, userId: string) {
+    const user = await this.getUserById(userId);
+
+    if (user[0]) {
+      const newFollowings = user[0].followedNotes.filter((id) => id !== note.id);
+      this.store.collection(this.collectionName).doc(user[0].id).update({
+        followedNotes: newFollowings,
+      });
+    }
+  }
 }

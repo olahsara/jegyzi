@@ -102,7 +102,7 @@ export class NoteDetailsPageComponent {
   }
 
   newComment(comment?: Comment) {
-    if (comment) {
+    if (comment != undefined) {
       this.commentService.createComment(comment, this.note()).then(() => {
         this.pageService.reload();
       });

@@ -6,6 +6,7 @@ import { Note } from '../models/note.model';
 import { Notification, NotificationType } from '../models/notification.model';
 import { NoteService } from './note.service';
 import { NotificationService } from './notifictaion.service';
+import { ToastService } from './toast.service';
 
 /**Módosítási kérérseket kezelő service*/
 @Injectable({ providedIn: 'root' })
@@ -15,6 +16,7 @@ export class ModifyRequestService {
   private store = inject(AngularFirestore);
   private notificationService = inject(NotificationService);
   private noteService = inject(NoteService);
+  private toastService = inject(ToastService);
 
   /**Módosítási kérés létrehozása:
    * @param request a módosítási kérés
@@ -43,6 +45,7 @@ export class ModifyRequestService {
         };
         this.notificationService.createNotification(noti);
         this.noteService.addRequest(request.id, note);
+        this.toastService.success('Sikeresen elküldted a módosítási kérést!');
       });
     return data;
   }
@@ -71,7 +74,7 @@ export class ModifyRequestService {
    */
   async getAllModfiyRequestsByNoteCreatorAndStatus(userId: string, status: ModifyRequestStatus) {
     let result = this.store.collection<ModifyRequest>(this.collectionName).ref as Query<ModifyRequest>;
-    result = result.where('noteCreator', '==', userId);
+    result = result.where('creatorId', '==', userId);
     result = result.where('status', '==', status);
 
     const data = await result
@@ -125,6 +128,7 @@ export class ModifyRequestService {
             request.noteTitle + 'című jegyzethez küldött módosítási kérésedet a szerző elfogadta és nemsokára nekiáll a javításnak.',
         };
         this.notificationService.createNotification(noti);
+        this.toastService.success('Sikeresen elfogadtad a módosítási kérést!');
       });
 
     return data;
@@ -150,7 +154,9 @@ export class ModifyRequestService {
           linkedEntityId: request.id,
           description: request.noteTitle + 'című jegyzethez küldött módosítási kérésedhez tartazó javításokat a szerző elvégezte.',
         };
+        this.noteService.reduceUpdateRequestsNumber(request.noteId);
         this.notificationService.createNotification(noti);
+        this.toastService.success('Sikeres befejezted a módosítási kérést!');
       });
 
     return data;
@@ -177,6 +183,7 @@ export class ModifyRequestService {
           description: request.noteTitle + 'című jegyzethez küldött módosítási kérésedet a szerző elutasította.',
         };
         this.notificationService.createNotification(noti);
+        this.toastService.success('Sikeresen elutasítottad a módosítási kérést!');
       });
 
     return data;
@@ -195,7 +202,17 @@ export class ModifyRequestService {
       .delete()
       .then(() => {
         this.noteService.deleteRequest(request);
+        this.toastService.success('Sikeresen törölted a módosítási kérést!');
+        if (request.status === ModifyRequestStatus.SUBMITTED) {
+          this.noteService.reduceUpdateRequestsNumber(request.noteId);
+        }
       });
+
+    return data;
+  }
+
+  async deleteModifyRequestById(requestId: string) {
+    const data = await this.store.collection<ModifyRequest>(this.collectionName).doc(requestId).delete();
 
     return data;
   }
