@@ -7,5 +7,5 @@
 }
 
 .my-notes-item {
-  @apply flex items-center gap-x-1 px-4 py-2 rounded-full hover:bg-background-300 transition-colors;
+  @apply flex items-center gap-x-1 px-4 py-2 rounded-full hover:bg-background-300 transition-all;
 }

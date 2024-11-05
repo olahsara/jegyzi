@@ -16,4 +16,5 @@ import { RatingComponent } from '../rating-component/rating.component';
 })
 export class NoteListComponent {
   notes = input.required<Note[]>();
+  myNotes = input<boolean>(false);
 }

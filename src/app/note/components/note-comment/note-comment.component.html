@@ -42,9 +42,13 @@
         {{ comment.comment }}
         }
       </div>
-      <span class="text-xs text-primary-500 self-end font-medium">{{
-        comment.lastModified ? (comment.lastModified | toDate | date : 'short') : (comment.date | toDate | date : 'short')
-      }}</span>
+      <span
+        class="text-xs text-primary-500 self-end font-medium"
+        [matTooltip]="
+          (comment.lastModified ? (comment.lastModified | toDate | date : 'short') : (comment.date | toDate | date : 'short')) ?? ''
+        "
+        >{{ comment.lastModified ? (comment.lastModified | toDate | elapsedTime) : (comment.date | toDate | elapsedTime) }}</span
+      >
     </div>
     @if(comment.creatorId === loggedInUser()?.id){
     <div class="flex flex-col gap-y-4 w-[2.5rem]">

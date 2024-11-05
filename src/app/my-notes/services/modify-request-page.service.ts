@@ -47,9 +47,4 @@ export class ModifyRequestPageService {
       this.ownModifyRequests$.set(this.modifRequestService.getAllModfiyRequestsByCreator(this.user()!.id));
     }
   }
-
-  getProfile() {
-    const data = this.userService.user();
-    return data;
-  }
 }

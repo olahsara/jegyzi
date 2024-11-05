@@ -5,11 +5,13 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
 import { MatInput } from '@angular/material/input';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { RatingComponent } from '../../../shared/components/rating-component/rating.component';
 import { Note } from '../../../shared/models/note.model';
 import { Review } from '../../../shared/models/review.model';
 import { User } from '../../../shared/models/user.model';
+import { ElapsedTimePipe } from '../../../shared/pipes/elapsed-time.pipe';
 import { ReviewService } from '../../../shared/services/review.service';
 import { getName } from '../../../shared/utils/name';
 import { toDatePipe } from '../../pipes/to-date.pipe';
@@ -26,6 +28,8 @@ import { toDatePipe } from '../../pipes/to-date.pipe';
     MatCheckboxModule,
     RatingComponent,
     MatInput,
+    ElapsedTimePipe,
+    MatTooltipModule,
   ],
   templateUrl: './note-review.component.html',
   styleUrl: './note-review.component.scss',

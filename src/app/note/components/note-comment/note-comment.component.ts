@@ -8,6 +8,7 @@ import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar
 import { Comment, CommentUpdateRequest } from '../../../shared/models/comment.model';
 import { Note } from '../../../shared/models/note.model';
 import { User } from '../../../shared/models/user.model';
+import { ElapsedTimePipe } from '../../../shared/pipes/elapsed-time.pipe';
 import { CommentService } from '../../../shared/services/comment.service';
 import { getName } from '../../../shared/utils/name';
 import { toDatePipe } from '../../pipes/to-date.pipe';
@@ -15,7 +16,7 @@ import { toDatePipe } from '../../pipes/to-date.pipe';
 @Component({
   selector: 'jegyzi-note-comment',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AvatarComponent, toDatePipe, MatInput, MatTooltip],
+  imports: [CommonModule, ReactiveFormsModule, AvatarComponent, toDatePipe, MatInput, MatTooltip, ElapsedTimePipe],
   templateUrl: './note-comment.component.html',
   styleUrl: './note-comment.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

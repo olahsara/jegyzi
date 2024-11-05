@@ -1,6 +1,7 @@
 <div class="mt-4 mb-10 flex gap-6 text-primary-500 font-medium justify-center border border-primary-500 rounded-3xl mx-10 px-4 py-2">
   <a
-    [routerLink]="['./my-notes']"
+    [routerLink]="['.']"
+    [routerLinkActiveOptions]="{ exact: true }"
     #rlaNote="routerLinkActive"
     routerLinkActive
     class="my-notes-item"
@@ -8,7 +9,8 @@
     ><span class="ph-note ph-lg" [ngClass]="[rlaNote.isActive ? 'ph-fill' : 'ph']"></span><span> Jegyzeteim </span></a
   >
   <a
-    [routerLink]="['./followed-notes']"
+    [routerLink]="['followed-notes']"
+    [routerLinkActiveOptions]="{ exact: true }"
     #rlaHeart="routerLinkActive"
     routerLinkActive
     class="my-notes-item"
@@ -16,7 +18,8 @@
     ><span class="ph-heart ph-lg" [ngClass]="[rlaHeart.isActive ? 'ph-fill' : 'ph']"></span><span> Követett jegyzetek </span></a
   >
   <a
-    [routerLink]="['./modify-request']"
+    [routerLink]="['modify-request']"
+    [routerLinkActiveOptions]="{ exact: true }"
     #rlaWarning="routerLinkActive"
     routerLinkActive
     class="my-notes-item"
@@ -24,7 +27,8 @@
     ><span class="ph-warning ph-lg" [ngClass]="[rlaWarning.isActive ? 'ph-fill' : 'ph']"></span><span> Módosítási kérések </span></a
   >
   <a
-    [routerLink]="['./new-note']"
+    [routerLink]="['new-note']"
+    [routerLinkActiveOptions]="{ exact: true }"
     #rlaNew="routerLinkActive"
     routerLinkActive
     class="my-notes-item"
