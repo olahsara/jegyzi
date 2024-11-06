@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-y-10 mx-40">
   <div class="flex flex-col gap-y-4">
     @if(inProgressModifyRequests$() | async; as inProgressModifyRequests){
-    <mat-accordion class="modify-request-accordion">
+    <mat-accordion class="jegyzi-accordion-transparent">
       <mat-expansion-panel hideToggle #inProgress [expanded]="inProgressModifyRequests.length != 0">
         <mat-expansion-panel-header>
           <div class="flex flex-col gap-y-2 flex-grow mb-4">
@@ -49,7 +49,7 @@
       </mat-expansion-panel>
     </mat-accordion>
     } @if(acceptedModifyRequests$() | async; as acceptedModifyRequests){
-    <mat-accordion class="modify-request-accordion">
+    <mat-accordion class="jegyzi-accordion-transparent">
       <mat-expansion-panel hideToggle #accepted [expanded]="acceptedModifyRequests.length != null">
         <mat-expansion-panel-header>
           <div class="flex flex-col gap-y-2 flex-grow mb-4">
@@ -99,7 +99,7 @@
       </mat-expansion-panel>
     </mat-accordion>
     } @if(doneModifyRequests$() | async; as doneModifyRequests){
-    <mat-accordion class="modify-request-accordion">
+    <mat-accordion class="jegyzi-accordion-transparent">
       <mat-expansion-panel hideToggle #done>
         <mat-expansion-panel-header>
           <div class="flex flex-col gap-y-2 flex-grow mb-4">
@@ -145,7 +145,7 @@
       </mat-expansion-panel>
     </mat-accordion>
     } @if(ownModifyRequests$() | async; as ownModifyRequests){
-    <mat-accordion class="modify-request-accordion">
+    <mat-accordion class="jegyzi-accordion-transparent">
       <mat-expansion-panel hideToggle #own>
         <mat-expansion-panel-header>
           <div class="flex flex-col gap-y-2 flex-grow mb-4">
