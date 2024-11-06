@@ -65,8 +65,7 @@ export class TextEditorComponent implements OnInit {
     this.noteService.createNote(this.form.value as Note, this.profile()!).finally(() => {
       this.toastService.success('Sikeres feltöltés!');
       this.userService.createNote(this.profile()!);
-      //TODO: my-notes
-      this.router.navigate(['/notes']);
+      this.router.navigate(['/my-notes']);
     });
   }
 }

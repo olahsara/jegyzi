@@ -2,7 +2,7 @@
   @for (profile of profiles(); track profile.id) { @if(loggedInUser(); as user ) { @if(user.id !== profile.id){
   <a
     [routerLink]="'/profiles/' + profile.id"
-    class="flex flex-col md:flex-row gap-y-1 md:gap-8 rounded-3xl bg-background-200 hover:bg-background-hover transition-colors px-4 md:px-6 py-4 items-start md:items-center"
+    class="flex flex-col md:flex-row gap-y-1 md:gap-8 rounded-3xl bg-background-200 hover:bg-background-200 md:hover:bg-background-hover transition-colors px-4 md:px-6 py-4 items-start md:items-center"
   >
     <div class="flex gap-4 items-center w-full">
       <jegyzi-avatar [profileId]="profile.id" [profilPicEnabled]="profile.profilePicture ?? false"></jegyzi-avatar>

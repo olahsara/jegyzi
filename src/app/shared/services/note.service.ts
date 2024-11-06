@@ -285,4 +285,14 @@ export class NoteService {
         .update({ numberOfUpdateRequests: note[0].numberOfUpdateRequests - 1 });
     }
   }
+
+  async plusUpdateRequestsNumber(noteId: string) {
+    const note = await this.getNoteById(noteId);
+    if (note[0]) {
+      return await this.store
+        .collection(this.collectionName)
+        .doc(note[0].id)
+        .update({ numberOfUpdateRequests: note[0].numberOfUpdateRequests + 1 });
+    }
+  }
 }

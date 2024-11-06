@@ -83,9 +83,9 @@
     </div>
   </div>
 
-  <mat-drawer-container autosize [hasBackdrop]="true">
-    <mat-drawer #menu mode="over">
-      <div class="flex flex-col bg-background-300 items-center text-primary-500 px-6 gap-y-4">
+  <mat-sidenav-container autosize [hasBackdrop]="true">
+    <mat-sidenav #menu>
+      <div class="flex flex-col bg-background-300 items-center text-primary-500 px-6 gap-y-4" (click)="menu.close()">
         <a routerLink="/home" routerLinkActive="active" class="mobil-menu-item">Főoldal</a>
         <a routerLink="/notes" routerLinkActive="active" class="mobil-menu-item">Jegyzetek</a>
         <a routerLink="/profiles" routerLinkActive="active" class="mobil-menu-item">Felhasználók</a>
@@ -99,9 +99,9 @@
         <hr class="border border-primary-500 w-full" />
         <jegyzi-switch-button></jegyzi-switch-button>
       </div>
-    </mat-drawer>
+    </mat-sidenav>
 
-    <mat-drawer #notification mode="over" [position]="'end'">
+    <mat-sidenav #notification [position]="'end'">
       @for(noti of notifications(); track noti.id) {
       <button
         type="button"
@@ -119,8 +119,8 @@
       <div class="text-xs px-4 text-primary-500">Nincs olvasatlan értesítésed!</div>
       }
       <button type="button" (click)="allNotification()" class="btn-ligth w-full mt-2 mb-4 text-primary-500">Összes értesítés</button>
-    </mat-drawer>
+    </mat-sidenav>
 
     <router-outlet />
-  </mat-drawer-container>
+  </mat-sidenav-container>
 </div>

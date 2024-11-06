@@ -9,12 +9,7 @@
   </div>
 
   <div class="w-full bg-background-200 rounded-t-3xl px-6 py-4 flex flex-col gap-y-4 text-primary-500">
-    <!-- <mat-form-field>
-      <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input />
-    </mat-form-field> -->
-
-    <div class="jegyzi-table">
+    <div class="jegyzi-table overflow-auto">
       @if(dataSource(); as dataSource) {
       <table mat-table [dataSource]="dataSource" matSort>
         <ng-container matColumnDef="new">

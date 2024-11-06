@@ -18,7 +18,7 @@
         <span class="text-primary-500 font-medium"> {{ data.request.creatorName }}</span>
         <jegyzi-modify-request-status-badge [seriusness]="data.request.seriousness" class="mr-0 ml-auto" />
       </div>
-      <div class="mx-10 bg-background-300 p-4 rounded-xl text-primary-500 min-h-20">
+      <div class="mx-2 md:mx-10 bg-background-300 p-4 rounded-xl text-primary-500 min-h-20">
         {{ data.request.description }}
       </div>
 
@@ -26,7 +26,14 @@
       @if (!hideDeclineNote()) {
       <div class="form-control">
         <div class="label">Elutasítás indoka</div>
-        <textarea matInput type="text" formControlName="declineNote" rows="5" [disabled]="!hideDeclineNote()" class="mx-10"></textarea>
+        <textarea
+          matInput
+          type="text"
+          formControlName="declineNote"
+          rows="3"
+          [disabled]="!hideDeclineNote()"
+          class="mx-2 md:mx-10"
+        ></textarea>
       </div>
       }
     </div>
