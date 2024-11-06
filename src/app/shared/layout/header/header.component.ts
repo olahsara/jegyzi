@@ -80,7 +80,7 @@ export class HeaderComponent {
 
   notificationDetails(id: string) {
     this.dialog
-      .open(NotificationDetailsModalPageComponent, { data: { userId: this.user()?.uid, notiId: id }, minWidth: '40vw' })
+      .open(NotificationDetailsModalPageComponent, { data: { userId: this.user()?.uid, notiId: id }, minWidth: '40vw', maxHeight: '90vh' })
       .afterClosed()
       .subscribe((data) => {
         this.notifications.set(data);
@@ -88,7 +88,7 @@ export class HeaderComponent {
   }
   allNotification() {
     this.dialog
-      .open(NotificationListModalPageComponent, { data: { userId: this.user()?.uid }, minWidth: '40vw' })
+      .open(NotificationListModalPageComponent, { data: { userId: this.user()?.uid }, minWidth: '40vw', maxHeight: '90vh' })
       .afterClosed()
       .subscribe((data) => {
         this.notifications.set(data);

@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-y-4">
+<div class="flex flex-col gap-y-4 text-primary-500">
   @for (profile of profiles(); track profile.id) { @if(loggedInUser(); as user ) { @if(user.id !== profile.id){
   <a
     [routerLink]="'/profiles/' + profile.id"
