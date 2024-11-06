@@ -1,12 +1,11 @@
-<div class="grid grid-cols-3 bg-background-300 items-center fixed z-50 w-full h-20">
+<div class="hidden md:grid grid-cols-3 bg-background-300 items-center sticky top-0 z-50 w-full h-20">
   <a routerLink="/home">
     @if(imgUrl(); as imgUrl) {
     <img [src]="imgUrl" alt="Jegyzi logó" class="h-20 object-contain" />
-
     }
   </a>
 
-  <div class="flex gap-6 text-primary-500 font-medium text-lg justify-self-center">
+  <div class="hidden md:flex gap-6 text-primary-500 font-medium text-lg justify-self-center">
     <a routerLink="/notes" routerLinkActive="active" class="transition-colors hover:text-primary-link">Jegyzetek</a>
     <a routerLink="/profiles" routerLinkActive="active" class="transition-colors hover:text-primary-link">Felhasználók</a>
     @if(user(); as user){
@@ -56,6 +55,72 @@
       <span class="ph-fill ph-sign-out ph-xl"></span>
     </button>
     }
-    <jegyzi-switch-button></jegyzi-switch-button>
   </div>
+</div>
+
+<div class="h-full">
+  <div class="flex md:hidden justify-between bg-background-300 items-center z-50 w-full h-20 px-4">
+    <button (click)="menu.toggle()">
+      <span class="ph-bold ph-list ph-xl text-primary-500"></span>
+    </button>
+    <div class="flex gap-x-2 items-center">
+      @if(user(); as user ){ @if(notifications(); as notifications){
+
+      <button type="button" (click)="notification.toggle()">
+        <div class="relative">
+          <span
+            class="ph-2x text-primary-500"
+            [ngClass]="[notifications.length > 0 ? 'ph-fill ph-bell-simple-ringing' : 'ph ph-bell-simple']"
+          ></span>
+          <div class="absolute -top-1 left-4 rounded-full bg-primary-100 w-min h-min px-1 text-xs text-primary-500">
+            {{ notifications.length }}
+          </div>
+        </div></button
+      >}
+      <button class="sign-out text-primary-500" (click)="logout()" matTooltip="Kijelentkezés">
+        <span class="ph-fill ph-sign-out ph-xl"></span></button
+      >}
+    </div>
+  </div>
+
+  <mat-drawer-container autosize [hasBackdrop]="true">
+    <mat-drawer #menu mode="over">
+      <div class="flex flex-col h-full bg-background-300 items-center text-primary-500 px-6 gap-y-4">
+        <a routerLink="/home" routerLinkActive="active" class="mobil-menu-item">Főoldal</a>
+        <a routerLink="/notes" routerLinkActive="active" class="mobil-menu-item">Jegyzetek</a>
+        <a routerLink="/profiles" routerLinkActive="active" class="mobil-menu-item">Felhasználók</a>
+        @if(user(); as user){
+        <a routerLink="/my-notes" routerLinkActive="active" class="mobil-menu-item">Jegyzeteim</a>
+        <a routerLink="/my-profile" routerLinkActive="active" class="mobil-menu-item">Profilom</a>
+        } @else {
+        <a routerLink="/login" routerLinkActive="active" class="mobil-menu-item">Belépés</a>
+        <button type="button" (click)="register()" class="mobil-menu-item">Regisztráció</button>
+        }
+        <hr class="border border-primary-500 w-full" />
+        <jegyzi-switch-button></jegyzi-switch-button>
+      </div>
+    </mat-drawer>
+
+    <mat-drawer #notification mode="over" [position]="'end'">
+      @for(noti of notifications(); track noti.id) {
+      <button
+        type="button"
+        (click)="notificationDetails(noti.id)"
+        class="flex flex-col gap-y-1 hover:bg-background-loader px-4 py-2 transition-all text-primary-500"
+      >
+        <div class="flex justify-between gap-x-10 text-sm">
+          <span>{{ noti.date | toDate | date : 'shortDate' }}</span>
+          <span>{{ noti.date | toDate | date : 'shortTime' }}</span>
+        </div>
+        <div class="font-medium text-sm">{{ noti.title }}</div>
+      </button>
+
+      } @empty {
+      <div class="text-xs px-4 text-primary-500">Nincs olvasatlan értesítésed!</div>
+      }
+      <button type="button" (click)="allNotification()" class="btn-ligth w-full mt-2 mb-4 text-primary-500">Összes értesítés</button>
+    </mat-drawer>
+
+    <router-outlet />
+  </mat-drawer-container>
 </div>

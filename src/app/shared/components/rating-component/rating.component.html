@@ -6,7 +6,10 @@
   <div class="flex" [ngClass]="[label() ? ' gap-x-1' : 'gap-x-0.5']">
     @for(star of stars; track $index) {
     <button class="star" type="button" (click)="selectRate.emit(star)" [ngClass]="[disabled() ? 'cursor-default' : 'cursor-pointer']">
-      <span [ngClass]="[currentRate() >= star ? 'ph-fill' : 'ph', label() ? 'ph-xl' : 'ph-lg']" class="ph-star text-heart-100"></span>
+      <span
+        [ngClass]="[currentRate() >= star ? 'ph-fill' : 'ph', label() ? 'ph-lg md:ph-xl' : 'ph-lg']"
+        class="ph-star text-heart-100"
+      ></span>
     </button>
     }
   </div>

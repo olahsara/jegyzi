@@ -249,6 +249,9 @@ ngx-skeleton-loader {
     @apply m-0 #{!important};
   }
 }
+.mat-drawer-content {
+  @apply bg-background-100;
+}
 
 
 html {
@@ -274,14 +277,16 @@ html {
   --mat-datepicker-calendar-date-selected-state-text-color: theme("colors.primary.100");
 
   --mat-menu-item-label-text-color: theme("colors.primary.600");
-    --mat-menu-item-icon-color: theme("colors.primary.600");
-    --mat-menu-item-hover-state-layer-color: rgba(0, 0, 0, 0.04);
-    --mat-menu-item-focus-state-layer-color: rgba(0, 0, 0, 0.04);
-    --mat-menu-container-color: theme("colors.background.300");
-    --mat-menu-divider-color: rgba(0, 0, 0, 0.12);
+  --mat-menu-item-icon-color: theme("colors.primary.600");
+  --mat-menu-item-hover-state-layer-color: rgba(0, 0, 0, 0.04);
+  --mat-menu-item-focus-state-layer-color: rgba(0, 0, 0, 0.04);
+  --mat-menu-container-color: theme("colors.background.300");
+  --mat-menu-divider-color: rgba(0, 0, 0, 0.12);
 
-    --mat-paginator-enabled-icon-color: theme("colors.primary.500");
-    --mat-paginator-disabled-icon-color: theme("colors.primary.disabled");
+  --mat-paginator-enabled-icon-color: theme("colors.primary.500");
+  --mat-paginator-disabled-icon-color: theme("colors.primary.disabled");
+
+  --mat-sidenav-container-background-color: theme("colors.background.300")
 
 
 }

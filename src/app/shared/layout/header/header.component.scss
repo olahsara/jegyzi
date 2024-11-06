@@ -1,7 +1,10 @@
 :host {
-  display: block;
+  @apply block bg-background-300;
 }
 
 .active {
   @apply font-semibold text-primary-link;
+}
+.mobil-menu-item {
+  @apply text-lg;
 }

@@ -52,7 +52,7 @@ export class NoteCommentComponent {
 
   submit() {
     this.commentForm.controls.creatorId.setValue(this.loggedInUser()!.id!);
-    this.commentForm.controls.creatorProfilPic.setValue(this.loggedInUser()!.profilePicture!);
+    this.commentForm.controls.creatorProfilPic.setValue(this.loggedInUser()!.profilePicture ?? false);
     this.commentForm.controls.creatorName.setValue(getName(this.loggedInUser()!));
     this.commentForm.controls.note.setValue(this.note().id);
     this.newComment.emit(this.commentForm.value as Comment);

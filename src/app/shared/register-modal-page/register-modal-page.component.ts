@@ -104,7 +104,7 @@ export class RegisterModalPageComponent {
             followersNumber: 0,
             notesNumber: 0,
           };
-          this.authService.createProfile(newUser);
+          this.userService.createProfile(newUser);
           if (this.profilPic()) {
             this.userService.uploadProfilPic(this.profilPic()!, cred.user.uid);
           }

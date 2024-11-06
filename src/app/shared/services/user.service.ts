@@ -41,6 +41,16 @@ export class UserService {
     }
   }
 
+  async createProfile(user: User) {
+    return this.store
+      .collection<User>(this.collectionName)
+      .doc(user.id)
+      .set(user)
+      .then(() => {
+        this.setUser(user);
+      });
+  }
+
   async getTopUsers(): Promise<User[]> {
     const data = await this.store
       .collection<User>(this.collectionName)
