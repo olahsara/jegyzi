@@ -1,6 +1,6 @@
 import { Pipe, type PipeTransform } from '@angular/core';
 import { ProfileTypes, User } from '../models/user.model';
-import { EducationYearPipe } from './education-year.pipe';
+import { getEducation } from './education-year.pipe';
 
 @Pipe({
   name: 'type',
@@ -8,22 +8,21 @@ import { EducationYearPipe } from './education-year.pipe';
 })
 export class TypePipe implements PipeTransform {
   transform(value: User | undefined): string {
-    const yearPipe = new EducationYearPipe();
-    if (value) {
+    if (value?.profileType) {
       switch (value.profileType) {
         case ProfileTypes.student:
-          if (value.education) {
+          if (value.education?.institution && value.education.specialization) {
             return (
               value.education.institution +
               ', ' +
               value.education.specialization +
               ', ' +
-              yearPipe.transform(value.education.year.toString(), value.education.type)
+              getEducation(value.education.year, value.education.type)
             );
           }
           break;
         case ProfileTypes.teacher:
-          if (value.education) {
+          if (value.education?.institution && value.education.specialization && value.education.type && value.education.year) {
             return (
               value.education.institution +
               ' (' +
@@ -37,13 +36,13 @@ export class TypePipe implements PipeTransform {
           }
           break;
         case ProfileTypes.work:
-          if (value.work) {
+          if (value.work?.workPlace && value.work.position && value.work.year) {
             return value.work.workPlace + ', ' + value.work.position + ', ' + value.work.year + ' év';
           }
 
           break;
         case ProfileTypes.other:
-          if (value.other) {
+          if (value.other?.description) {
             return value.other.description;
           }
 

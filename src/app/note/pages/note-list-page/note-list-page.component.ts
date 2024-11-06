@@ -4,6 +4,7 @@ import { Timestamp } from '@angular/fire/firestore';
 import { FormControl, FormGroup } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterLink } from '@angular/router';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { LabelGroupComponent } from '../../../shared/components/label-group/label-group.component';
@@ -34,6 +35,7 @@ import { toDatePipe } from '../../pipes/to-date.pipe';
     MatDatepickerModule,
     RatingComponent,
     NoteListComponent,
+    MatExpansionModule,
   ],
   templateUrl: './note-list-page.component.html',
   styleUrl: './note-list-page.component.scss',

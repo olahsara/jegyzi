@@ -72,7 +72,7 @@ export class NoteReviewComponent {
   submit(panel: MatExpansionPanel) {
     if (!this.reviewForm.value.anonim) {
       this.reviewForm.controls.userId.setValue(this.loggedInUser()!.id!);
-      this.reviewForm.controls.userProfilPic.setValue(this.loggedInUser()!.profilePicture!);
+      this.reviewForm.controls.userProfilPic.setValue(this.loggedInUser()!.profilePicture ?? false);
       this.reviewForm.controls.userName.setValue(getName(this.loggedInUser()!));
     }
     this.reviewForm.controls.notesId.setValue(this.note().id);

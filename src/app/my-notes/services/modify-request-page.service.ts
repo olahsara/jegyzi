@@ -36,7 +36,7 @@ export class ModifyRequestPageService {
   reload() {
     if (this.user()) {
       this.inProgressModifyRequests$.set(
-        this.modifRequestService.getAllModfiyRequestsByNoteCreatorAndStatus(this.user()!.id, ModifyRequestStatus.IN_PROGRESS),
+        this.modifRequestService.getAllModfiyRequestsByNoteCreatorAndStatus(this.user()!.id, ModifyRequestStatus.SUBMITTED),
       );
       this.acceptedModifyRequests$.set(
         this.modifRequestService.getAllModfiyRequestsByNoteCreatorAndStatus(this.user()!.id, ModifyRequestStatus.ACCEPTED),

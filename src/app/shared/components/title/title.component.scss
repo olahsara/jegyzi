@@ -1,7 +1,11 @@
 .title {
-    @apply text-primary-500 text-3xl font-semibold;
+  @apply text-primary-500 text-3xl font-semibold;
 }
 
 .subtitle {
-    @apply text-primary-500;
+  @apply text-primary-500;
+}
+
+.break-word {
+  overflow-wrap: break-word;
 }

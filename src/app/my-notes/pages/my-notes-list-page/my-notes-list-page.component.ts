@@ -4,6 +4,7 @@ import { Timestamp } from '@angular/fire/firestore';
 import { FormControl, FormGroup } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterLink } from '@angular/router';
 import { toDatePipe } from '../../../note/pipes/to-date.pipe';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
@@ -34,6 +35,7 @@ import { MyNotesPageService } from '../../services/my-notes-page.service';
     MatDatepickerModule,
     RatingComponent,
     NoteListComponent,
+    MatExpansionModule,
   ],
   templateUrl: './my-notes-list-page.component.html',
   styleUrl: './my-notes-list-page.component.scss',
@@ -47,7 +49,6 @@ export class MyNotesListPageComponent {
 
   notes$ = this.pageService.notes$;
   labels$ = this.labelService.getLabels();
-  users$ = this.userService.getAllUsers();
 
   filterForm = new FormGroup({
     title: new FormControl<string | null>(null),

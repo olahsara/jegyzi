@@ -74,6 +74,7 @@ export class MyProfilePageComponent {
     const dialogRef = this.dialog.open(ProfileModifyModalPageComponent, {
       data: this.profile(),
       minWidth: '40vw',
+      maxHeight: '90vh',
     });
 
     dialogRef.afterClosed().subscribe((result) => {

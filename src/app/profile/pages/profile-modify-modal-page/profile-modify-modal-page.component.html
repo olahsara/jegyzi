@@ -10,10 +10,9 @@
   <div class="w-full bg-background-200 rounded-t-3xl px-6 py-4">
     <form [formGroup]="form">
       @if(actualStep === 0) {
-      <div class="grid grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md: md:gap-8">
         <div class="form-control w-full">
           <div class="label">Profil típusa</div>
-          <!-- <input matInput type="text" formControlName="profileType" class="w-full"/> -->
           <mat-select formControlName="profileType" class="w-full">
             <mat-option [value]="null">Nem adom meg</mat-option>
             <mat-option [value]="profileTypes.student">{{ profileTypes.student }}</mat-option>
@@ -28,7 +27,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md: md:gap-8">
         <div class="form-control">
           <div class="label">Vezetéknév</div>
           <input matInput type="text" formControlName="lastName" />
@@ -39,18 +38,18 @@
         </div>
       </div>
       @if(!this.form.controls.profileType.value) {
-      <div class="grid grid-cols-2 gap-8 my-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8 my-0 md:my-6">
         <ngx-skeleton-loader [theme]="{height: '36px',}" />
         <ngx-skeleton-loader [theme]="{height: '36px',}" />
       </div>
-      <div class="grid grid-cols-2 gap-8 my-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8 my-0 md:my-6">
         <ngx-skeleton-loader [theme]="{height: '36px',}" />
         <ngx-skeleton-loader [theme]="{height: '36px',}" />
       </div>
 
       } @else { @switch (this.form.controls.profileType.value) { @case (profileTypes.student) {
       <div formGroupName="education">
-        <div class="grid grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
           <div class="form-control">
             <div class="label">Intézmény neve</div>
             <input matInput type="text" formControlName="institution" />
@@ -65,7 +64,7 @@
             </mat-select>
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
           <div class="form-control">
             <div class="label">Évfolyam</div>
             <input matInput type="number" formControlName="year" />
@@ -79,7 +78,7 @@
 
       } @case(profileTypes.teacher) {
       <div formGroupName="education">
-        <div class="grid grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
           <div class="form-control">
             <div class="label">Intézmény neve</div>
             <input matInput type="text" formControlName="institution" />
@@ -94,7 +93,7 @@
             </mat-select>
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
           <div class="form-control">
             <div class="label">Tanítás ideje (év)</div>
             <input matInput type="number" formControlName="year" />
@@ -107,7 +106,7 @@
       </div>
       } @case(profileTypes.work) {
       <div formGroupName="work">
-        <div class="grid grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
           <div class="form-control">
             <div class="label">Munkahely neve</div>
             <input matInput type="text" formControlName="workPlace" />
@@ -117,7 +116,7 @@
             <input matInput type="text" formControlName="type" />
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
           <div class="form-control">
             <div class="label">Alkalmazás ideje (év)</div>
             <input matInput type="number" formControlName="year" />

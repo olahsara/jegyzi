@@ -3,8 +3,9 @@ import { Component, computed, effect, inject, signal, untracked } from '@angular
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { toDatePipe } from '../../../note/pipes/to-date.pipe';
 import { NotificationDetailsModalPageComponent } from '../../components/notification/notification-details-modal/notification-details-modal-page.component';
 import { NotificationListModalPageComponent } from '../../components/notification/notification-list-modal/notification-list-modal-page.component';
@@ -18,7 +19,17 @@ import { ThemeService } from '../../services/theme.service';
 @Component({
   selector: 'jegyzi-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, SwitchButtonComponent, MatTooltipModule, MatMenuModule, toDatePipe],
+  imports: [
+    CommonModule,
+    RouterLink,
+    RouterLinkActive,
+    SwitchButtonComponent,
+    MatTooltipModule,
+    MatMenuModule,
+    toDatePipe,
+    RouterOutlet,
+    MatSidenavModule,
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -30,6 +41,7 @@ export class HeaderComponent {
   private router = inject(Router);
 
   isLight = this.themeService.isLigth;
+  isMenuOpen = signal(false);
 
   imgUrl = computed(() => {
     return this.isLight() ? './assets/logo/logo_brown.svg' : './assets/logo/logo_purple.png';
@@ -62,12 +74,13 @@ export class HeaderComponent {
     this.router.navigate(['/login']);
     this.dialog.open(RegisterModalPageComponent, {
       minWidth: '50vw',
+      maxHeight: '90vh',
     });
   }
 
   notificationDetails(id: string) {
     this.dialog
-      .open(NotificationDetailsModalPageComponent, { data: { userId: this.user()?.uid, notiId: id }, minWidth: '40vw' })
+      .open(NotificationDetailsModalPageComponent, { data: { userId: this.user()?.uid, notiId: id }, minWidth: '40vw', maxHeight: '90vh' })
       .afterClosed()
       .subscribe((data) => {
         this.notifications.set(data);
@@ -75,10 +88,14 @@ export class HeaderComponent {
   }
   allNotification() {
     this.dialog
-      .open(NotificationListModalPageComponent, { data: { userId: this.user()?.uid }, minWidth: '40vw' })
+      .open(NotificationListModalPageComponent, { data: { userId: this.user()?.uid }, minWidth: '40vw', maxHeight: '90vh' })
       .afterClosed()
       .subscribe((data) => {
         this.notifications.set(data);
       });
+  }
+
+  toggleMenu() {
+    this.isMenuOpen.set(!this.isMenuOpen());
   }
 }

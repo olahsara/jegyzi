@@ -4,7 +4,7 @@ import { profileResolver } from './resolvers/profile.resolver';
 export const ROUTES: Route[] = [
   {
     path: '',
-    data: { title: 'Felhasználók' },
+    data: { title: 'Felhasználók', info: 'A felhasználó kártyájára kattintva meg tudod nézni a felhasználó részleteit.' },
     loadComponent: () => import('./pages/profile-list-page/profile-list-page.component').then((c) => c.ProfileListPageComponent),
   },
   {

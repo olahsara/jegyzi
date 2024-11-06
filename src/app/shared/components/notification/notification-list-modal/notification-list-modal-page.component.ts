@@ -66,7 +66,7 @@ export class NotificationListModalPageComponent {
 
   toDetails(id: string) {
     this.dialog
-      .open(NotificationDetailsModalPageComponent, { data: { userId: this.data.userId, notiId: id } })
+      .open(NotificationDetailsModalPageComponent, { data: { userId: this.data.userId, notiId: id }, maxHeight: '90vh' })
       .afterClosed()
       .subscribe(() => {
         this.notificationService.getNotifications(this.data.userId).then((value) => {

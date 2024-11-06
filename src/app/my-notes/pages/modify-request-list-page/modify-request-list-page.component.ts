@@ -44,7 +44,7 @@ export class ModifyRequestListPagesComponent {
 
   editRequest(request: ModifyRequest) {
     this.dialog
-      .open(ModifyRequestEditModalComponent, { minWidth: '60vw', data: { request: request } })
+      .open(ModifyRequestEditModalComponent, { minWidth: '60vw', maxHeight: '90vh', data: { request: request } })
       .afterClosed()
       .subscribe(() => {
         this.pageService.reload();

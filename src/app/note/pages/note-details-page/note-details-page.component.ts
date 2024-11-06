@@ -115,6 +115,7 @@ export class NoteDetailsPageComponent {
     this.dialog
       .open(NoteModifyRequestModalComponent, {
         minWidth: '50vw',
+        maxHeight: '90vh',
         data: { note: this.note(), creator: this.loggedInUser() } as ModifyRequestModalData,
       })
       .afterClosed()

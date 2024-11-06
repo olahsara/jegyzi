@@ -2,21 +2,23 @@
   @for (note of notes(); track note.id) {
   <a
     [routerLink]="'/notes/' + note.id"
-    class="rounded-3xl bg-background-200 hover:bg-background-hover transition-colors px-6 py-4 flex flex-col gap-y-4"
+    class="rounded-3xl bg-background-200 hover:bg-background-200 md:hover:bg-background-hover transition-colors px-4 md:px-6 py-4 flex flex-col gap-y-4"
   >
     <div class="flex gap-8 items-center">
       @if(!myNotes()) {
       <jegyzi-avatar [profileId]="note.creatorId" [profilPicEnabled]="note.creatorProfilPic"></jegyzi-avatar>
+
       }
 
       <div class="flex flex-col gap-y-1 text-primary-600">
         <div>
           <span class="font-semibold"> {{ note.title }}</span>
           @if(note.subTitle){
-          <span class="text-sm"> - {{ note.subTitle }} </span>
+          <span class="text-sm hidden md:inline-block"> - {{ note.subTitle }} </span>
 
           }
         </div>
+        <div class="text-sm block md:hidden">{{ note.subTitle }}</div>
         @if(note.lastModify){
         <div class="text-sm">Módosítva: {{ note.lastModify | toDate | date : 'short' }}</div>
         } @else {
@@ -24,14 +26,17 @@
         }
       </div>
       <div class="flex gap-x-2 mr-0 ml-auto self-start items-center">
-        @if(note.avarageStar){
-        <jegyzi-rating-component
-          [currentRate]="note.avarageStar"
-          [disabled]="true"
-          (selectRate)="(undefined)"
-          matTooltip="Átlagos értékelés"
-        ></jegyzi-rating-component>
-        }
+        <div class="hidden md:block">
+          @if(note.avarageStar){
+          <jegyzi-rating-component
+            [currentRate]="note.avarageStar"
+            [disabled]="true"
+            (selectRate)="(undefined)"
+            matTooltip="Átlagos értékelés"
+          ></jegyzi-rating-component>
+          }
+        </div>
+
         <div class="relative w-8 h-8 text-center" matTooltip="Követők száma">
           <span class="ph-fill ph-heart ph-2x text-heart-100 text-center"></span>
           <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{
@@ -46,6 +51,7 @@
         <div class="note-label text-sm">{{ label.label.value }}</div>
         }
       </div>
+
       @if(note.numberOfUpdateRequests) {
       <div class="btn-icon relative h-fit" matTooltip="Módosítási kéréssel rendelkező jegyzet">
         <span class="ph ph-warning text-center"></span>
@@ -56,6 +62,15 @@
         }
       </div>
       }
+    </div>
+    <div class="block md:hidden">
+      <jegyzi-rating-component
+        [currentRate]="note.avarageStar"
+        [disabled]="true"
+        (selectRate)="(undefined)"
+        matTooltip="Átlagos értékelés"
+        label="Értékelés"
+      ></jegyzi-rating-component>
     </div>
   </a>
   } @empty {

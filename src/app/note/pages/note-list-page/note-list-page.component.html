@@ -1,88 +1,100 @@
 <jegyzi-title></jegyzi-title>
-<div class="mx-20 mb-10">
+
+<div class="mx-10 md:mx-20 mb-10 mt-6 md:mt-auto">
   @if(notes$() | async; as notes) {
   <form [formGroup]="filterForm" (submit)="filter()">
-    <div class="flex w-[70%] justify-between mb-10 -mt-10">
-      <div class="flex w-[80%] gap-8 items-center">
+    <div class="flex w-full md:w-[70%] justify-between mb-2 md:mb-10 -mt-10">
+      <div class="flex w-full md:w-[80%] gap-8 items-center">
         <input class="searchbar" placeholder="Keress rá a jegyzet nevére" matInput type="text" formControlName="title" />
         <button type="submit">
           <span class="ph ph-magnifying-glass btn-icon"></span>
         </button>
       </div>
-      <!--TODO: SORRENDEZÉS -->
-      <button type="button" matTooltip="Rendezés">
-        <span class="ph ph-funnel-simple btn-icon"></span>
-      </button>
     </div>
 
-    <div class="w-full gap-x-10 flex justify-between">
-      <div class="flex flex-col gap-10 w-[70%]">
+    <div class="w-full flex flex-col-reverse md:flex-row justify-center md:justify-between">
+      <div class="flex flex-col gap-10 w-full md:w-[70%]">
         <jegyzi-note-list [notes]="notes" />
       </div>
-      <div class="flex flex-col w-1/4 gap-y-6">
-        <div class="bg-background-200 rounded-3xl px-6 py-4 text-sm flex justify-between items-center">
-          <span class="font-semibold text-lg text-primary-600">Értékelés</span>
-          <jegyzi-rating-component [currentRate]="filterForm.value.stars ?? 0" (selectRate)="selectStar($event)"></jegyzi-rating-component>
-        </div>
-
-        <div class="bg-background-200 rounded-3xl px-6 py-4 text-sm">
-          <span class="font-semibold text-lg text-primary-600 mb-10">Keresés címke alapján</span>
-          @if(labels$ | async; as labels) { @for (label of labels; track label.id) {
-          <div class="m-4">
-            <span class="text-primary-600 font-semibold">{{ label.name }}</span>
-            <div class="flex gap-x-4">
-              <jegyzi-label-group [items]="label" [(control)]="filterForm.controls.labels"></jegyzi-label-group>
+      <div class="flex flex-col w-full md:w-1/4 gap-y-6">
+        <mat-accordion class="jegyzi-accordion-filter">
+          <mat-expansion-panel hideToggle #filterAcc>
+            <mat-expansion-panel-header>
+              <div class="flex justify-between items-center w-full bg-background-200 rounded-2xl px-4 py-2">
+                <span class="text-xl font-medium text-primary-600"> Szűrés </span>
+                <span
+                  class="ph text-2xl text-primary-500"
+                  aria-hidden="true"
+                  [ngClass]="filterAcc.expanded ? 'ph-caret-up' : 'ph-caret-down'"
+                ></span>
+              </div>
+            </mat-expansion-panel-header>
+            <div class="bg-background-200 rounded-3xl px-6 py-4 text-sm flex justify-between items-center">
+              <span class="font-medium text-lg text-primary-600">Értékelés</span>
+              <jegyzi-rating-component
+                [currentRate]="filterForm.value.stars ?? 0"
+                (selectRate)="selectStar($event)"
+              ></jegyzi-rating-component>
             </div>
-          </div>
-          } }
-        </div>
+            <div class="bg-background-200 rounded-3xl px-6 py-4 text-sm">
+              <span class="font-medium text-lg text-primary-600 mb-10">Keresés címke alapján</span>
+              @if(labels$ | async; as labels) { @for (label of labels; track label.id) {
+              <div class="m-4">
+                <span class="text-primary-600 font-medium">{{ label.name }}</span>
+                <div class="flex gap-x-4">
+                  <jegyzi-label-group [items]="label" [(control)]="filterForm.controls.labels"></jegyzi-label-group>
+                </div>
+              </div>
+              } }
+            </div>
+            <div class="bg-background-200 rounded-3xl px-6 py-4 text-sm">
+              <span class="font-medium text-lg text-primary-600 mb-10">Egyéb jellemzők</span>
+              @if(users$ |async; as users) {
+              <div class="form-control w-full">
+                <div class="label">Feltöltő neve</div>
+                <mat-select formControlName="creatorId" class="w-full">
+                  <mat-option>Nem adom meg</mat-option>
 
-        <div class="bg-background-200 rounded-3xl px-6 py-4 text-sm">
-          <span class="font-semibold text-lg text-primary-600 mb-10">Egyéb jellemzők</span>
-          @if(users$ |async; as users) {
-          <div class="form-control w-full">
-            <div class="label">Feltöltő neve</div>
-            <mat-select formControlName="creatorId" class="w-full">
-              <mat-option>Nem adom meg</mat-option>
-
-              @for(user of users; track user.id) {
-              <mat-option [value]="user.id">{{ user | name }}</mat-option>
+                  @for(user of users; track user.id) {
+                  <mat-option [value]="user.id">{{ user | name }}</mat-option>
+                  }
+                </mat-select>
+              </div>
               }
-            </mat-select>
-          </div>
-          }
-          <div class="form-control !flex-row !justify-between items-center">
-            <div class="label">Követők száma</div>
-            <input matInput type="number" formControlName="followersNumber" class="w-24" />
-          </div>
+              <div class="form-control !flex-row !justify-between items-center">
+                <div class="label">Követők száma</div>
+                <input matInput type="number" formControlName="followersNumber" class="w-24" />
+              </div>
 
-          <div class="form-control">
-            <div class="flex justify-between items-center">
-              <div class="label">Létrehozás dátuma</div>
-              <mat-datepicker-toggle matIconSuffix [for]="createdDatePicker"></mat-datepicker-toggle>
+              <div class="form-control">
+                <div class="flex justify-between items-center">
+                  <div class="label">Létrehozás dátuma</div>
+                  <mat-datepicker-toggle matIconSuffix [for]="createdDatePicker"></mat-datepicker-toggle>
+                </div>
+                <mat-date-range-input [formGroup]="filterForm.controls.createdDate" [rangePicker]="createdDatePicker">
+                  <input matStartDate formControlName="createdDateMin" />
+                  <input matEndDate formControlName="createdDateMax" />
+                </mat-date-range-input>
+
+                <mat-date-range-picker #createdDatePicker></mat-date-range-picker>
+              </div>
+
+              <div class="form-control">
+                <div class="flex justify-between items-center">
+                  <div class="label">Módosítás dátuma</div>
+                  <mat-datepicker-toggle matIconSuffix [for]="lastModifiedDatePicker"></mat-datepicker-toggle>
+                </div>
+                <mat-date-range-input [formGroup]="filterForm.controls.lastModifiedDate" [rangePicker]="lastModifiedDatePicker">
+                  <input matStartDate formControlName="lastModifiedMin" />
+                  <input matEndDate formControlName="lastModifiedMax" />
+                </mat-date-range-input>
+
+                <mat-date-range-picker #lastModifiedDatePicker></mat-date-range-picker>
+              </div>
             </div>
-            <mat-date-range-input [formGroup]="filterForm.controls.createdDate" [rangePicker]="createdDatePicker">
-              <input matStartDate formControlName="createdDateMin" />
-              <input matEndDate formControlName="createdDateMax" />
-            </mat-date-range-input>
-
-            <mat-date-range-picker #createdDatePicker></mat-date-range-picker>
-          </div>
-
-          <div class="form-control">
-            <div class="flex justify-between items-center">
-              <div class="label">Módosítás dátuma</div>
-              <mat-datepicker-toggle matIconSuffix [for]="lastModifiedDatePicker"></mat-datepicker-toggle>
-            </div>
-            <mat-date-range-input [formGroup]="filterForm.controls.lastModifiedDate" [rangePicker]="lastModifiedDatePicker">
-              <input matStartDate formControlName="lastModifiedMin" />
-              <input matEndDate formControlName="lastModifiedMax" />
-            </mat-date-range-input>
-
-            <mat-date-range-picker #lastModifiedDatePicker></mat-date-range-picker>
-          </div>
-        </div>
-        <button type="submit" class="btn-small btn-light self-end">Keresés</button>
+            <button type="submit" class="btn-small btn-light self-end">Keresés</button>
+          </mat-expansion-panel>
+        </mat-accordion>
       </div>
     </div>
   </form>

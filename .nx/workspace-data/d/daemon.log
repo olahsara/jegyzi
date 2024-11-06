@@ -1,0 +1,11 @@
+[NX Daemon Server] - 2024-11-06T17:13:12.052Z - Started listening on: \\.\pipe\nx\C:\Users\sarim\AppData\Local\Temp\42a6a565c225ee8e2d99\d.sock
+[NX Daemon Server] - 2024-11-06T17:13:12.058Z - [WATCHER]: Subscribed to changes within: c:\Users\sarim\WebstormProjects\jegyzi (native)
+[NX Daemon Server] - 2024-11-06T17:13:12.061Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-11-06T17:13:12.063Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2024-11-06T17:13:12.065Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-11-06T17:13:12.069Z - [REQUEST]: Responding to the client. Shutdown initiated
+[NX Daemon Server] - 2024-11-06T17:13:12.070Z - Done responding to the client Shutdown initiated
+[NX Daemon Server] - 2024-11-06T17:13:12.071Z - Handled FORCE_SHUTDOWN. Handling time: 0. Response time: 3.
+[NX Daemon Server] - 2024-11-06T17:13:12.071Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-11-06T17:13:12.072Z - [WATCHER]: Stopping the watcher for c:\Users\sarim\WebstormProjects\jegyzi (sources)
+[NX Daemon Server] - 2024-11-06T17:13:12.072Z - [WATCHER]: Stopping the watcher for c:\Users\sarim\WebstormProjects\jegyzi (outputs)

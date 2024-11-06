@@ -3,7 +3,7 @@ import { noteResolver } from './resolvers/resolvers/note.resolver';
 export const ROUTES: Route[] = [
   {
     path: '',
-    data: { title: 'Jegyzetek' },
+    data: { title: 'Jegyzetek', info: 'A jegyzet kártyájára kattintva meg tudod tekinteni a jegyzet részleteit.' },
     loadComponent: () => import('./pages/note-list-page/note-list-page.component').then((c) => c.NoteListPageComponent),
   },
   {

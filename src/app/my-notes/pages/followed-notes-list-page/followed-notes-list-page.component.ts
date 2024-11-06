@@ -4,6 +4,7 @@ import { Timestamp } from '@angular/fire/firestore';
 import { FormControl, FormGroup } from '@angular/forms';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterLink } from '@angular/router';
 import { toDatePipe } from '../../../note/pipes/to-date.pipe';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
@@ -34,6 +35,7 @@ import { FollowedNotesPageService } from '../../services/followed-notes-page.ser
     MatDatepickerModule,
     RatingComponent,
     NoteListComponent,
+    MatExpansionModule,
   ],
   templateUrl: './followed-notes-list-page.component.html',
   styleUrl: './followed-notes-list-page.component.scss',

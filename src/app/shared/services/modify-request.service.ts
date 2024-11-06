@@ -44,6 +44,7 @@ export class ModifyRequestService {
             ' című jegyzetedhez. Nézd meg és kezeld a módosítási kérést minél előbb!',
         };
         this.notificationService.createNotification(noti);
+        this.noteService.plusUpdateRequestsNumber(request.noteId);
         this.noteService.addRequest(request.id, note);
         this.toastService.success('Sikeresen elküldted a módosítási kérést!');
       });

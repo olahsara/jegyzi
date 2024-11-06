@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ProfileListComponent } from '../../../shared/components/profile-list/profile-list.component';
 import { TitleComponent } from '../../../shared/components/title/title.component';
@@ -16,7 +17,7 @@ import { FORM_DIRECTIVES } from '../../../shared/utils/form';
   templateUrl: './profile-list-page.component.html',
   styleUrl: './profile-list-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, TitleComponent, MatTooltipModule, FORM_DIRECTIVES, TypePipe, ProfileListComponent],
+  imports: [CommonModule, TitleComponent, MatTooltipModule, FORM_DIRECTIVES, TypePipe, ProfileListComponent, MatExpansionModule],
 })
 export class ProfileListPageComponent {
   private userService = inject(UserService);

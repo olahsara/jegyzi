@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import {CommonModule} from "@angular/common";
+import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -7,11 +7,12 @@ import { ActivatedRoute } from '@angular/router';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './title.component.html',
-  styleUrl: './title.component.scss'
+  styleUrl: './title.component.scss',
 })
 export class TitleComponent {
-  title = this.activatedRoute.snapshot.data['title']
-  subtitle? = this.activatedRoute.snapshot.data['subtitle']
+  title = this.activatedRoute.snapshot.data['title'];
+  subtitle? = this.activatedRoute.snapshot.data['subtitle'];
+  info? = this.activatedRoute.snapshot.data['info'];
 
   constructor(private activatedRoute: ActivatedRoute) {}
 }
