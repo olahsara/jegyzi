@@ -175,6 +175,9 @@ ngx-skeleton-loader {
   .mat-expansion-panel-body {
     @apply flex flex-col gap-3 px-0 #{!important};
   }
+  .mat-content.mat-content-hide-toggle {
+   @apply mx-0 #{!important};
+}
 }
 
 //checkbox
