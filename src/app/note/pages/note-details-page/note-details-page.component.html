@@ -43,7 +43,7 @@
 
         <button class="btn-icon relative" (click)="modifyRequest()" matTooltip="Módosítási kérés küldése">
           <span class="ph ph-warning text-center"></span>
-          @if(note.numberOfUpdateRequests) {
+          @if(note.numberOfUpdateRequests > 0) {
           <div class="absolute -top-2 left-5 rounded-full bg-heart-100 w-min h-min text-[16px] px-1 text-white">
             {{ note.numberOfUpdateRequests }}
           </div>

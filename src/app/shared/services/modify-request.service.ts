@@ -28,7 +28,7 @@ export class ModifyRequestService {
       .collection<ModifyRequest>(this.collectionName)
       .doc(request.id)
       .set(request)
-      .then(() => {
+      .then(async () => {
         const noti: Notification = {
           id: '',
           user: request.noteCreator,
@@ -44,7 +44,7 @@ export class ModifyRequestService {
             ' című jegyzetedhez. Nézd meg és kezeld a módosítási kérést minél előbb!',
         };
         this.notificationService.createNotification(noti);
-        this.noteService.plusUpdateRequestsNumber(request.noteId);
+        await this.noteService.plusUpdateRequestsNumber(request.noteId);
         this.noteService.addRequest(request.id, note);
         this.toastService.success('Sikeresen elküldted a módosítási kérést!');
       });
@@ -75,7 +75,7 @@ export class ModifyRequestService {
    */
   async getAllModfiyRequestsByNoteCreatorAndStatus(userId: string, status: ModifyRequestStatus) {
     let result = this.store.collection<ModifyRequest>(this.collectionName).ref as Query<ModifyRequest>;
-    result = result.where('creatorId', '==', userId);
+    result = result.where('noteCreator', '==', userId);
     result = result.where('status', '==', status);
 
     const data = await result

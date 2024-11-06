@@ -19,27 +19,35 @@
         <div class="flex flex-col gap-y-1 bg-background-200 p-4 rounded-xl">
           <div class="flex gap-x-1 md:gap-x-4 items-center">
             <jegyzi-avatar
+              class="self-start"
               [profileId]="request.creatorId"
               [profilPicEnabled]="request.creatorProfilPic"
               [link]="'/profiles/' + request.creatorId"
             ></jegyzi-avatar>
-            <div class="flex flex-col gap-y-2">
-              <span class="text-primary-500 font-medium"> {{ request.creatorName }}</span>
+            <div class="flex flex-col gap-y-2 flex-grow">
+              <div class="flex justify-between">
+                <span class="text-primary-500 font-medium"> {{ request.creatorName }}</span>
+                <jegyzi-modify-request-status-badge [seriusness]="request.seriousness"></jegyzi-modify-request-status-badge>
+              </div>
+
               <div class="text-primary-500 hidden md:block">
                 <span class="font-light">Beküldés dátuma: </span>
                 <span class="text-primary-500">{{ request.date | toDate | date : 'short' }}</span>
               </div>
 
-              <div class="text-primary-500 hidden md:block">
-                <span class="font-light">Jegyzet: </span>
-                <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{ request.noteTitle }}</a>
+              <div class="flex justify-between">
+                <div class="text-primary-500 hidden md:block">
+                  <span class="font-light">Jegyzet: </span>
+                  <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{ request.noteTitle }}</a>
+                </div>
+                <button
+                  class="hidden md:block btn-icon w-fit self-end"
+                  (click)="editRequest(request)"
+                  matTooltip="Módosítási kérés kezelése"
+                >
+                  <span class="ph ph-pencil-simple"></span>
+                </button>
               </div>
-            </div>
-            <div class="flex flex-col justify-between mr-0 ml-auto">
-              <jegyzi-modify-request-status-badge [seriusness]="request.seriousness"></jegyzi-modify-request-status-badge>
-              <button class="hidden md:btn-icon w-fit self-end" (click)="editRequest(request)" matTooltip="Módosítási kérés kezelése">
-                <span class="ph ph-pencil-simple"></span>
-              </button>
             </div>
           </div>
           <div class="flex justify-between md:hidden">
@@ -85,27 +93,35 @@
         <div class="flex flex-col gap-y-1 bg-background-200 p-4 rounded-xl">
           <div class="flex gap-x-1 md:gap-x-4 items-center">
             <jegyzi-avatar
+              class="self-start"
               [profileId]="request.creatorId"
               [profilPicEnabled]="request.creatorProfilPic"
               [link]="'/profiles/' + request.creatorId"
             ></jegyzi-avatar>
-            <div class="flex flex-col gap-y-2">
-              <span class="text-primary-500 font-medium"> {{ request.creatorName }}</span>
+            <div class="flex flex-col gap-y-2 flex-grow">
+              <div class="flex justify-between">
+                <span class="text-primary-500 font-medium"> {{ request.creatorName }}</span>
+                <jegyzi-modify-request-status-badge [seriusness]="request.seriousness"></jegyzi-modify-request-status-badge>
+              </div>
+
               <div class="text-primary-500 hidden md:block">
                 <span class="font-light">Beküldés dátuma: </span>
                 <span class="text-primary-500">{{ request.date | toDate | date : 'short' }}</span>
               </div>
 
-              <div class="text-primary-500 hidden md:block">
-                <span class="font-light">Jegyzet: </span>
-                <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{ request.noteTitle }}</a>
+              <div class="flex justify-between">
+                <div class="text-primary-500 hidden md:block">
+                  <span class="font-light">Jegyzet: </span>
+                  <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{ request.noteTitle }}</a>
+                </div>
+                <button
+                  class="hidden md:block btn-icon w-fit self-end"
+                  (click)="doneRequest(request)"
+                  matTooltip="Módosítás kérés befejezése"
+                >
+                  <span class="ph ph-check"></span>
+                </button>
               </div>
-            </div>
-            <div class="flex flex-col justify-between mr-0 ml-auto">
-              <jegyzi-modify-request-status-badge [seriusness]="request.seriousness"></jegyzi-modify-request-status-badge>
-              <button class="hidden md:btn-icon w-fit self-end" (click)="doneRequest(request)" matTooltip="Módosítás kérés befejezése">
-                <span class="ph ph-check"></span>
-              </button>
             </div>
           </div>
           <div class="flex justify-between md:hidden">
@@ -167,7 +183,7 @@
             </div>
             <jegyzi-modify-request-status-badge
               [seriusness]="request.seriousness"
-              class="mr-0 ml-auto"
+              class="mr-0 ml-auto self-auto md:self-start"
             ></jegyzi-modify-request-status-badge>
           </div>
           <div class="text-primary-500 flex flex-col gap-y-1 md:hidden">
