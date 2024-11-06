@@ -59,6 +59,7 @@ export class LoginComponent {
   register() {
     const dialogRef = this.dialog.open(RegisterModalPageComponent, {
       minWidth: '50vw',
+      maxHeight: '90vh',
     });
 
     dialogRef.afterClosed().subscribe((result) => {

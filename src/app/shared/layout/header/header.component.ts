@@ -74,6 +74,7 @@ export class HeaderComponent {
     this.router.navigate(['/login']);
     this.dialog.open(RegisterModalPageComponent, {
       minWidth: '50vw',
+      maxHeight: '90vh',
     });
   }
 

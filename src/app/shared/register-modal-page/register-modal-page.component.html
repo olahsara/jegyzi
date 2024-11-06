@@ -14,14 +14,14 @@
         <span class="font-semibold text-xl text-primary-600">Kötelező adatok</span>
         <span class="text-primary-500">Itt található mezők kitöltése kötelező!</span>
       </div>
-      <div class="grid grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
         <div class="form-control">
           <div class="label">Email cím</div>
           <input matInput type="email" formControlName="email" />
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
         <div class="form-control">
           <div class="label">Jelszó</div>
           <input matInput type="password" formControlName="password" />
@@ -32,7 +32,7 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
         <div class="form-control">
           <div class="label">Vezetéknév</div>
           <input matInput type="text" formControlName="lastName" />
@@ -55,7 +55,7 @@
         <span class="font-semibold text-xl text-primary-600">Kiegészítő adatok</span>
         <span class="text-primary-500">Az itt található mezőket üresen hagyhatod, bármikor tudod őket módosítania profil oldaladon.</span>
       </div>
-      <div class="grid grid-cols-2">
+      <div class="grid grid-cols-1 md:grid-cols-2">
         <div class="form-control">
           <div class="label">Profil típusa</div>
           <mat-select formControlName="profileType">
@@ -67,18 +67,18 @@
       </div>
 
       @if(!this.form.controls.profileType.value) {
-      <div class="grid grid-cols-2 gap-8 my-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8 my-0 md:my-6">
         <ngx-skeleton-loader [theme]="{height: '36px',}" />
         <ngx-skeleton-loader [theme]="{height: '36px',}" />
       </div>
-      <div class="grid grid-cols-2 gap-8 my-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8 my-0 md:my-6">
         <ngx-skeleton-loader [theme]="{height: '36px',}" />
         <ngx-skeleton-loader [theme]="{height: '36px',}" />
       </div>
 
       } @else { @switch (this.form.controls.profileType.value) { @case (profileTypes.student) {
       <div formGroupName="education">
-        <div class="grid grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
           <div class="form-control">
             <div class="label">Intézmény neve</div>
             <input matInput type="text" formControlName="institution" />
@@ -93,7 +93,7 @@
             </mat-select>
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
           <div class="form-control">
             <div class="label">Évfolyam</div>
             <input matInput type="number" formControlName="year" />
@@ -107,7 +107,7 @@
 
       } @case(profileTypes.teacher) {
       <div formGroupName="education">
-        <div class="grid grid-cols-2 gap-8">
+        <div class="gridgrid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
           <div class="form-control">
             <div class="label">Intézmény neve</div>
             <input matInput type="text" formControlName="institution" />
@@ -122,7 +122,7 @@
             </mat-select>
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
           <div class="form-control">
             <div class="label">Tanítás ideje (év)</div>
             <input matInput type="number" formControlName="year" />
@@ -135,7 +135,7 @@
       </div>
       } @case(profileTypes.work) {
       <div formGroupName="work">
-        <div class="grid grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
           <div class="form-control">
             <div class="label">Munkahely neve</div>
             <input matInput type="text" formControlName="workPlace" />
@@ -145,7 +145,7 @@
             <input matInput type="text" formControlName="type" />
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
           <div class="form-control">
             <div class="label">Alkalmazás ideje (év)</div>
             <input matInput type="number" formControlName="year" />
@@ -172,7 +172,7 @@
           >Bemutatkozó szöveg és profil kép megadása nem kötelező, ezt is bármikor módosíthatod a profil oldaladon.</span
         >
       </div>
-      <div class="grid grid-cols-3 gap-x-10">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-x-10">
         <div class="form-control h-full col-span-2">
           <div class="label">Bemutatkozás</div>
           <textarea matInput type="text" formControlName="introduction" rows="6"></textarea>
