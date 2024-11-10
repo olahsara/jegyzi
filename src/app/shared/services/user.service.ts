@@ -1,8 +1,9 @@
-import { Injectable, WritableSignal, inject, signal } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { AngularFirestore, Query } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Timestamp } from '@angular/fire/firestore';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
+import { catchError, Observable, of } from 'rxjs';
 import { Note } from '../models/note.model';
 import { Notification, NotificationType } from '../models/notification.model';
 import { User, UserFilterModel } from '../models/user.model';
@@ -238,8 +239,11 @@ export class UserService {
       });
   }
 
-  getProfilPic(id: string) {
-    return this.storage.ref('profiles/' + id).getDownloadURL();
+  getProfilPic(id: string): Observable<string | null> {
+    return this.storage
+      .ref('profiles/' + id)
+      .getDownloadURL()
+      .pipe(catchError(() => of(null)));
   }
 
   deleteProfilPic(id: string) {
@@ -264,6 +268,19 @@ export class UserService {
       this.store.collection(this.collectionName).doc(user[0].id).update({
         followedNotes: newFollowings,
       });
+    }
+  }
+
+  async reduceNoteNumber(userId: string) {
+    const user = await this.getUserById(userId);
+
+    if (user[0]) {
+      this.store
+        .collection(this.collectionName)
+        .doc(user[0].id)
+        .update({
+          notesNumber: user[0].notesNumber - 1,
+        });
     }
   }
 }

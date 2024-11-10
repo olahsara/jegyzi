@@ -8,7 +8,7 @@
         <input matInput type="text" formControlName="subTitle" placeholder="Alcím" />
       </div>
     </div>
-    <div quill-editor-toolbar class="sticky top-[5.5rem] z-50">
+    <div quill-editor-toolbar class="sticky top-2 md:top-[5.5rem] z-50">
       <span class="ql-formats">
         <button class="ql-bold" matTooltip="Félkövér"></button>
         <button class="ql-italic" matTooltip="Dőlt"></button>
@@ -85,16 +85,19 @@
         >
       </div>
     </div>
-    @if(labels$ | async; as labels) { @for (label of labels; track label.id) {
-    <div class="m-4">
-      <span class="text-primary-600 font-semibold">{{ label.name }}</span>
-      <div class="flex gap-x-4">
-        <jegyzi-label-group [items]="label" [(control)]="form.controls.labels"></jegyzi-label-group>
-      </div>
-    </div>
-    } }
+    @if (labels$ | async; as labels) {
+      @for (label of labels; track label.id) {
+        <div class="m-4">
+          <span class="text-primary-600 font-semibold">{{ label.name }}</span>
+          <div class="flex gap-x-4">
+            <jegyzi-label-group [items]="label" [(control)]="form.controls.labels"></jegyzi-label-group>
+          </div>
+        </div>
+      }
+    }
   </div>
-  <div class="m-6 md:m-10">
-    <button type="submit" class="btn-primary ml-auto mr-0">Feltöltés</button>
+  <div class="m-6 md:m-10 justify-end flex gap-x-2">
+    <button type="button" class="btn-secondary" (click)="cancel()">Mégsem</button>
+    <button type="submit" class="btn-primary">{{ myNote() ? 'Módosítás' : 'Feltöltés' }}</button>
   </div>
 </form>

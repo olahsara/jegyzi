@@ -10,7 +10,9 @@ import { ProfileTypes, User } from '../../../shared/models/user.model';
 import { NamePipe } from '../../../shared/pipes/name.pipe';
 import { NoValuePipe } from '../../../shared/pipes/no-value.pipe';
 import { TypePipe } from '../../../shared/pipes/type.pipe';
-import { ToastService } from '../../../shared/services/toast.service';
+import { CommentService } from '../../../shared/services/comment.service';
+import { NoteService } from '../../../shared/services/note.service';
+import { ReviewService } from '../../../shared/services/review.service';
 import { UserService } from '../../../shared/services/user.service';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 import { MyProfilePageService } from '../../services/my-profile-page.service';
@@ -38,7 +40,9 @@ import { ProfileModifyModalPageComponent } from '../profile-modify-modal-page/pr
 export class MyProfilePageComponent {
   private pageService = inject(MyProfilePageService);
   private userService = inject(UserService);
-  private toastService = inject(ToastService);
+  private noteService = inject(NoteService);
+  private commentService = inject(CommentService);
+  private reviewService = inject(ReviewService);
 
   readonly dialog = inject(MatDialog);
   readonly profileTypes = ProfileTypes;

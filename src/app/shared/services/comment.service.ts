@@ -69,6 +69,20 @@ export class CommentService {
     return data;
   }
 
+  async getCommentsbyUser(creatorId: string) {
+    const data = await this.store
+      .collection<Comment>(this.collectionName)
+      .ref.where('creatorId', '==', creatorId)
+      .get()
+      .then((data) => {
+        return data.docs.map((e) => {
+          return e.data();
+        });
+      });
+
+    return data;
+  }
+
   async getCommentsbyNoteLimited(noteId: string) {
     const data = await this.store
       .collection<Comment>(this.collectionName)
@@ -120,5 +134,15 @@ export class CommentService {
       });
 
     return data;
+  }
+
+  async updateCreatorData(userId: string, updateValue: { creatorProfilPic: boolean; creatorName: string }) {
+    const comments = await this.getCommentsbyUser(userId);
+    comments.forEach((comment) => {
+      this.store.collection(this.collectionName).doc(comment.id).update({
+        creatorProfilPic: updateValue.creatorProfilPic,
+        creatorName: updateValue.creatorName,
+      });
+    });
   }
 }

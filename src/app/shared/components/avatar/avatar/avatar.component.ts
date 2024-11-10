@@ -1,8 +1,10 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, computed, inject, input, model, output } from '@angular/core';
+import { Component, inject, input, model, output, signal } from '@angular/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import { explicitEffect } from 'ngxtension/explicit-effect';
+import { catchError, of } from 'rxjs';
 import { NamePipe } from '../../../pipes/name.pipe';
 import { UserService } from '../../../services/user.service';
 
@@ -28,12 +30,25 @@ export class AvatarComponent {
   loading = model(false);
   link = input<string>();
 
-  profilePic = computed(() => {
-    return this.profilPicEnabled() ? this.userService.getProfilPic(this.profileId()!) : null;
-  });
+  profilePic = signal<string | null | undefined>(undefined);
 
   upload = output<ImageUploadEvent>();
   deleteProfilPic = output<void>();
+
+  constructor() {
+    explicitEffect([this.profilPicEnabled, this.profileId], ([profilPicEnabled, profileId]) => {
+      if (profilPicEnabled) {
+        this.userService
+          .getProfilPic(profileId!)
+          .pipe(catchError(() => of(null)))
+          .subscribe((value) => {
+            this.profilePic.set(value);
+          });
+      } else {
+        this.profilePic.set(null);
+      }
+    });
+  }
 
   async onFileSelected(event: Event) {
     const file = (event.target as HTMLInputElement).files;

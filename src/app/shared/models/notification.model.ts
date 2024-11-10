@@ -18,4 +18,5 @@ export enum NotificationType {
   'NEW_FOLLOWER',
   'NEW_NOTE',
   'OTHER',
+  'UPDATED_NOTE',
 }

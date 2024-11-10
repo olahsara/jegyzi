@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Timestamp } from '@angular/fire/firestore';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router, RouterLink } from '@angular/router';
 import { QuillEditorComponent } from 'ngx-quill';
+import { explicitEffect } from 'ngxtension/explicit-effect';
 import { LabelGroupComponent } from '../../../shared/components/label-group/label-group.component';
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { LabelNote } from '../../../shared/models/label.model';
@@ -32,6 +33,8 @@ export class TextEditorComponent implements OnInit {
   private toastService = inject(ToastService);
   private router = inject(Router);
 
+  myNote = input<Note>();
+
   labels$ = this.labelService.getLabels();
 
   form = new FormGroup({
@@ -52,6 +55,16 @@ export class TextEditorComponent implements OnInit {
     numberOfUpdateRequests: new FormControl<number>(0),
   });
 
+  constructor() {
+    explicitEffect([this.myNote], ([myNote]) => {
+      if (myNote) {
+        this.form.patchValue(myNote);
+        console.log(myNote);
+        console.log(this.form.value);
+      }
+    });
+  }
+
   ngOnInit(): void {
     this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
       console.log(value);
@@ -59,13 +72,27 @@ export class TextEditorComponent implements OnInit {
   }
 
   submit() {
-    this.form.controls.creatorId.setValue(this.profile()?.id!);
-    this.form.controls.creatorProfilPic.setValue(this.profile()?.profilePicture ?? false);
+    if (this.myNote()) {
+      this.form.controls.lastModify.setValue(Timestamp.fromDate(new Date()) as Timestamp);
+      this.noteService.updateNote(this.form.value as Note);
+    } else {
+      this.form.controls.creatorId.setValue(this.profile()?.id!);
+      this.form.controls.creatorProfilPic.setValue(this.profile()?.profilePicture ?? false);
 
-    this.noteService.createNote(this.form.value as Note, this.profile()!).finally(() => {
-      this.toastService.success('Sikeres feltöltés!');
-      this.userService.createNote(this.profile()!);
+      this.noteService.createNote(this.form.value as Note, this.profile()!).finally(() => {
+        this.toastService.success('Sikeres feltöltés!');
+        this.userService.createNote(this.profile()!);
+        this.router.navigate(['/my-notes']);
+      });
+    }
+  }
+
+  cancel() {
+    this.form.reset();
+    if (this.myNote()) {
+      this.router.navigate(['/my-notes/', this.myNote()?.id]);
+    } else {
       this.router.navigate(['/my-notes']);
-    });
+    }
   }
 }

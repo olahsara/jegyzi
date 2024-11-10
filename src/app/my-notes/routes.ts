@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 import { authGuard } from '../shared/auth/auth.guard';
+import { myNoteResolver } from './resolvers/my-note.resolver';
 
 export const ROUTES: Route[] = [
   {
@@ -28,5 +29,17 @@ export const ROUTES: Route[] = [
         loadComponent: () => import('./pages/text-editor-component/text-editor.component').then((c) => c.TextEditorComponent),
       },
     ],
+  },
+  {
+    path: ':id',
+    pathMatch: 'full',
+    resolve: { myNote: myNoteResolver() },
+    loadComponent: () => import('./pages/my-note-details-page/my-note-details-page.component').then((c) => c.MyNoteDetailsPageComponent),
+  },
+  {
+    path: 'edit-note/:id',
+    pathMatch: 'full',
+    resolve: { myNote: myNoteResolver() },
+    loadComponent: () => import('./pages/text-editor-component/text-editor.component').then((c) => c.TextEditorComponent),
   },
 ];

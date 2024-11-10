@@ -50,6 +50,32 @@ export class NoteService {
     return;
   }
 
+  async updateNote(note: Note) {
+    if (note) {
+      return await this.store
+        .collection<Note>(this.collectionName)
+        .doc(note.id)
+        .update(note)
+        .then(() => {
+          note.followers.map((id) => {
+            const noti: Notification = {
+              id: '',
+              user: id,
+              date: Timestamp.fromDate(new Date()),
+              new: true,
+              title: 'Módosított jegyzet!',
+              type: NotificationType.UPDATED_NOTE,
+              linkedEntityId: note.id,
+              description: 'Az általad követett ' + note.title + ' című jegyzetet a szerzője módosította! ',
+            };
+            this.notificationService.createNotification(noti);
+          });
+          return note.id;
+        });
+    }
+    return;
+  }
+
   async getNotes() {
     let notes: Note[] = [];
     const data = await this.store.collection<Note>(this.collectionName).ref.get();
@@ -247,35 +273,9 @@ export class NoteService {
   }
 
   async deleteNote(note: Note) {
-    //Jegyzet törlése:
-    //Követőknél törlés
-    // note.followers.forEach((userId) => {
-    //   this.userService.deleteNote(note, userId);
-    //   const noti: Notification = {
-    //     id: '',
-    //     user: userId,
-    //     date: Timestamp.fromDate(new Date()),
-    //     new: true,
-    //     title: 'Törölt jegyzet',
-    //     type: NotificationType.OTHER,
-    //     description: 'Az általad követett note.title' + note.title + ' című jegyzetet a szerzője sajnos eltávolította a rendszerből.',
-    //   };
-    //   this.notificationService.createNotification(noti);
-    // });
-    //Módosítási kérések törlése
-    // note.updateRequests.forEach((requestId) => {
-    //   this.requestService.deleteModifyRequestById(requestId);
-    // });
-    //Kommentel törlése
-    // note.comments.forEach((id) => {
-    //   this.commentService.deleteComment(id);
-    // });
-    //Értékelés törlése
-    // note.reviews.forEach((id) => {
-    //   this.reviewService.deleteReview(id);
-    // });
     await this.store.collection<Note>(this.collectionName).doc(note.id).delete();
   }
+
   async reduceUpdateRequestsNumber(noteId: string) {
     const note = await this.getNoteById(noteId);
     if (note[0]) {
@@ -294,5 +294,14 @@ export class NoteService {
         .doc(note[0].id)
         .update({ numberOfUpdateRequests: note[0].numberOfUpdateRequests + 1 });
     }
+  }
+
+  async updateCreatorData(userId: string, updateValue: boolean) {
+    const notes = await this.getNotesByUser(userId);
+    notes.forEach((note) => {
+      this.store.collection(this.collectionName).doc(note.id).update({
+        creatorProfilPic: updateValue,
+      });
+    });
   }
 }
