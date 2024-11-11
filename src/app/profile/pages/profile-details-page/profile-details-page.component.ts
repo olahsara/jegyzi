@@ -5,7 +5,6 @@ import { RouterLink } from '@angular/router';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { NoteListComponent } from '../../../shared/components/note-list/note-list.component';
 import { ProfileTypes } from '../../../shared/models/user.model';
-import { NamePipe } from '../../../shared/pipes/name.pipe';
 import { NoteService } from '../../../shared/services/note.service';
 import { UserService } from '../../../shared/services/user.service';
 import { ProfilePageService } from '../../services/profile-page.service';
@@ -15,7 +14,7 @@ import { ProfilePageService } from '../../services/profile-page.service';
   standalone: true,
   templateUrl: './profile-details-page.component.html',
   styleUrl: './profile-details-page.component.scss',
-  imports: [CommonModule, AvatarComponent, NamePipe, RouterLink, MatTooltip, NoteListComponent],
+  imports: [CommonModule, AvatarComponent, RouterLink, MatTooltip, NoteListComponent],
   providers: [ProfilePageService],
 })
 export class ProfileDetailsPageComponent {

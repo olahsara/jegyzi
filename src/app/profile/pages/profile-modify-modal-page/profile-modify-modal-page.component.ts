@@ -30,8 +30,7 @@ export class ProfileModifyModalPageComponent implements OnInit {
     email: new FormControl<string | null>(null, {
       validators: Validators.email,
     }),
-    lastName: new FormControl<string | null>(null),
-    firstName: new FormControl<string | null>(null),
+    name: new FormControl<string | null>(null),
     profileType: new FormControl<string | null>(null),
     education: new FormGroup({
       institution: new FormControl<string | null>(null),

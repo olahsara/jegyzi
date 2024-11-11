@@ -10,7 +10,6 @@ import { Note } from '../../../shared/models/note.model';
 import { User } from '../../../shared/models/user.model';
 import { ElapsedTimePipe } from '../../../shared/pipes/elapsed-time.pipe';
 import { CommentService } from '../../../shared/services/comment.service';
-import { getName } from '../../../shared/utils/name';
 import { toDatePipe } from '../../pipes/to-date.pipe';
 
 @Component({
@@ -53,7 +52,7 @@ export class NoteCommentComponent {
   submit() {
     this.commentForm.controls.creatorId.setValue(this.loggedInUser()!.id!);
     this.commentForm.controls.creatorProfilPic.setValue(this.loggedInUser()!.profilePicture ?? false);
-    this.commentForm.controls.creatorName.setValue(getName(this.loggedInUser()!));
+    this.commentForm.controls.creatorName.setValue(this.loggedInUser()!.name);
     this.commentForm.controls.note.setValue(this.note().id);
     this.newComment.emit(this.commentForm.value as Comment);
     this.commentForm.reset();

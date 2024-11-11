@@ -40,8 +40,7 @@ export class RegisterModalPageComponent {
     email: new FormControl<string | null>(null, { validators: [Validators.email, Validators.required] }),
     password: new FormControl<string | null>(null, { validators: [Validators.required, Validators.minLength(6)] }),
     passwordConfirm: new FormControl<string | null>(null, { validators: Validators.required }),
-    firstName: new FormControl<string | null>(null),
-    lastName: new FormControl<string | null>(null),
+    name: new FormControl<string | null>(null),
     profileType: new FormControl<string | null>(null),
     education: new FormGroup({
       institution: new FormControl<string | null>(null),
@@ -90,8 +89,7 @@ export class RegisterModalPageComponent {
           const newUser: User = {
             id: cred.user.uid,
             email: this.form.value.email as string,
-            firstName: this.form.value.firstName as string,
-            lastName: this.form.value.lastName as string,
+            name: this.form.value.name as string,
             education: this.form.value.education as Education | undefined,
             work: this.form.value.work as Work | undefined,
             other: this.form.value.other as Other | undefined,

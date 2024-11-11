@@ -7,7 +7,6 @@ import { catchError, Observable, of } from 'rxjs';
 import { Note } from '../models/note.model';
 import { Notification, NotificationType } from '../models/notification.model';
 import { User, UserFilterModel } from '../models/user.model';
-import { getName } from '../utils/name';
 import { NoteService } from './note.service';
 import { NotificationService } from './notifictaion.service';
 import { ToastService } from './toast.service';
@@ -83,12 +82,7 @@ export class UserService {
 
   async getUsersByFilter(filter: UserFilterModel): Promise<User[]> {
     let result = this.store.collection<User>(this.collectionName).ref as Query<User>;
-    if (filter.name) {
-      const firstName = filter.name.split(' ')[1];
-      const lastName = filter.name.split(' ')[0];
-      if (firstName) result = result.where('firstName', '==', firstName);
-      if (lastName) result = result.where('lastName', '==', lastName);
-    }
+    if (filter.name) result = result.where('name', '==', filter.name);
     if (filter.numberOfFollowers) result = result.where('numberOfFollowers', '==', filter.numberOfFollowers);
     if (filter.numberOfNotes) result = result.where('numberOfNotes', '==', filter.numberOfNotes);
     if (filter.profileType) result = result.where('profileType', '==', filter.profileType);
@@ -168,7 +162,7 @@ export class UserService {
           id: 'id',
           new: true,
           title: 'Új követés!',
-          description: getName(this.user()!) + ' bekövetett téged!',
+          description: this.user()?.name + ' bekövetett téged!',
           type: NotificationType.NEW_FOLLOWER,
           user: followedUser.id,
           linkedEntityId: this.user()?.id,

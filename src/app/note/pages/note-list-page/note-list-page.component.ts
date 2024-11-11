@@ -13,7 +13,6 @@ import { RatingComponent } from '../../../shared/components/rating-component/rat
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { LabelNote } from '../../../shared/models/label.model';
 import { NoteFilterModel } from '../../../shared/models/note.model';
-import { NamePipe } from '../../../shared/pipes/name.pipe';
 import { LabelService } from '../../../shared/services/label.service';
 import { NoteService } from '../../../shared/services/note.service';
 import { UserService } from '../../../shared/services/user.service';
@@ -31,7 +30,6 @@ import { toDatePipe } from '../../pipes/to-date.pipe';
     AvatarComponent,
     toDatePipe,
     LabelGroupComponent,
-    NamePipe,
     MatDatepickerModule,
     RatingComponent,
     NoteListComponent,

@@ -7,7 +7,6 @@ import { AvatarComponent, ImageUploadEvent } from '../../../shared/components/av
 import { ProfileListComponent } from '../../../shared/components/profile-list/profile-list.component';
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { ProfileTypes, User } from '../../../shared/models/user.model';
-import { NamePipe } from '../../../shared/pipes/name.pipe';
 import { NoValuePipe } from '../../../shared/pipes/no-value.pipe';
 import { TypePipe } from '../../../shared/pipes/type.pipe';
 import { CommentService } from '../../../shared/services/comment.service';
@@ -29,7 +28,6 @@ import { ProfileModifyModalPageComponent } from '../profile-modify-modal-page/pr
     FORM_DIRECTIVES,
     RouterLink,
     AvatarComponent,
-    NamePipe,
     MatTooltipModule,
     NoValuePipe,
     TypePipe,

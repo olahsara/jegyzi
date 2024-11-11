@@ -9,7 +9,6 @@ import { Note } from '../../../shared/models/note.model';
 import { User } from '../../../shared/models/user.model';
 import { ModifyRequestService } from '../../../shared/services/modify-request.service';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
-import { getName } from '../../../shared/utils/name';
 
 export interface ModifyRequestModalData {
   creator: User;
@@ -34,7 +33,7 @@ export class NoteModifyRequestModalComponent {
     description: new FormControl<string | null>(null),
     creatorId: new FormControl<string | null>(this.data.creator.id),
     creatorProfilPic: new FormControl<boolean | null>(this.data.creator.profilePicture ?? false),
-    creatorName: new FormControl<string | null>(getName(this.data.creator)),
+    creatorName: new FormControl<string | null>(this.data.creator.name),
     noteId: new FormControl<string | null>(this.data.note.id),
     noteTitle: new FormControl<string | null>(this.data.note.title),
     noteCreator: new FormControl<string | null>(this.data.note.creatorId),

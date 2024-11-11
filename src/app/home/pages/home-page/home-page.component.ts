@@ -10,7 +10,7 @@ import { ProfileListComponent } from '../../../shared/components/profile-list/pr
 import { RatingComponent } from '../../../shared/components/rating-component/rating.component';
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { HeaderComponent } from '../../../shared/layout/header/header.component';
-import { NamePipe } from '../../../shared/pipes/name.pipe';
+
 import { NoValuePipe } from '../../../shared/pipes/no-value.pipe';
 import { TypePipe } from '../../../shared/pipes/type.pipe';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -28,7 +28,6 @@ import { UserService } from '../../../shared/services/user.service';
     RouterLink,
     NoValuePipe,
     AvatarComponent,
-    NamePipe,
     TypePipe,
     toDatePipe,
     RatingComponent,

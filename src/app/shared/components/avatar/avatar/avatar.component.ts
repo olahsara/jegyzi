@@ -5,7 +5,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { explicitEffect } from 'ngxtension/explicit-effect';
 import { catchError, of } from 'rxjs';
-import { NamePipe } from '../../../pipes/name.pipe';
 import { UserService } from '../../../services/user.service';
 
 export interface ImageUploadEvent {
@@ -15,7 +14,7 @@ export interface ImageUploadEvent {
 @Component({
   selector: 'jegyzi-avatar',
   standalone: true,
-  imports: [CommonModule, NamePipe, MatTooltipModule, NgOptimizedImage, MatProgressSpinner],
+  imports: [CommonModule, MatTooltipModule, NgOptimizedImage, MatProgressSpinner],
   templateUrl: './avatar.component.html',
   styleUrl: './avatar.component.scss',
 })

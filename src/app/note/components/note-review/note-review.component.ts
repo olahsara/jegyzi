@@ -13,7 +13,6 @@ import { Review } from '../../../shared/models/review.model';
 import { User } from '../../../shared/models/user.model';
 import { ElapsedTimePipe } from '../../../shared/pipes/elapsed-time.pipe';
 import { ReviewService } from '../../../shared/services/review.service';
-import { getName } from '../../../shared/utils/name';
 import { toDatePipe } from '../../pipes/to-date.pipe';
 
 @Component({
@@ -73,7 +72,7 @@ export class NoteReviewComponent {
     if (!this.reviewForm.value.anonim) {
       this.reviewForm.controls.userId.setValue(this.loggedInUser()!.id!);
       this.reviewForm.controls.userProfilPic.setValue(this.loggedInUser()!.profilePicture ?? false);
-      this.reviewForm.controls.userName.setValue(getName(this.loggedInUser()!));
+      this.reviewForm.controls.userName.setValue(this.loggedInUser()!.name);
     }
     this.reviewForm.controls.notesId.setValue(this.note().id);
     this.newReview.emit(this.reviewForm.value as Review);

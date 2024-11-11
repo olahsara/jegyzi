@@ -14,7 +14,6 @@ import { RatingComponent } from '../../../shared/components/rating-component/rat
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { LabelNote } from '../../../shared/models/label.model';
 import { NoteFilterModel } from '../../../shared/models/note.model';
-import { NamePipe } from '../../../shared/pipes/name.pipe';
 import { LabelService } from '../../../shared/services/label.service';
 import { UserService } from '../../../shared/services/user.service';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
@@ -31,7 +30,6 @@ import { MyNotesPageService } from '../../services/my-notes-page.service';
     AvatarComponent,
     toDatePipe,
     LabelGroupComponent,
-    NamePipe,
     MatDatepickerModule,
     RatingComponent,
     NoteListComponent,

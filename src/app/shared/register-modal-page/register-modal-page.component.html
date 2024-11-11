@@ -34,12 +34,8 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-y-0 md:gap-8">
         <div class="form-control">
-          <div class="label">Vezetéknév</div>
-          <input matInput type="text" formControlName="lastName" />
-        </div>
-        <div class="form-control">
-          <div class="label">Keresztnév</div>
-          <input matInput type="text" formControlName="firstName" />
+          <div class="label">Név</div>
+          <input matInput type="text" formControlName="name" />
         </div>
       </div>
       @if(this.form.controls.email.invalid && this.form.controls.email.touched) {

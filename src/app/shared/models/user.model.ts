@@ -3,8 +3,7 @@ import { Education } from './eductaion.model';
 export interface User {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   education?: Education;
   work?: Work;
   other?: Other;

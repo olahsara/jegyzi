@@ -5,7 +5,6 @@ import { ModifyRequest } from '../models/modifiy-request.model';
 import { Note, NoteFilterModel } from '../models/note.model';
 import { Notification, NotificationType } from '../models/notification.model';
 import { User } from '../models/user.model';
-import { getName } from '../utils/name';
 import { NotificationService } from './notifictaion.service';
 import { ToastService } from './toast.service';
 
@@ -198,7 +197,7 @@ export class NoteService {
           id: 'id',
           new: true,
           title: 'Új követés!',
-          description: getName(user) + ' bekövette a ' + note.title + ' jegyzetedet!',
+          description: user.name + ' bekövette a ' + note.title + ' jegyzetedet!',
           type: NotificationType.NEW_FOLLOWER,
           user: user.id,
           linkedEntityId: user.id,
