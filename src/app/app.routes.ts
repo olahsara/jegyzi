@@ -17,7 +17,7 @@ export const routes: Routes = [
       },
       {
         path: 'login',
-        loadComponent: () => import('./login/pages/login/login.component').then((c) => c.LoginComponent),
+        loadComponent: () => import('./login/pages/login-page/login-page.component').then((c) => c.LoginPageComponent),
         data: {
           title: 'Bejelentkezés',
           subtitle:

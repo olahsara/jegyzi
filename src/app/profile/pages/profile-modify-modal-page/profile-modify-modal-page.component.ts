@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
@@ -27,9 +27,6 @@ export class ProfileModifyModalPageComponent implements OnInit {
   educationTypes = EducationType;
 
   form = new FormGroup({
-    email: new FormControl<string | null>(null, {
-      validators: Validators.email,
-    }),
     name: new FormControl<string | null>(null),
     profileType: new FormControl<string | null>(null),
     education: new FormGroup({
@@ -76,16 +73,14 @@ export class ProfileModifyModalPageComponent implements OnInit {
   modify() {
     if (this.form.valid) {
       if (this.form.value.profileType !== this.data.profileType) {
-        this.remowePorpertiesAccordingType();
+        this.removePorpertiesAccordingType();
       }
       this.actualStep = 0;
       this.dialogRef.close(this.form.getRawValue());
-    } else {
-      this.error = 'Email cím formátuma nem megfelelő!';
     }
   }
 
-  remowePorpertiesAccordingType() {
+  removePorpertiesAccordingType() {
     switch (this.form.value.profileType) {
       case null:
         this.form.controls.education.reset();

@@ -11,13 +11,13 @@ import { UserService } from '../../../shared/services/user.service';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 
 @Component({
-  selector: 'jegyzi-login',
+  selector: 'jegyzi-login-page',
   standalone: true,
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  templateUrl: './login-page.component.html',
+  styleUrl: './login-page.component.scss',
   imports: [CommonModule, TitleComponent, FORM_DIRECTIVES, RouterLink],
 })
-export class LoginComponent {
+export class LoginPageComponent {
   readonly dialog = inject(MatDialog);
 
   loginForm = new FormGroup({
