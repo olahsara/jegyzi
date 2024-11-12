@@ -27,7 +27,7 @@ export class NoteCommentComponent {
   note = input.required<Note>();
   loggedInUser = input<User>();
 
-  edit = signal(false);
+  edit = signal<string | undefined>(undefined);
   editCommentForm = new FormControl<string | null>(null);
 
   comments = computed(() => {
@@ -66,9 +66,9 @@ export class NoteCommentComponent {
     this.allComments.set(false);
   }
 
-  startEdit(comment: string) {
-    this.editCommentForm.setValue(comment);
-    this.edit.set(true);
+  startEdit(comment: Comment) {
+    this.editCommentForm.setValue(comment.comment);
+    this.edit.set(comment.id);
   }
 
   editComment(commentId: string) {
@@ -79,7 +79,7 @@ export class NoteCommentComponent {
       };
 
       this.commentService.updateComment(commentId, updateValue).then(() => {
-        this.edit.set(false);
+        this.edit.set(undefined);
         this.newComment.emit(undefined);
       });
     }
