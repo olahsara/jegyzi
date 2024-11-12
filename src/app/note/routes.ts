@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { noteResolver } from './resolvers/resolvers/note.resolver';
+import { noteResolver } from './resolvers/note.resolver';
 export const ROUTES: Route[] = [
   {
     path: '',

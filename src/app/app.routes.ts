@@ -34,12 +34,6 @@ export const routes: Routes = [
       },
 
       {
-        path: 'my-profile',
-        pathMatch: 'full',
-        loadComponent: () => import('./profile/pages/my-profile-page/my-profile-page.component').then((c) => c.MyProfilePageComponent),
-      },
-
-      {
         path: 'my-notes',
         loadChildren: () => import('./my-notes/routes').then((c) => c.ROUTES),
       },

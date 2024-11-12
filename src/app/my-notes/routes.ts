@@ -32,12 +32,14 @@ export const ROUTES: Route[] = [
   },
   {
     path: ':id',
+    canActivate: [authGuard()],
     pathMatch: 'full',
     resolve: { myNote: myNoteResolver() },
     loadComponent: () => import('./pages/my-note-details-page/my-note-details-page.component').then((c) => c.MyNoteDetailsPageComponent),
   },
   {
     path: 'edit-note/:id',
+    canActivate: [authGuard()],
     pathMatch: 'full',
     resolve: { myNote: myNoteResolver() },
     loadComponent: () => import('./pages/text-editor-component/text-editor.component').then((c) => c.TextEditorComponent),

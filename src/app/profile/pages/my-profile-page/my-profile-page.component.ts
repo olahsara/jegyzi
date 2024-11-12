@@ -15,7 +15,7 @@ import { ReviewService } from '../../../shared/services/review.service';
 import { UserService } from '../../../shared/services/user.service';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 import { MyProfilePageService } from '../../services/my-profile-page.service';
-import { ProfileModifyModalPageComponent } from '../profile-modify-modal-page/profile-modify-modal-page.component';
+import { ProfileModifyModalComponent } from '../profile-modify-modal/profile-modify-modal.component';
 
 @Component({
   selector: 'jegyzi-my-profile-page',
@@ -73,7 +73,7 @@ export class MyProfilePageComponent {
   }
 
   modify() {
-    const dialogRef = this.dialog.open(ProfileModifyModalPageComponent, {
+    const dialogRef = this.dialog.open(ProfileModifyModalComponent, {
       data: this.profile(),
       minWidth: '40vw',
       maxHeight: '90vh',

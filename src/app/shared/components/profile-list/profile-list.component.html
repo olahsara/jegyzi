@@ -29,7 +29,7 @@
         </a>
       }
     } @else {
-      <a [routerLink]="'/my-profile'" class="flex gap-8 rounded-3xl bg-background-200 px-6 py-4 items-center">
+      <a [routerLink]="'/profiles/my-profile'" class="flex gap-8 rounded-3xl bg-background-200 px-6 py-4 items-center">
         <jegyzi-avatar [profileId]="profile.id" [profilPicEnabled]="profile.profilePicture ?? false"></jegyzi-avatar>
         <div class="flex flex-col gap-1 text-primary-600">
           <div class="font-semibold mb-1">{{ profile }}</div>

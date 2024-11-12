@@ -9,14 +9,14 @@ import { ProfileTypes, User } from '../../../shared/models/user.model';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 
 @Component({
-  selector: 'jegyzi-profile-modify-modal-page',
+  selector: 'jegyzi-profile-modify-modal',
   standalone: true,
   imports: [CommonModule, MatTooltipModule, FORM_DIRECTIVES, NgxSkeletonLoaderModule],
-  templateUrl: './profile-modify-modal-page.component.html',
-  styleUrl: './profile-modify-modal-page.component.scss',
+  templateUrl: './profile-modify-modal.component.html',
+  styleUrl: './profile-modify-modal.component.scss',
 })
-export class ProfileModifyModalPageComponent implements OnInit {
-  readonly dialogRef = inject(MatDialogRef<ProfileModifyModalPageComponent>);
+export class ProfileModifyModalComponent implements OnInit {
+  readonly dialogRef = inject(MatDialogRef<ProfileModifyModalComponent>);
   readonly data = inject<User>(MAT_DIALOG_DATA);
 
   steps = [0, 1];
