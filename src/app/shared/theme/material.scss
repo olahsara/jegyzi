@@ -285,22 +285,22 @@ ngx-skeleton-loader {
   @apply bg-background-100 overflow-clip #{!important};
 }
 .mat-drawer-container {
-  @apply bg-background-100 overflow-clip absolute md:relative #{!important};
+  @apply bg-background-100 overflow-clip absolute lg:relative  min-h-full min-w-full lg:w-auto lg:h-auto #{!important};
 }
 
 html {
   --mat-datepicker-calendar-container-background-color: theme("colors.background.loader");
   --mdc-icon-button-icon-color: theme("colors.primary.500");
 
-  --mat-datepicker-calendar-date-selected-state-background-color: theme("colors.background.300")
-    --mat-datepicker-calendar-date-today-selected-state-outline-color: theme("colors.background.300");
+  --mat-datepicker-calendar-date-selected-state-background-color: theme("colors.background.300");
+  --mat-datepicker-calendar-date-today-selected-state-outline-color: theme("colors.background.300");
   --mat-datepicker-calendar-date-focus-state-background-color: theme("colors.background.300");
   --mat-datepicker-calendar-date-hover-state-background-color: theme("colors.background.300");
   --mat-datepicker-calendar-date-in-range-state-background-color: theme("colors.background.300");
   --mat-datepicker-calendar-date-in-comparison-range-state-background-color: theme("colors.background.300");
   --mat-datepicker-calendar-date-in-overlap-range-state-background-color: theme("colors.background.300");
-  --mat-datepicker-calendar-date-in-overlap-range-selected-state-background-color: theme("colors.background.300")
-    --mat-datepicker-calendar-date-selected-state-text-color: theme("colors.primary.600");
+  --mat-datepicker-calendar-date-in-overlap-range-selected-state-background-color: theme("colors.background.300");
+  --mat-datepicker-calendar-date-selected-state-text-color: theme("colors.primary.600");
   --mat-datepicker-calendar-body-label-text-color: theme("colors.primary.600");
   --mat-datepicker-calendar-period-button-text-color: theme("colors.primary.600");
   --mat-datepicker-calendar-period-button-icon-color: theme("colors.primary.600");

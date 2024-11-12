@@ -42,7 +42,7 @@ export class NoteCommentComponent {
     creatorId: new FormControl<string | null>(null),
     creatorProfilPic: new FormControl<boolean | null>(null),
     creatorName: new FormControl<string | null>(null),
-    date: new FormControl<Timestamp>(Timestamp.fromDate(new Date()) as Timestamp),
+    date: new FormControl<Timestamp | null>(null),
     comment: new FormControl<string | null>(null),
     note: new FormControl<string | null>(null),
   });
@@ -54,6 +54,7 @@ export class NoteCommentComponent {
     this.commentForm.controls.creatorProfilPic.setValue(this.loggedInUser()!.profilePicture ?? false);
     this.commentForm.controls.creatorName.setValue(this.loggedInUser()!.name);
     this.commentForm.controls.note.setValue(this.note().id);
+    this.commentForm.controls.date.setValue(Timestamp.fromDate(new Date()) as Timestamp);
     this.newComment.emit(this.commentForm.value as Comment);
     this.commentForm.reset();
   }
@@ -74,7 +75,7 @@ export class NoteCommentComponent {
     if (this.editCommentForm.value) {
       const updateValue: CommentUpdateRequest = {
         comment: this.editCommentForm.value,
-        lastModified: Timestamp.fromDate(new Date()),
+        lastModified: Timestamp.fromDate(new Date()) as Timestamp,
       };
 
       this.commentService.updateComment(commentId, updateValue).then(() => {

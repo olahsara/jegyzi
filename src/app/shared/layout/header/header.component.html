@@ -1,11 +1,11 @@
-<div class="hidden md:flex justify-between bg-background-300 items-center sticky top-0 z-50 w-full h-20">
+<div class="hidden lg:flex justify-between bg-background-300 items-center sticky top-0 z-50 w-full h-20">
   <a routerLink="/home">
     @if (imgUrl(); as imgUrl) {
       <img [src]="imgUrl" alt="Jegyzi logó" class="h-20 object-contain" />
     }
   </a>
 
-  <div class="hidden md:flex md:gap-x-3 lg:gap-3 xl:gap-6 text-primary-500 font-medium text-lg justify-self-center">
+  <div class="hidden lg:flex lg:gap-x-3 lg:gap-3 xl:gap-6 text-primary-500 font-medium text-lg justify-self-center">
     <a routerLink="/notes" routerLinkActive="active" class="transition-colors hover:text-primary-link">Jegyzetek</a>
     <a routerLink="/profiles" routerLinkActive="active" class="transition-colors hover:text-primary-link">Felhasználók</a>
     @if (user(); as user) {
@@ -59,11 +59,11 @@
 </div>
 
 <div class="h-full">
-  <div class="flex md:hidden justify-between bg-background-300 items-center z-50 w-full h-20 px-4">
+  <div class="flex lg:hidden justify-between bg-background-300 items-center z-50 w-full h-20 px-4">
     <button (click)="menu.toggle()">
       <span class="ph-bold ph-list ph-xl text-primary-500"></span>
     </button>
-    <div class="flex gap-x-2 items-center">
+    <div class="flex gap-x-2 lg:gap-x-6 items-center">
       @if (user(); as user) {
         @if (notifications(); as notifications) {
           <button type="button" (click)="notification.toggle()">
@@ -108,9 +108,9 @@
         <button
           type="button"
           (click)="notificationDetails(noti.id)"
-          class="flex flex-col gap-y-1 hover:bg-background-loader px-4 py-2 transition-all text-primary-500 w-full md:w-auto"
+          class="flex flex-col gap-y-1 hover:bg-background-loader px-4 py-2 transition-all text-primary-500 w-full lg:w-auto"
         >
-          <div class="flex justify-between gap-x-10 text-sm w-full md:w-auto">
+          <div class="flex justify-between gap-x-10 text-sm w-full lg:w-auto">
             <span>{{ noti.date | toDate | date: 'shortDate' }}</span>
             <span>{{ noti.date | toDate | date: 'shortTime' }}</span>
           </div>

@@ -20,4 +20,5 @@ export class ProfileListComponent {
 
   profiles = input.required<User[]>();
   loggedInUser = this.userService.user;
+  row = input(false);
 }

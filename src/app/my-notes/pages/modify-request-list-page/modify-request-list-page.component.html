@@ -1,251 +1,266 @@
-<div class="flex flex-col gap-y-4 md:gap-y-10 mx-6 md:mx-40">
+<div class="flex flex-col gap-y-4 lg:gap-y-10 mx-6 lg:mx-40">
   <div class="flex flex-col gap-y-4">
-    @if(inProgressModifyRequests$() | async; as inProgressModifyRequests){
-    <mat-accordion class="jegyzi-accordion-transparent">
-      <mat-expansion-panel hideToggle #inProgress [expanded]="inProgressModifyRequests.length > 0">
-        <mat-expansion-panel-header>
-          <div class="flex flex-col gap-y-2 flex-grow mb-4">
-            <div class="flex justify-between items-center w-full">
-              <span class="text-[20px] overflow-auto">Függőben lévő módosítási kérések</span>
-              <span class="ph text-2xl" aria-hidden="true" [ngClass]="inProgress.expanded ? 'ph-caret-up' : 'ph-caret-down'"></span>
-            </div>
-            <div class="flex gap-x-2 items-center text-primary-500">
-              <span class="ph-fill ph-info ph-lg"></span>
-              <span class="text-sm font-light">Beérkezett, de még kezeletlen módosítási kérések </span>
-            </div>
-          </div>
-        </mat-expansion-panel-header>
-        @for(request of inProgressModifyRequests; track request.id) {
-        <div class="flex flex-col gap-y-1 bg-background-200 p-4 rounded-xl">
-          <div class="flex gap-x-1 md:gap-x-4 items-center">
-            <jegyzi-avatar
-              class="self-start"
-              [profileId]="request.creatorId"
-              [profilPicEnabled]="request.creatorProfilPic"
-              [link]="'/profiles/' + request.creatorId"
-            ></jegyzi-avatar>
-            <div class="flex flex-col gap-y-2 flex-grow">
-              <div class="flex justify-between">
-                <span class="text-primary-500 font-medium"> {{ request.creatorName }}</span>
-                <jegyzi-modify-request-status-badge [seriusness]="request.seriousness"></jegyzi-modify-request-status-badge>
+    @if (inProgressModifyRequests$() | async; as inProgressModifyRequests) {
+      <mat-accordion class="jegyzi-accordion-transparent">
+        <mat-expansion-panel hideToggle #inProgress [expanded]="inProgressModifyRequests.length > 0">
+          <mat-expansion-panel-header>
+            <div class="flex flex-col gap-y-2 flex-grow mb-4">
+              <div class="flex justify-between items-center w-full">
+                <span class="text-[20px] overflow-auto">Függőben lévő módosítási kérések</span>
+                <span class="ph text-2xl" aria-hidden="true" [ngClass]="inProgress.expanded ? 'ph-caret-up' : 'ph-caret-down'"></span>
               </div>
-
-              <div class="text-primary-500 hidden md:block">
-                <span class="font-light">Beküldés dátuma: </span>
-                <span class="text-primary-500">{{ request.date | toDate | date : 'short' }}</span>
+              <div class="flex gap-x-2 items-center text-primary-500">
+                <span class="ph-fill ph-info ph-lg"></span>
+                <span class="text-sm font-light">Beérkezett, de még kezeletlen módosítási kérések </span>
               </div>
+            </div>
+          </mat-expansion-panel-header>
+          @for (request of inProgressModifyRequests; track request.id) {
+            <div class="flex flex-col gap-y-1 bg-background-200 p-4 rounded-xl">
+              <div class="flex gap-x-1 lg:gap-x-4 items-center">
+                <jegyzi-avatar
+                  class="self-start"
+                  [profileId]="request.creatorId"
+                  [profilPicEnabled]="request.creatorProfilPic"
+                  [link]="'/profiles/' + request.creatorId"
+                ></jegyzi-avatar>
+                <div class="flex flex-col gap-y-2 flex-grow">
+                  <div class="flex justify-between">
+                    <span class="text-primary-500 font-medium"> {{ request.creatorName }}</span>
+                    <jegyzi-modify-request-status-badge [seriusness]="request.seriousness"></jegyzi-modify-request-status-badge>
+                  </div>
 
-              <div class="flex justify-between">
-                <div class="text-primary-500 hidden md:block">
-                  <span class="font-light">Jegyzet: </span>
-                  <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{ request.noteTitle }}</a>
+                  <div class="text-primary-500 hidden lg:block">
+                    <span class="font-light">Beküldés dátuma: </span>
+                    <span class="text-primary-500">{{ request.date | toDate | date: 'short' }}</span>
+                  </div>
+
+                  <div class="flex justify-between">
+                    <div class="text-primary-500 hidden lg:block">
+                      <span class="font-light">Jegyzet: </span>
+                      <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{
+                        request.noteTitle
+                      }}</a>
+                    </div>
+                    <button
+                      class="hidden lg:block btn-icon w-fit self-end"
+                      (click)="editRequest(request)"
+                      matTooltip="Módosítási kérés kezelése"
+                    >
+                      <span class="ph ph-pencil-simple"></span>
+                    </button>
+                  </div>
                 </div>
-                <button
-                  class="hidden md:block btn-icon w-fit self-end"
-                  (click)="editRequest(request)"
-                  matTooltip="Módosítási kérés kezelése"
-                >
+              </div>
+              <div class="flex justify-between lg:hidden">
+                <div class="flex flex-col">
+                  <div class="text-primary-500 flex flex-col gap-y-1">
+                    <span class="font-light">Beküldés dátuma: </span>
+                    <span class="text-primary-500">{{ request.date | toDate | date: 'short' }}</span>
+                  </div>
+
+                  <div class="text-primary-500 flex flex-col gap-y-1">
+                    <span class="font-light">Jegyzet: </span>
+                    <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{
+                      request.noteTitle
+                    }}</a>
+                  </div>
+                </div>
+                <button class="btn-icon w-fit self-end" (click)="editRequest(request)" matTooltip="Módosítási kérés kezelése">
                   <span class="ph ph-pencil-simple"></span>
                 </button>
               </div>
             </div>
-          </div>
-          <div class="flex justify-between md:hidden">
-            <div class="flex flex-col">
-              <div class="text-primary-500 flex flex-col gap-y-1">
-                <span class="font-light">Beküldés dátuma: </span>
-                <span class="text-primary-500">{{ request.date | toDate | date : 'short' }}</span>
+          } @empty {
+            <span class="text-heart-100">Nincs függőben lévő módosítási kérésed! </span>
+          }
+        </mat-expansion-panel>
+      </mat-accordion>
+    }
+    @if (acceptedModifyRequests$() | async; as acceptedModifyRequests) {
+      <mat-accordion class="jegyzi-accordion-transparent">
+        <mat-expansion-panel hideToggle #accepted [expanded]="acceptedModifyRequests.length > 0">
+          <mat-expansion-panel-header>
+            <div class="flex flex-col gap-y-2 flex-grow mb-4">
+              <div class="flex justify-between items-center w-full">
+                <span class="text-[20px]">Elfogadott módosítási kérések</span>
+                <span class="ph text-2xl" aria-hidden="true" [ngClass]="accepted.expanded ? 'ph-caret-up' : 'ph-caret-down'"></span>
               </div>
-
-              <div class="text-primary-500 flex flex-col gap-y-1">
-                <span class="font-light">Jegyzet: </span>
-                <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{ request.noteTitle }}</a>
+              <div class="flex gap-x-2 items-center text-primary-500">
+                <span class="ph-fill ph-info ph-lg"></span>
+                <span class="text-sm font-light"
+                  >Elfogadott, de még nem befejezett (nem javított) módosítási kérések megtekintése és kezelése
+                </span>
               </div>
             </div>
-            <button class="btn-icon w-fit self-end" (click)="editRequest(request)" matTooltip="Módosítási kérés kezelése">
-              <span class="ph ph-pencil-simple"></span>
-            </button>
-          </div>
-        </div>
-        } @empty {
-        <span class="text-heart-100">Nincs függőben lévő módosítási kérésed! </span>
-        }
-      </mat-expansion-panel>
-    </mat-accordion>
-    } @if(acceptedModifyRequests$() | async; as acceptedModifyRequests){
-    <mat-accordion class="jegyzi-accordion-transparent">
-      <mat-expansion-panel hideToggle #accepted [expanded]="acceptedModifyRequests.length > 0">
-        <mat-expansion-panel-header>
-          <div class="flex flex-col gap-y-2 flex-grow mb-4">
-            <div class="flex justify-between items-center w-full">
-              <span class="text-[20px]">Elfogadott módosítási kérések</span>
-              <span class="ph text-2xl" aria-hidden="true" [ngClass]="accepted.expanded ? 'ph-caret-up' : 'ph-caret-down'"></span>
-            </div>
-            <div class="flex gap-x-2 items-center text-primary-500">
-              <span class="ph-fill ph-info ph-lg"></span>
-              <span class="text-sm font-light"
-                >Elfogadott, de még nem befejezett (nem javított) módosítási kérések megtekintése és kezelése
-              </span>
-            </div>
-          </div>
-        </mat-expansion-panel-header>
-        @for(request of acceptedModifyRequests; track request.id) {
-        <div class="flex flex-col gap-y-1 bg-background-200 p-4 rounded-xl">
-          <div class="flex gap-x-1 md:gap-x-4 items-center">
-            <jegyzi-avatar
-              class="self-start"
-              [profileId]="request.creatorId"
-              [profilPicEnabled]="request.creatorProfilPic"
-              [link]="'/profiles/' + request.creatorId"
-            ></jegyzi-avatar>
-            <div class="flex flex-col gap-y-2 flex-grow">
-              <div class="flex justify-between">
-                <span class="text-primary-500 font-medium"> {{ request.creatorName }}</span>
-                <jegyzi-modify-request-status-badge [seriusness]="request.seriousness"></jegyzi-modify-request-status-badge>
-              </div>
+          </mat-expansion-panel-header>
+          @for (request of acceptedModifyRequests; track request.id) {
+            <div class="flex flex-col gap-y-1 bg-background-200 p-4 rounded-xl">
+              <div class="flex gap-x-1 lg:gap-x-4 items-center">
+                <jegyzi-avatar
+                  class="self-start"
+                  [profileId]="request.creatorId"
+                  [profilPicEnabled]="request.creatorProfilPic"
+                  [link]="'/profiles/' + request.creatorId"
+                ></jegyzi-avatar>
+                <div class="flex flex-col gap-y-2 flex-grow">
+                  <div class="flex justify-between">
+                    <span class="text-primary-500 font-medium"> {{ request.creatorName }}</span>
+                    <jegyzi-modify-request-status-badge [seriusness]="request.seriousness"></jegyzi-modify-request-status-badge>
+                  </div>
 
-              <div class="text-primary-500 hidden md:block">
-                <span class="font-light">Beküldés dátuma: </span>
-                <span class="text-primary-500">{{ request.date | toDate | date : 'short' }}</span>
-              </div>
+                  <div class="text-primary-500 hidden lg:block">
+                    <span class="font-light">Beküldés dátuma: </span>
+                    <span class="text-primary-500">{{ request.date | toDate | date: 'short' }}</span>
+                  </div>
 
-              <div class="flex justify-between">
-                <div class="text-primary-500 hidden md:block">
-                  <span class="font-light">Jegyzet: </span>
-                  <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{ request.noteTitle }}</a>
+                  <div class="flex justify-between">
+                    <div class="text-primary-500 hidden lg:block">
+                      <span class="font-light">Jegyzet: </span>
+                      <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{
+                        request.noteTitle
+                      }}</a>
+                    </div>
+                    <button
+                      class="hidden lg:block btn-icon w-fit self-end"
+                      (click)="doneRequest(request)"
+                      matTooltip="Módosítás kérés befejezése"
+                    >
+                      <span class="ph ph-check"></span>
+                    </button>
+                  </div>
                 </div>
-                <button
-                  class="hidden md:block btn-icon w-fit self-end"
-                  (click)="doneRequest(request)"
-                  matTooltip="Módosítás kérés befejezése"
-                >
+              </div>
+              <div class="flex justify-between lg:hidden">
+                <div class="flex flex-col">
+                  <div class="text-primary-500 flex flex-col gap-y-1">
+                    <span class="font-light">Beküldés dátuma: </span>
+                    <span class="text-primary-500">{{ request.date | toDate | date: 'short' }}</span>
+                  </div>
+
+                  <div class="text-primary-500 flex flex-col gap-y-1">
+                    <span class="font-light">Jegyzet: </span>
+                    <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{
+                      request.noteTitle
+                    }}</a>
+                  </div>
+                </div>
+                <button class="btn-icon w-fit self-end" (click)="doneRequest(request)" matTooltip="Módosítás kérés befejezése">
                   <span class="ph ph-check"></span>
                 </button>
               </div>
             </div>
-          </div>
-          <div class="flex justify-between md:hidden">
-            <div class="flex flex-col">
-              <div class="text-primary-500 flex flex-col gap-y-1">
+          } @empty {
+            <span class="text-heart-100">Nincs elfogadott módosítási kérésed! </span>
+          }
+        </mat-expansion-panel>
+      </mat-accordion>
+    }
+    @if (doneModifyRequests$() | async; as doneModifyRequests) {
+      <mat-accordion class="jegyzi-accordion-transparent">
+        <mat-expansion-panel hideToggle #done>
+          <mat-expansion-panel-header>
+            <div class="flex flex-col gap-y-2 flex-grow mb-4">
+              <div class="flex justify-between items-center w-full">
+                <span class="text-[20px]">Teljesített módosítási kérések</span>
+                <span class="ph text-2xl" aria-hidden="true" [ngClass]="done.expanded ? 'ph-caret-up' : 'ph-caret-down'"></span>
+              </div>
+              <div class="flex gap-x-2 items-center text-primary-500">
+                <span class="ph-fill ph-info ph-lg"></span>
+                <span class="text-sm font-light">Elfogadott és befejezett módosítási kérések megtekintése </span>
+              </div>
+            </div>
+          </mat-expansion-panel-header>
+          @for (request of doneModifyRequests; track request.id) {
+            <div class="flex flex-col gap-y-1 bg-background-200 p-4 rounded-xl">
+              <div class="flex gap-x-1 lg:gap-x-4 items-center">
+                <jegyzi-avatar
+                  [profileId]="request.creatorId"
+                  [profilPicEnabled]="request.creatorProfilPic"
+                  [link]="'/profiles/' + request.creatorId"
+                ></jegyzi-avatar>
+                <div class="flex flex-col gap-y-2">
+                  <span class="text-primary-500 font-medium"> {{ request.creatorName }}</span>
+                  <div class="text-primary-500 hidden lg:block">
+                    <span class="font-light">Beküldés dátuma: </span>
+                    <span class="text-primary-500">{{ request.date | toDate | date: 'short' }}</span>
+                  </div>
+
+                  <div class="text-primary-500 hidden lg:block">
+                    <span class="font-light">Jegyzet: </span>
+                    <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{
+                      request.noteTitle
+                    }}</a>
+                  </div>
+                </div>
+                <jegyzi-modify-request-status-badge
+                  [seriusness]="request.seriousness"
+                  class="mr-0 ml-auto self-auto lg:self-start"
+                ></jegyzi-modify-request-status-badge>
+              </div>
+              <div class="text-primary-500 flex flex-col gap-y-1 lg:hidden">
                 <span class="font-light">Beküldés dátuma: </span>
-                <span class="text-primary-500">{{ request.date | toDate | date : 'short' }}</span>
+                <span class="text-primary-500">{{ request.date | toDate | date: 'short' }}</span>
               </div>
 
-              <div class="text-primary-500 flex flex-col gap-y-1">
+              <div class="text-primary-500 flex flex-col gap-y-1 lg:hidden">
                 <span class="font-light">Jegyzet: </span>
                 <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{ request.noteTitle }}</a>
               </div>
             </div>
-            <button class="btn-icon w-fit self-end" (click)="doneRequest(request)" matTooltip="Módosítás kérés befejezése">
-              <span class="ph ph-check"></span>
-            </button>
-          </div>
-        </div>
-        } @empty {
-        <span class="text-heart-100">Nincs elfogadott módosítási kérésed! </span>
-        }
-      </mat-expansion-panel>
-    </mat-accordion>
-    } @if(doneModifyRequests$() | async; as doneModifyRequests){
-    <mat-accordion class="jegyzi-accordion-transparent">
-      <mat-expansion-panel hideToggle #done>
-        <mat-expansion-panel-header>
-          <div class="flex flex-col gap-y-2 flex-grow mb-4">
-            <div class="flex justify-between items-center w-full">
-              <span class="text-[20px]">Teljesített módosítási kérések</span>
-              <span class="ph text-2xl" aria-hidden="true" [ngClass]="done.expanded ? 'ph-caret-up' : 'ph-caret-down'"></span>
-            </div>
-            <div class="flex gap-x-2 items-center text-primary-500">
-              <span class="ph-fill ph-info ph-lg"></span>
-              <span class="text-sm font-light">Elfogadott és befejezett módosítási kérések megtekintése </span>
-            </div>
-          </div>
-        </mat-expansion-panel-header>
-        @for(request of doneModifyRequests; track request.id) {
-        <div class="flex flex-col gap-y-1 bg-background-200 p-4 rounded-xl">
-          <div class="flex gap-x-1 md:gap-x-4 items-center">
-            <jegyzi-avatar
-              [profileId]="request.creatorId"
-              [profilPicEnabled]="request.creatorProfilPic"
-              [link]="'/profiles/' + request.creatorId"
-            ></jegyzi-avatar>
-            <div class="flex flex-col gap-y-2">
-              <span class="text-primary-500 font-medium"> {{ request.creatorName }}</span>
-              <div class="text-primary-500 hidden md:block">
-                <span class="font-light">Beküldés dátuma: </span>
-                <span class="text-primary-500">{{ request.date | toDate | date : 'short' }}</span>
+          } @empty {
+            <span class="text-heart-100">Nincs teljesített módosítási kérésed! </span>
+          }
+        </mat-expansion-panel>
+      </mat-accordion>
+    }
+    @if (ownModifyRequests$() | async; as ownModifyRequests) {
+      <mat-accordion class="jegyzi-accordion-transparent">
+        <mat-expansion-panel hideToggle #own>
+          <mat-expansion-panel-header>
+            <div class="flex flex-col gap-y-2 flex-grow mb-4">
+              <div class="flex justify-between items-center w-full">
+                <span class="text-[20px]">Általad javasolt módosítási kérések</span>
+                <span class="ph text-2xl" aria-hidden="true" [ngClass]="own.expanded ? 'ph-caret-up' : 'ph-caret-down'"></span>
               </div>
+              <div class="flex gap-x-2 items-center text-primary-500">
+                <span class="ph-fill ph-info ph-lg"></span>
+                <span class="text-sm font-light">Általad javasolt módosítási kérések megtekintése és kezelése</span>
+              </div>
+            </div>
+          </mat-expansion-panel-header>
+          @for (request of ownModifyRequests; track request.id) {
+            <div class="flex flex-col bg-background-200 p-4 rounded-xl">
+              <div class="flex gap-x-4">
+                <div class="flex flex-col gap-y-2">
+                  <span class="text-primary-500 text-lg font-medium">{{ request.status }}</span>
+                  <div class="text-primary-500 flex flex-col gap-y-1 lg:block">
+                    <span class="font-light">Beküldés dátuma: </span>
+                    <span class="text-primary-500">{{ request.date | toDate | date: 'short' }}</span>
+                  </div>
 
-              <div class="text-primary-500 hidden md:block">
-                <span class="font-light">Jegyzet: </span>
-                <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{ request.noteTitle }}</a>
+                  <div class="text-primary-500 flex flex-col gap-y-1 lg:block">
+                    <span class="font-light">Jegyzet: </span>
+                    <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{
+                      request.noteTitle
+                    }}</a>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-y-2 justify-between mr-0 ml-auto">
+                  <jegyzi-modify-request-status-badge [seriusness]="request.seriousness"></jegyzi-modify-request-status-badge>
+                  @if (request.status === modifyRequestStatus.SUBMITTED || request.status === modifyRequestStatus.DONE) {
+                    <button class="btn-icon w-fit self-end" (click)="deleteRequest(request)" matTooltip="Módosítás kérés törlése">
+                      <span class="ph ph-trash"></span>
+                    </button>
+                  }
+                </div>
               </div>
             </div>
-            <jegyzi-modify-request-status-badge
-              [seriusness]="request.seriousness"
-              class="mr-0 ml-auto self-auto md:self-start"
-            ></jegyzi-modify-request-status-badge>
-          </div>
-          <div class="text-primary-500 flex flex-col gap-y-1 md:hidden">
-            <span class="font-light">Beküldés dátuma: </span>
-            <span class="text-primary-500">{{ request.date | toDate | date : 'short' }}</span>
-          </div>
-
-          <div class="text-primary-500 flex flex-col gap-y-1 md:hidden">
-            <span class="font-light">Jegyzet: </span>
-            <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{ request.noteTitle }}</a>
-          </div>
-        </div>
-        } @empty {
-        <span class="text-heart-100">Nincs teljesített módosítási kérésed! </span>
-        }
-      </mat-expansion-panel>
-    </mat-accordion>
-    } @if(ownModifyRequests$() | async; as ownModifyRequests){
-    <mat-accordion class="jegyzi-accordion-transparent">
-      <mat-expansion-panel hideToggle #own>
-        <mat-expansion-panel-header>
-          <div class="flex flex-col gap-y-2 flex-grow mb-4">
-            <div class="flex justify-between items-center w-full">
-              <span class="text-[20px]">Általad javasolt módosítási kérések</span>
-              <span class="ph text-2xl" aria-hidden="true" [ngClass]="own.expanded ? 'ph-caret-up' : 'ph-caret-down'"></span>
-            </div>
-            <div class="flex gap-x-2 items-center text-primary-500">
-              <span class="ph-fill ph-info ph-lg"></span>
-              <span class="text-sm font-light">Általad javasolt módosítási kérések megtekintése és kezelése</span>
-            </div>
-          </div>
-        </mat-expansion-panel-header>
-        @for(request of ownModifyRequests; track request.id) {
-        <div class="flex flex-col bg-background-200 p-4 rounded-xl">
-          <div class="flex gap-x-4">
-            <div class="flex flex-col gap-y-2">
-              <span class="text-primary-500 text-lg font-medium">{{ request.status }}</span>
-              <div class="text-primary-500 flex flex-col gap-y-1 md:block">
-                <span class="font-light">Beküldés dátuma: </span>
-                <span class="text-primary-500">{{ request.date | toDate | date : 'short' }}</span>
-              </div>
-
-              <div class="text-primary-500 flex flex-col gap-y-1 md:block">
-                <span class="font-light">Jegyzet: </span>
-                <a [routerLink]="'/notes/' + request.noteId" class="hover:text-primary-link transition-colors">{{ request.noteTitle }}</a>
-              </div>
-            </div>
-            <div class="flex flex-col gap-y-2 justify-between mr-0 ml-auto">
-              <jegyzi-modify-request-status-badge [seriusness]="request.seriousness"></jegyzi-modify-request-status-badge>
-              @if(request.status === modifyRequestStatus.SUBMITTED || request.status === modifyRequestStatus.DONE) {
-              <button class="btn-icon w-fit self-end" (click)="deleteRequest(request)" matTooltip="Módosítás kérés törlése">
-                <span class="ph ph-trash"></span>
-              </button>
-              }
-            </div>
-          </div>
-        </div>
-        } @empty {
-        <span class="text-heart-100">Nincs általad javasolt módosítási kérés! </span>
-        }
-      </mat-expansion-panel>
-    </mat-accordion>
+          } @empty {
+            <span class="text-heart-100">Nincs általad javasolt módosítási kérés! </span>
+          }
+        </mat-expansion-panel>
+      </mat-accordion>
     }
   </div>
 </div>

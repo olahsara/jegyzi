@@ -17,7 +17,6 @@ export class NotePageService {
       this.note.set(updated);
     } else {
       this.getNote().then((value) => {
-        console.log(value);
         this.note.set(value);
       });
     }

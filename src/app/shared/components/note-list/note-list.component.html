@@ -1,8 +1,8 @@
-<div class="flex flex-col gap-y-4">
+<div class="text-primary-500" [ngClass]="[row() ? 'grid grid-cols-2 gap-4' : 'flex flex-col gap-y-4 ']">
   @for (note of notes(); track note.id) {
     <a
       [routerLink]="myNotes() ? '/my-notes/' + note.id : '/notes/' + note.id"
-      class="rounded-3xl bg-background-200 hover:bg-background-200 md:hover:bg-background-hover transition-colors px-4 md:px-6 py-4 flex flex-col gap-y-4"
+      class="rounded-3xl bg-background-200 hover:bg-background-200 lg:hover:bg-background-hover transition-colors px-4 lg:px-6 py-4 flex flex-col gap-y-4"
     >
       <div class="flex gap-8 items-center">
         @if (!myNotes()) {
@@ -13,10 +13,10 @@
           <div>
             <span class="font-semibold"> {{ note.title }}</span>
             @if (note.subTitle) {
-              <span class="text-sm hidden md:inline-block"> - {{ note.subTitle }} </span>
+              <span class="text-sm hidden lg:inline-block"> - {{ note.subTitle }} </span>
             }
           </div>
-          <div class="text-sm block md:hidden">{{ note.subTitle }}</div>
+          <div class="text-sm block lg:hidden">{{ note.subTitle }}</div>
           @if (note.lastModify) {
             <div class="text-sm">Módosítva: {{ note.lastModify | toDate | date: 'short' }}</div>
           } @else {
@@ -24,7 +24,7 @@
           }
         </div>
         <div class="flex gap-x-2 mr-0 ml-auto self-start items-center">
-          <div class="hidden md:block">
+          <div class="hidden lg:block">
             @if (note.avarageStar) {
               <jegyzi-rating-component
                 [currentRate]="note.avarageStar"
@@ -61,7 +61,7 @@
           </div>
         }
       </div>
-      <div class="block md:hidden">
+      <div class="block lg:hidden">
         <jegyzi-rating-component
           [currentRate]="note.avarageStar"
           [disabled]="true"
