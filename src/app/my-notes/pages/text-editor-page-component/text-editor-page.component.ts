@@ -18,13 +18,13 @@ import { UserService } from '../../../shared/services/user.service';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 
 @Component({
-  selector: 'jegyzi-text-editor',
+  selector: 'jegyzi-text-editor-page',
   standalone: true,
-  templateUrl: './text-editor.component.html',
-  styleUrl: './text-editor.component.scss',
+  templateUrl: './text-editor-page.component.html',
+  styleUrl: './text-editor-page.component.scss',
   imports: [CommonModule, TitleComponent, FORM_DIRECTIVES, RouterLink, QuillEditorComponent, MatTooltip, LabelGroupComponent],
 })
-export class TextEditorComponent implements OnInit {
+export class TextEditorPageComponent implements OnInit {
   private userService = inject(UserService);
   private labelService = inject(LabelService);
   private noteService = inject(NoteService);
@@ -51,7 +51,6 @@ export class TextEditorComponent implements OnInit {
     reviews: new FormControl<string[]>([]),
     updateRequests: new FormControl<string[]>([]),
     lastModify: new FormControl<Timestamp | null>(null),
-    creatorProfilPic: new FormControl<boolean>(false),
     numberOfUpdateRequests: new FormControl<number>(0),
   });
 
@@ -77,7 +76,6 @@ export class TextEditorComponent implements OnInit {
       this.noteService.updateNote(this.form.value as Note);
     } else {
       this.form.controls.creatorId.setValue(this.profile()?.id!);
-      this.form.controls.creatorProfilPic.setValue(this.profile()?.profilePicture ?? false);
 
       this.noteService.createNote(this.form.value as Note, this.profile()!).finally(() => {
         this.toastService.success('Sikeres feltöltés!');

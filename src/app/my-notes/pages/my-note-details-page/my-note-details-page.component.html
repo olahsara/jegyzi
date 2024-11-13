@@ -65,7 +65,7 @@
       </div>
       <div class="flex flex-col gap-y-10 basis-full md:mx-10 lg:basis-1/4 mx-4 lg:mx-10">
         <jegyzi-note-review [note]="note"></jegyzi-note-review>
-        <jegyzi-note-comment [note]="note" [loggedInUser]="this.loggedInUser()" (newComment)="newComment($event)"></jegyzi-note-comment>
+        <jegyzi-note-comment [note]="note" [loggedInUser]="this.loggedInUser()" (refreshComment)="newComment($event)"></jegyzi-note-comment>
       </div>
     </div>
   }

@@ -271,6 +271,14 @@ export class NoteService {
     }
   }
 
+  async deleteReview(note: Note, reviewId: string) {
+    const newReviews = note.reviews.filter((review) => review !== reviewId);
+
+    return await this.store.collection(this.collectionName).doc(note.id).update({
+      reviews: newReviews,
+    });
+  }
+
   async deleteNote(note: Note) {
     await this.store.collection<Note>(this.collectionName).doc(note.id).delete();
   }

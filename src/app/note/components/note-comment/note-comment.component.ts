@@ -40,22 +40,20 @@ export class NoteCommentComponent {
 
   commentForm = new FormGroup({
     creatorId: new FormControl<string | null>(null),
-    creatorProfilPic: new FormControl<boolean | null>(null),
     creatorName: new FormControl<string | null>(null),
     date: new FormControl<Timestamp | null>(null),
     comment: new FormControl<string | null>(null),
     note: new FormControl<string | null>(null),
   });
 
-  newComment = output<Comment | undefined>();
+  refreshComment = output<Comment | undefined>();
 
   submit() {
     this.commentForm.controls.creatorId.setValue(this.loggedInUser()!.id!);
-    this.commentForm.controls.creatorProfilPic.setValue(this.loggedInUser()!.profilePicture ?? false);
     this.commentForm.controls.creatorName.setValue(this.loggedInUser()!.name);
     this.commentForm.controls.note.setValue(this.note().id);
     this.commentForm.controls.date.setValue(Timestamp.fromDate(new Date()) as Timestamp);
-    this.newComment.emit(this.commentForm.value as Comment);
+    this.refreshComment.emit(this.commentForm.value as Comment);
     this.commentForm.reset();
   }
 
@@ -80,14 +78,14 @@ export class NoteCommentComponent {
 
       this.commentService.updateComment(commentId, updateValue).then(() => {
         this.edit.set(undefined);
-        this.newComment.emit(undefined);
+        this.refreshComment.emit(undefined);
       });
     }
   }
 
   deleteComment(commentId: string) {
     this.commentService.deleteComment(commentId, this.note()).then(() => {
-      this.newComment.emit(undefined);
+      this.refreshComment.emit(undefined);
     });
   }
 }

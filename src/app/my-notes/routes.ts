@@ -26,7 +26,7 @@ export const ROUTES: Route[] = [
       },
       {
         path: 'new-note',
-        loadComponent: () => import('./pages/text-editor-component/text-editor.component').then((c) => c.TextEditorComponent),
+        loadComponent: () => import('./pages/text-editor-page-component/text-editor-page.component').then((c) => c.TextEditorPageComponent),
       },
     ],
   },
@@ -42,6 +42,6 @@ export const ROUTES: Route[] = [
     canActivate: [authGuard()],
     pathMatch: 'full',
     resolve: { myNote: myNoteResolver() },
-    loadComponent: () => import('./pages/text-editor-component/text-editor.component').then((c) => c.TextEditorComponent),
+    loadComponent: () => import('./pages/text-editor-page-component/text-editor-page.component').then((c) => c.TextEditorPageComponent),
   },
 ];

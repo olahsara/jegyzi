@@ -8,7 +8,6 @@ export interface Note {
   note: string;
   labels: LabelNote[];
   creatorId: string;
-  creatorProfilPic: boolean;
   created: Timestamp;
   followers: string[]; // felhasználók id-ja
   followersNumber: number;

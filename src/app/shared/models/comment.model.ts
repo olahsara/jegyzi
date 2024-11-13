@@ -6,7 +6,6 @@ export interface Comment {
   date: Timestamp;
   lastModified?: Timestamp;
   creatorId: string;
-  creatorProfilPic: boolean;
   creatorName: string;
   note: string;
 }

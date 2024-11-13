@@ -18,12 +18,7 @@
           @for (request of inProgressModifyRequests; track request.id) {
             <div class="flex flex-col gap-y-1 bg-background-200 p-4 rounded-xl">
               <div class="flex gap-x-1 lg:gap-x-4 items-center">
-                <jegyzi-avatar
-                  class="self-start"
-                  [profileId]="request.creatorId"
-                  [profilPicEnabled]="request.creatorProfilPic"
-                  [link]="'/profiles/' + request.creatorId"
-                ></jegyzi-avatar>
+                <jegyzi-avatar class="self-start" [profileId]="request.creatorId" [link]="'/profiles/' + request.creatorId"></jegyzi-avatar>
                 <div class="flex flex-col gap-y-2 flex-grow">
                   <div class="flex justify-between">
                     <span class="text-primary-500 font-medium"> {{ request.creatorName }}</span>
@@ -97,12 +92,7 @@
           @for (request of acceptedModifyRequests; track request.id) {
             <div class="flex flex-col gap-y-1 bg-background-200 p-4 rounded-xl">
               <div class="flex gap-x-1 lg:gap-x-4 items-center">
-                <jegyzi-avatar
-                  class="self-start"
-                  [profileId]="request.creatorId"
-                  [profilPicEnabled]="request.creatorProfilPic"
-                  [link]="'/profiles/' + request.creatorId"
-                ></jegyzi-avatar>
+                <jegyzi-avatar class="self-start" [profileId]="request.creatorId" [link]="'/profiles/' + request.creatorId"></jegyzi-avatar>
                 <div class="flex flex-col gap-y-2 flex-grow">
                   <div class="flex justify-between">
                     <span class="text-primary-500 font-medium"> {{ request.creatorName }}</span>
@@ -174,11 +164,7 @@
           @for (request of doneModifyRequests; track request.id) {
             <div class="flex flex-col gap-y-1 bg-background-200 p-4 rounded-xl">
               <div class="flex gap-x-1 lg:gap-x-4 items-center">
-                <jegyzi-avatar
-                  [profileId]="request.creatorId"
-                  [profilPicEnabled]="request.creatorProfilPic"
-                  [link]="'/profiles/' + request.creatorId"
-                ></jegyzi-avatar>
+                <jegyzi-avatar [profileId]="request.creatorId" [link]="'/profiles/' + request.creatorId"></jegyzi-avatar>
                 <div class="flex flex-col gap-y-2">
                   <span class="text-primary-500 font-medium"> {{ request.creatorName }}</span>
                   <div class="text-primary-500 hidden lg:block">

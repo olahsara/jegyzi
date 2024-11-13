@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './shared/auth/auth.guard';
 
 export const routes: Routes = [
   {
@@ -36,6 +37,12 @@ export const routes: Routes = [
       {
         path: 'my-notes',
         loadChildren: () => import('./my-notes/routes').then((c) => c.ROUTES),
+      },
+      {
+        path: 'my-profile',
+        canActivate: [authGuard()],
+        pathMatch: 'full',
+        loadComponent: () => import('./profile/pages/my-profile-page/my-profile-page.component').then((c) => c.MyProfilePageComponent),
       },
     ],
   },

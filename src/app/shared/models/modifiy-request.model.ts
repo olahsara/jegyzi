@@ -6,7 +6,6 @@ export interface ModifyRequest {
   seriousness: ModifyRequestSeriusness;
   creatorId: string;
   creatorName: string;
-  creatorProfilPic: boolean;
   noteId: string;
   noteTitle: string;
   noteCreator: string; //user id

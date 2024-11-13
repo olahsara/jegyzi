@@ -10,7 +10,7 @@
     <a routerLink="/profiles" routerLinkActive="active" class="transition-colors hover:text-primary-link">Felhasználók</a>
     @if (user(); as user) {
       <a routerLink="/my-notes" routerLinkActive="active" class="transition-colors hover:text-primary-link">Jegyzeteim</a>
-      <a routerLink="/profiles/my-profile" routerLinkActive="active" class="transition-colors hover:text-primary-link">Profilom</a>
+      <a routerLink="/my-profile" routerLinkActive="active" class="transition-colors hover:text-primary-link">Profilom</a>
     } @else {
       <a routerLink="/login" routerLinkActive="active" class="transition-colors hover:text-primary-link">Belépés</a>
       <button type="button" (click)="register()" class="transition-colors hover:text-primary-link">Regisztráció</button>
@@ -93,7 +93,7 @@
         <a routerLink="/profiles" routerLinkActive="active" class="mobil-menu-item">Felhasználók</a>
         @if (user(); as user) {
           <a routerLink="/my-notes" routerLinkActive="active" class="mobil-menu-item">Jegyzeteim</a>
-          <a routerLink="/profiles/my-profile" routerLinkActive="active" class="mobil-menu-item">Profilom</a>
+          <a routerLink="/my-profile" routerLinkActive="active" class="mobil-menu-item">Profilom</a>
         } @else {
           <a routerLink="/login" routerLinkActive="active" class="mobil-menu-item">Belépés</a>
           <button type="button" (click)="register()" class="mobil-menu-item">Regisztráció</button>

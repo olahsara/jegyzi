@@ -39,7 +39,6 @@
               size="md"
               [editable]="false"
               [link]="review.userId ? '/profiles/' + review.userId : undefined"
-              [profilPicEnabled]="review.userProfilPic"
             ></jegyzi-avatar>
             <span class="font-semibold text-primary-600">{{ review.anonim ? 'Anonim értékelés' : review.userName }}</span>
           </div>
@@ -47,8 +46,22 @@
             review.submitDate | toDate | elapsedTime
           }}</span>
         </div>
-        <jegyzi-rating-component [currentRate]="review.stars" [disabled]="true" (selectRate)="(undefined)"></jegyzi-rating-component>
-        <span class="text-primary-300">{{ review.description }}</span>
+        <div class="flex justify-between items-center">
+          <div class="flex flex-col gap-y-2">
+            <jegyzi-rating-component [currentRate]="review.stars" [disabled]="true" (selectRate)="(undefined)"></jegyzi-rating-component>
+            <span class="text-primary-300">{{ review.description }}</span>
+          </div>
+          @if (review.userId === loggedInUser()?.id) {
+            <button
+              type="button"
+              (click)="deleteReview(review.id)"
+              class="h-[2rem] w-[2rem] btn-secondary-icon"
+              matTooltip="Hozzászólás törlése"
+            >
+              <span class="ph ph-trash ph-lg"></span>
+            </button>
+          }
+        </div>
       </div>
     } @empty {
       <div class="py-2 px-4 mb-4 text-base text-center">

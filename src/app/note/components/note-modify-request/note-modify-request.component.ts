@@ -32,7 +32,6 @@ export class NoteModifyRequestModalComponent {
     seriousness: new FormControl<ModifyRequestSeriusness | null>(null),
     description: new FormControl<string | null>(null),
     creatorId: new FormControl<string | null>(this.data.creator.id),
-    creatorProfilPic: new FormControl<boolean | null>(this.data.creator.profilePicture ?? false),
     creatorName: new FormControl<string | null>(this.data.creator.name),
     noteId: new FormControl<string | null>(this.data.note.id),
     noteTitle: new FormControl<string | null>(this.data.note.title),

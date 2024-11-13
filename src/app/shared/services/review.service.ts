@@ -119,7 +119,17 @@ export class ReviewService {
     return data;
   }
 
-  async deleteReview(id: string) {
-    return await this.store.collection<Review>(this.collectionName).doc(id).delete();
+  async deleteReview(id: string, note?: Note) {
+    const data = await this.store
+      .collection<Review>(this.collectionName)
+      .doc(id)
+      .delete()
+      .then(() => {
+        if (note) {
+          this.noteService.deleteReview(note, id);
+        }
+      });
+
+    return data;
   }
 }

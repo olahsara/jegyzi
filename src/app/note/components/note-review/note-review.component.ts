@@ -53,7 +53,6 @@ export class NoteReviewComponent {
   reviewForm = new FormGroup({
     anonim: new FormControl<boolean | null>(null),
     userId: new FormControl<string | null>(null),
-    userProfilPic: new FormControl<boolean | null>(null),
     userName: new FormControl<string | null>(null),
     submitDate: new FormControl<Timestamp>(Timestamp.fromDate(new Date()) as Timestamp),
     stars: new FormControl<number | null>(null),
@@ -62,20 +61,19 @@ export class NoteReviewComponent {
     avarageStar: new FormControl<number | null>(null),
   });
 
-  newReview = output<Review>();
+  refreshReview = output<Review | undefined>();
 
   selectStar(rating: number) {
     this.reviewForm.controls.stars.setValue(rating);
   }
 
   submit(panel: MatExpansionPanel) {
+    this.reviewForm.controls.userId.setValue(this.loggedInUser()!.id!);
     if (!this.reviewForm.value.anonim) {
-      this.reviewForm.controls.userId.setValue(this.loggedInUser()!.id!);
-      this.reviewForm.controls.userProfilPic.setValue(this.loggedInUser()!.profilePicture ?? false);
       this.reviewForm.controls.userName.setValue(this.loggedInUser()!.name);
     }
     this.reviewForm.controls.notesId.setValue(this.note().id);
-    this.newReview.emit(this.reviewForm.value as Review);
+    this.refreshReview.emit(this.reviewForm.value as Review);
     this.reviewForm.reset();
     panel.close();
   }
@@ -85,5 +83,11 @@ export class NoteReviewComponent {
   }
   loadLessReview() {
     this.allReviews.set(false);
+  }
+
+  deleteReview(id: string) {
+    this.reviewService.deleteReview(id, this.note()).then(() => {
+      this.refreshReview.emit(undefined);
+    });
   }
 }

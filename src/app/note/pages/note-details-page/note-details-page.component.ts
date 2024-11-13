@@ -95,10 +95,14 @@ export class NoteDetailsPageComponent {
     });
   }
 
-  newReview(review: Review) {
-    this.reviewService.createReview(review, this.note()).then((id) => {
+  newReview(review?: Review) {
+    if (review != undefined) {
+      this.reviewService.createReview(review, this.note()).then((id) => {
+        this.pageService.reload();
+      });
+    } else {
       this.pageService.reload();
-    });
+    }
   }
 
   newComment(comment?: Comment) {
