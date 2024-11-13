@@ -76,7 +76,7 @@
         <span class="text-primary-300">Ehhez a jegyzethez még nem érkezett hozzászólás!</span>
       </div>
     }
-    @if (note().comments.length > 10) {
+    @if (note().comments.length > 11) {
       @if (allComments()) {
         <button type="button" class="btn-small btn-secondary mx-auto" (click)="loadLessComment()">Kevesebb hozzászólás mutatása</button>
       } @else {

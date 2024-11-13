@@ -68,7 +68,7 @@
         <span class="text-primary-300">Ehhez a jegyzethez még nem érkezett értékelés!</span>
       </div>
     }
-    @if (note().reviews.length > 3) {
+    @if (note().reviews.length > 4) {
       @if (allReviews()) {
         <button type="button" class="btn-small btn-secondary mx-auto" (click)="loadLessReview()">Kevesebb értékelés mutatása</button>
       } @else {
