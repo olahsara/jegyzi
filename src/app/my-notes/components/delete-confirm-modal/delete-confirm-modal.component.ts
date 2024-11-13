@@ -52,38 +52,37 @@ export class DeleteConfirmModalComponent {
   }
 
   submit() {
-    this.noteService.deleteNote(this.data.note).then(() => {
-      //Jegyzet törlése:
-      //Követőknél törlés
-      this.data.note.followers.forEach((userId) => {
-        this.userService.deleteNote(this.data.note, userId);
-        const noti: Notification = {
-          id: '',
-          user: userId,
-          date: Timestamp.fromDate(new Date()),
-          new: true,
-          title: 'Törölt jegyzet',
-          type: NotificationType.OTHER,
-          description:
-            'Az általad követett note.title' + this.data.note.title + ' című jegyzetet a szerzője sajnos eltávolította a rendszerből.',
-        };
-        this.notificationService.createNotification(noti);
-      });
-      //Módosítási kérések törlése
-      this.data.note.updateRequests.forEach((requestId) => {
-        this.requestService.deleteModifyRequestById(requestId);
-      });
-      //Kommentel törlése
-      this.data.note.comments.forEach((id) => {
-        this.commentService.deleteComment(id);
-      });
-      //Értékelés törlése
-      this.data.note.reviews.forEach((id) => {
-        this.reviewService.deleteReview(id);
-      });
-
-      this.userService.reduceNoteNumber(this.data.note.creatorId);
-      this.close(true);
+    //Jegyzet törlése:
+    //Követőknél törlés
+    this.data.note.followers.map((userId) => {
+      this.userService.deleteNote(this.data.note, userId);
+      const noti: Notification = {
+        id: '',
+        user: userId,
+        date: Timestamp.fromDate(new Date()),
+        new: true,
+        title: 'Törölt jegyzet',
+        type: NotificationType.OTHER,
+        description:
+          'Az általad követett note.title' + this.data.note.title + ' című jegyzetet a szerzője sajnos eltávolította a rendszerből.',
+      };
+      this.notificationService.createNotification(noti);
     });
+    //Módosítási kérések törlése
+    this.data.note.updateRequests.map((requestId) => {
+      this.requestService.deleteModifyRequestById(requestId);
+    });
+    //Kommentel törlése
+    this.data.note.comments.map((id) => {
+      this.commentService.deleteComment(id);
+    });
+    //Értékelés törlése
+    this.data.note.reviews.map((id) => {
+      this.reviewService.deleteReview(id);
+    });
+
+    this.userService.reduceNoteNumber(this.data.note.creatorId);
+    this.noteService.deleteNote(this.data.note);
+    this.close(true);
   }
 }

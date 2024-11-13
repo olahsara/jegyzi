@@ -10,13 +10,9 @@ export class NotificationService {
   readonly collection = 'Notifications';
 
   createNotification(notification: Notification) {
+    notification.id = this.store.createId();
     if (notification) {
-      return this.store
-        .collection<Notification>(this.collection)
-        .add(notification)
-        .then((v) => {
-          v.update({ id: v.id });
-        });
+      return this.store.collection<Notification>(this.collection).doc(notification.id).set(notification);
     }
     return;
   }

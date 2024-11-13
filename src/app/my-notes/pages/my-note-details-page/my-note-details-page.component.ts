@@ -87,7 +87,7 @@ export class MyNoteDetailsPageComponent {
 
   deleteNote() {
     this.dialog
-      .open(DeleteConfirmModalComponent, { minWidth: '40vw', data: this.myNote() })
+      .open(DeleteConfirmModalComponent, { minWidth: '40vw', data: { note: this.myNote() } })
       .afterClosed()
       .subscribe((deleted) => {
         if (deleted) {

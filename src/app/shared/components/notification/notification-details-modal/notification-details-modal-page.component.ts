@@ -44,6 +44,7 @@ export class NotificationDetailsModalPageComponent {
   }
 
   deleteNotification(id: string) {
+    console.log(id, this.notification());
     this.notificationService.deleteNotification(id)?.then(() => {
       this.close();
     });

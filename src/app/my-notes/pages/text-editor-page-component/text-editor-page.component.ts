@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Timestamp } from '@angular/fire/firestore';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -37,6 +37,8 @@ export class TextEditorPageComponent implements OnInit {
 
   labels$ = this.labelService.getLabels();
 
+  errors = signal<string | undefined>(undefined);
+
   form = new FormGroup({
     id: new FormControl<string | null>(null),
     title: new FormControl<string | null>(null, Validators.required),
@@ -44,7 +46,7 @@ export class TextEditorPageComponent implements OnInit {
     note: new FormControl<string | null>(null, Validators.required),
     labels: new FormControl<LabelNote[]>([], Validators.required) as FormControl<LabelNote[]>,
     creatorId: new FormControl<string | null>(null),
-    created: new FormControl<Timestamp>(Timestamp.fromDate(new Date()) as Timestamp),
+    created: new FormControl<Timestamp | null>(null),
     followers: new FormControl<string[]>([]),
     followersNumber: new FormControl<number>(0),
     comments: new FormControl<string[]>([]),
@@ -71,17 +73,23 @@ export class TextEditorPageComponent implements OnInit {
   }
 
   submit() {
-    if (this.myNote()) {
-      this.form.controls.lastModify.setValue(Timestamp.fromDate(new Date()) as Timestamp);
-      this.noteService.updateNote(this.form.value as Note);
+    if (this.form.value.title && this.form.value.note) {
+      this.errors.set(undefined);
+      if (this.myNote()) {
+        this.form.controls.lastModify.setValue(Timestamp.fromDate(new Date()) as Timestamp);
+        this.noteService.updateNote(this.form.value as Note);
+      } else {
+        this.form.controls.creatorId.setValue(this.profile()?.id!);
+        this.form.controls.created.setValue(Timestamp.fromDate(new Date()) as Timestamp);
+        
+        this.noteService.createNote(this.form.value as Note, this.profile()!).finally(() => {
+          this.toastService.success('Sikeres feltöltés!');
+          this.userService.createNote(this.profile()!);
+          this.router.navigate(['/my-notes']);
+        });
+      }
     } else {
-      this.form.controls.creatorId.setValue(this.profile()?.id!);
-
-      this.noteService.createNote(this.form.value as Note, this.profile()!).finally(() => {
-        this.toastService.success('Sikeres feltöltés!');
-        this.userService.createNote(this.profile()!);
-        this.router.navigate(['/my-notes']);
-      });
+      this.errors.set('Cím és tartalom megadása kötelező!');
     }
   }
 
