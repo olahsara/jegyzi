@@ -8,7 +8,7 @@ import { NoteService } from './note.service';
 import { NotificationService } from './notifictaion.service';
 import { ToastService } from './toast.service';
 
-/**Módosítási kérérseket kezelő service*/
+/**Módosítási kérérseket kezelő szolgáltatás*/
 @Injectable({ providedIn: 'root' })
 export class ModifyRequestService {
   readonly collectionName = 'ModifyRequests';
@@ -183,6 +183,7 @@ export class ModifyRequestService {
           linkedEntityId: request.id,
           description: request.noteTitle + 'című jegyzethez küldött módosítási kérésedet a szerző elutasította.',
         };
+        this.noteService.reduceUpdateRequestsNumber(request.noteId);
         this.notificationService.createNotification(noti);
         this.toastService.success('Sikeresen elutasítottad a módosítási kérést!');
       });
@@ -191,8 +192,8 @@ export class ModifyRequestService {
   }
 
   /** Módosítási kérés törlése:
-   * Módosítási kérést a módosítási kérés szerzője tudja tötlni amennyiben
-   * a módosítási kérés státusz elutasított (DECLINE) vagy befejezett (DONE) állapotú.
+   * Módosítási kérést a módosítási kérés szerzője tudja törölni amennyiben
+   * a módosítási kérés státusz elutasított (DECLINE) vagy befejezett (DONE) vagy beérkezett (SUBMITTED) állapotú.
    * @param request a törölni kívánt módosítási kérés.
    *
    */
@@ -212,6 +213,10 @@ export class ModifyRequestService {
     return data;
   }
 
+  /** Módosítási kérés törlése id alapján:
+   * @param requestId a törölni kívánt módosítási kérés id-ja.
+   *
+   */
   async deleteModifyRequestById(requestId: string) {
     const data = await this.store.collection<ModifyRequest>(this.collectionName).doc(requestId).delete();
 

@@ -37,7 +37,6 @@ export class NoteModifyRequestModalComponent {
     noteTitle: new FormControl<string | null>(this.data.note.title),
     noteCreator: new FormControl<string | null>(this.data.note.creatorId),
     status: new FormControl<ModifyRequestStatus>(ModifyRequestStatus.SUBMITTED),
-    numberOfUpdateRequests: new FormControl<number>(this.data.note.numberOfUpdateRequests + 1),
   });
   modifyRequestSeriusness = ModifyRequestSeriusness;
 
