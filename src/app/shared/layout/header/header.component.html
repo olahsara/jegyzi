@@ -19,7 +19,7 @@
   <div class="flex gap-4 mx-4 justify-self-end items-center jegyzi-menu">
     @if (user(); as user) {
       @if (notifications(); as notifications) {
-        <button mat-button [matMenuTriggerFor]="menu">
+        <button mat-button class=" h-20" [matMenuTriggerFor]="menu">
           <div class="relative">
             <span
               class="ph-2x text-primary-500"
