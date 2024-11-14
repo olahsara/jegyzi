@@ -44,7 +44,7 @@ export class MyProfilePageComponent {
     const array: User[] = [];
     this.profile()?.follow.forEach((element) => {
       this.userService.getUserById(element).then((el) => {
-        array.push(el[0]);
+        array.push(el);
       });
     });
     return array;

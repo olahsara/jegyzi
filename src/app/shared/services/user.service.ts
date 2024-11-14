@@ -14,6 +14,7 @@ import { ToastService } from './toast.service';
 @Injectable({
   providedIn: 'root',
 })
+/**Felhasználókat kezelő szolgáltatás*/
 export class UserService {
   readonly collectionName = 'Users';
   private notificationService = inject(NotificationService);
@@ -26,14 +27,10 @@ export class UserService {
 
   user: WritableSignal<User | undefined> = signal(undefined);
 
-  refreshLoggedInUser(id: string) {
-    this.getUserById(id).then((value) => {
-      if (value) {
-        this.user.set(value[0]);
-      }
-    });
-  }
-
+  /**
+   * Beállítja a bejelentkezett felhasználót és a localstorage-ben a bejelentkezett felhasználó id-ját.
+   * @param user a felhasználó
+   */
   setUser(user: User | undefined) {
     this.user.set(user);
     if (this.localstorage) {
@@ -41,6 +38,10 @@ export class UserService {
     }
   }
 
+  /**
+   * Létrehoz egy új felhasználót.
+   * @param user a létrehozni kívánt felhasználó adatai
+   */
   async createProfile(user: User) {
     return this.store
       .collection<User>(this.collectionName)
@@ -51,6 +52,10 @@ export class UserService {
       });
   }
 
+  /**
+   * Lekéri a 3 legtöbb követővel rendelkező felhasználót.
+   * @returns a 3db felhasználó
+   */
   async getTopUsers(): Promise<User[]> {
     const data = await this.store
       .collection<User>(this.collectionName)
@@ -65,7 +70,10 @@ export class UserService {
 
     return data;
   }
-
+  /**
+   * Lekéri az összes felhasználót.
+   * @returns az összes felhasználó
+   */
   async getAllUsers() {
     const data = await this.store
       .collection<User>(this.collectionName)
@@ -80,6 +88,11 @@ export class UserService {
     return data;
   }
 
+  /**
+   * Lekéri a megfelelő adatokkal rendelkező felhasználókat
+   * @param filter az adatok, amikkel rendelkeznie kell a lekért felhasználóknak
+   * @returns a leszűrt felhasználó lista
+   */
   async getUsersByFilter(filter: UserFilterModel): Promise<User[]> {
     let result = this.store.collection<User>(this.collectionName).ref as Query<User>;
     if (filter.name) result = result.where('name', '==', filter.name);
@@ -98,7 +111,12 @@ export class UserService {
     return data;
   }
 
-  async getUserById(id: string): Promise<User[]> {
+  /**
+   * Felhasználó lekérése id alapján
+   * @param id a lekérni kívánt felhasználó id-ja
+   * @returns a felhasználó
+   */
+  async getUserById(id: string): Promise<User> {
     const data = await this.store
       .collection<User>(this.collectionName)
       .ref.where('id', '==', id)
@@ -110,9 +128,13 @@ export class UserService {
         });
       });
 
-    return data;
+    return data[0];
   }
 
+  /**
+   * Felhasználó módosítása
+   * @param newValue a módosított adatok
+   */
   async modifyUser(newValue: User) {
     return await this.store
       .collection<User>(this.collectionName)
@@ -126,6 +148,10 @@ export class UserService {
       });
   }
 
+  /**
+   * Felhasználó bekövetése
+   * @param followedUser a bekövetett felhasználó
+   */
   async followUser(followedUser: User) {
     //Bejelentkezett felhasználó követésihez adjuk hozzá az új felhasználót
     let newFollowings: string[] = [];
@@ -172,6 +198,10 @@ export class UserService {
       });
   }
 
+  /**
+   * Felhasználó kikövetése
+   * @param followedUser a kikövetni kívánt felhasználó
+   */
   async unFollowUser(followedUser: User) {
     //Bejelentkezett felhasználó követésiből kitöröljük a felhasználót
     const newFollowings = this.user()?.follow!.filter((userId) => userId !== followedUser.id);
@@ -192,6 +222,10 @@ export class UserService {
       });
   }
 
+  /**
+   * Jegyzet bekövetése
+   * @param note a bekövetni kívánt jegyzet
+   */
   async followNote(note: Note) {
     //Bejelentkezett felhasználó követésihez adjuk új jegyzetet
     let newFollowings: string[] = [];
@@ -210,6 +244,10 @@ export class UserService {
     return await this.noteService.addNewFollower(this.user()!, note);
   }
 
+  /**
+   * Jegyzet kikövetése
+   * @param note a kikövetni kívánt jegyzet
+   */
   async unFollowNote(note: Note) {
     //Bejelentkezett felhasználó követésiből kitöröljük a felhasználót
     const newFollowings = this.user()?.followedNotes!.filter((id) => id !== note.id);
@@ -222,7 +260,13 @@ export class UserService {
     return await this.noteService.deleteFollower(this.user()!, note);
   }
 
-  async uploadProfilPic(img: File, id: string): Promise<User[]> {
+  /**
+   * Profilkép feltöltése
+   * @param img a kép
+   * @param id a felhasználó id-ja
+   * @returns
+   */
+  async uploadProfilPic(img: File, id: string) {
     return await this.storage
       .ref('profiles/' + id)
       .put(img)
@@ -233,6 +277,11 @@ export class UserService {
       });
   }
 
+  /**
+   * Profilkép lekérése
+   * @param id a felhasználó id-ja
+   * @returns a lekért profikép
+   */
   getProfilPic(id: string): Observable<string | null> {
     return this.storage
       .ref('profiles/' + id)
@@ -240,6 +289,10 @@ export class UserService {
       .pipe(catchError(() => of(null)));
   }
 
+  /**
+   * Profilkép törlése
+   * @param id a felhasználó id-ja
+   */
   deleteProfilPic(id: string) {
     this.storage.ref('profiles/' + id).delete();
     return this.store.collection(this.collectionName).doc(id).update({
@@ -247,6 +300,10 @@ export class UserService {
     });
   }
 
+  /**
+   * Jegyzet készítése esetén a felhasználónál növelni kell a jegyzetek számát
+   * @param user a jegyzet szerzője
+   */
   async createNote(user: User) {
     return await this.store
       .collection<User>(this.collectionName)
@@ -254,26 +311,35 @@ export class UserService {
       .update({ notesNumber: user.notesNumber + 1 });
   }
 
+  /**
+   * Jegyzet törlése esetén követés törlése
+   * @param note a jegyzet
+   * @param userId a felhasználó id-ja akinél törölni kell a követésekből
+   */
   async deleteNote(note: Note, userId: string) {
     const user = await this.getUserById(userId);
 
-    if (user[0]) {
-      const newFollowings = user[0].followedNotes.filter((id) => id !== note.id);
-      this.store.collection(this.collectionName).doc(user[0].id).update({
+    if (user) {
+      const newFollowings = user.followedNotes.filter((id) => id !== note.id);
+      this.store.collection(this.collectionName).doc(user.id).update({
         followedNotes: newFollowings,
       });
     }
   }
 
+  /**
+   * Jegyzetszám csökkentése
+   * @param userId a felhasználó id-ja akinél csökkenteni kell
+   */
   async reduceNoteNumber(userId: string) {
     const user = await this.getUserById(userId);
 
-    if (user[0]) {
+    if (user) {
       this.store
         .collection(this.collectionName)
-        .doc(user[0].id)
+        .doc(user.id)
         .update({
-          notesNumber: user[0].notesNumber - 1,
+          notesNumber: user.notesNumber - 1,
         });
     }
   }

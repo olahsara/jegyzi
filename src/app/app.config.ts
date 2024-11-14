@@ -19,13 +19,17 @@ import { AuthService } from './shared/services/auth.service';
 import { TOASTR_CONFIG } from './shared/services/toast.service';
 import { UserService } from './shared/services/user.service';
 
+/**Beállítja az alkalmazás indulásakor a bejelentkezett felhasználót
+ * @param authService az authentikációért felelős szolgáltatás
+ * @param userService a felhasználók kezeléséért felelős szolgáltatás
+ */
 function appInit(authService: AuthService, userService: UserService) {
   return async () => {
     const user = authService.auth.user;
     user.subscribe((data) => {
       if (data) {
         userService.getUserById(data.uid).then((element) => {
-          userService.setUser(element[0]);
+          userService.setUser(element);
         });
       }
     });
@@ -36,7 +40,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
     provideRouter(routes, withComponentInputBinding()),
-    provideFirebaseApp(() => initializeApp(firebaseConfig || {})), //hogy a ci pipline lefusson
+    provideFirebaseApp(() => initializeApp(firebaseConfig || {})),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
     provideVertexAI(() => getVertexAI()),

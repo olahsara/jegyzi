@@ -8,7 +8,7 @@ import { NoteService } from './note.service';
 import { NotificationService } from './notifictaion.service';
 import { ToastService } from './toast.service';
 
-/**Módosítási kérérseket kezelő szolgáltatás*/
+/**Módosítási kéréseket kezelő szolgáltatás*/
 @Injectable({ providedIn: 'root' })
 export class ModifyRequestService {
   readonly collectionName = 'ModifyRequests';

@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { toDatePipe } from '../../../note/pipes/to-date.pipe';
@@ -19,15 +18,7 @@ export interface ModifyRequestEditModalData {
 @Component({
   selector: 'jegyzi-modify-request-edit-modal',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatTooltipModule,
-    FORM_DIRECTIVES,
-    AvatarComponent,
-    toDatePipe,
-    ModifyRequestStatusBadgeComponent,
-    MatCheckboxModule,
-  ],
+  imports: [CommonModule, MatTooltipModule, FORM_DIRECTIVES, AvatarComponent, toDatePipe, ModifyRequestStatusBadgeComponent],
   templateUrl: './modify-request-edit-modal.component.html',
   styleUrl: './modify-request-edit-modal.component.scss',
 })

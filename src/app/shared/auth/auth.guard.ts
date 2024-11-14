@@ -17,7 +17,7 @@ export function authGuard(): CanActivateFn & CanActivateChildFn {
     }
     if (localstorage?.getItem(STORAGE_USER_KEY)) {
       const data = await userService.getUserById(localstorage!.getItem(STORAGE_USER_KEY)!);
-      return data[0] ? true : router.createUrlTree(['/']);
+      return data ? true : router.createUrlTree(['/']);
     }
     return router.createUrlTree(['/']);
   };

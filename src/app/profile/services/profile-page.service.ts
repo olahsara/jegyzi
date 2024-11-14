@@ -24,6 +24,6 @@ export class ProfilePageService {
 
   async getProfile() {
     const data = await this.userService.getUserById(this.id());
-    return data[0];
+    return data;
   }
 }

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './shared/auth/auth.guard';
 
+/** Navigáció */
 export const routes: Routes = [
   {
     path: '',

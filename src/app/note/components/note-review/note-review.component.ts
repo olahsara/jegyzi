@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
-import { MatInput } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { RatingComponent } from '../../../shared/components/rating-component/rating.component';
@@ -13,6 +11,7 @@ import { Review } from '../../../shared/models/review.model';
 import { User } from '../../../shared/models/user.model';
 import { ElapsedTimePipe } from '../../../shared/pipes/elapsed-time.pipe';
 import { ReviewService } from '../../../shared/services/review.service';
+import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 import { toDatePipe } from '../../pipes/to-date.pipe';
 
 @Component({
@@ -20,13 +19,11 @@ import { toDatePipe } from '../../pipes/to-date.pipe';
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
     AvatarComponent,
     toDatePipe,
     MatExpansionModule,
-    MatCheckboxModule,
+    FORM_DIRECTIVES,
     RatingComponent,
-    MatInput,
     ElapsedTimePipe,
     MatTooltipModule,
   ],

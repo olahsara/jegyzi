@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, effect, inject, signal, untracked } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatInput } from '@angular/material/input';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { QuillEditorComponent } from 'ngx-quill';
@@ -16,6 +14,7 @@ import { Review } from '../../../shared/models/review.model';
 import { CommentService } from '../../../shared/services/comment.service';
 import { ReviewService } from '../../../shared/services/review.service';
 import { UserService } from '../../../shared/services/user.service';
+import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 import { NoteCommentComponent } from '../../components/note-comment/note-comment.component';
 import {
   ModifyRequestModalData,
@@ -31,16 +30,14 @@ import { NotePageService } from '../../services/note-page.service';
   imports: [
     CommonModule,
     TitleComponent,
-    ReactiveFormsModule,
+    FORM_DIRECTIVES,
     RouterLink,
     AvatarComponent,
     toDatePipe,
     QuillEditorComponent,
     MatTooltip,
     MatExpansionModule,
-    MatCheckboxModule,
     RatingComponent,
-    MatInput,
     NoteReviewComponent,
     NoteCommentComponent,
   ],

@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatInput } from '@angular/material/input';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatTooltip } from '@angular/material/tooltip';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { Comment, CommentUpdateRequest } from '../../../shared/models/comment.model';
@@ -10,12 +9,13 @@ import { Note } from '../../../shared/models/note.model';
 import { User } from '../../../shared/models/user.model';
 import { ElapsedTimePipe } from '../../../shared/pipes/elapsed-time.pipe';
 import { CommentService } from '../../../shared/services/comment.service';
+import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 import { toDatePipe } from '../../pipes/to-date.pipe';
 
 @Component({
   selector: 'jegyzi-note-comment',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AvatarComponent, toDatePipe, MatInput, MatTooltip, ElapsedTimePipe],
+  imports: [CommonModule, AvatarComponent, toDatePipe, FORM_DIRECTIVES, MatTooltip, ElapsedTimePipe],
   templateUrl: './note-comment.component.html',
   styleUrl: './note-comment.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { toDatePipe } from '../../../note/pipes/to-date.pipe';
@@ -24,15 +23,7 @@ export interface DeleteConfirmModalData {
 @Component({
   selector: 'jegyzi-delete-confirm-modal',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatTooltipModule,
-    FORM_DIRECTIVES,
-    AvatarComponent,
-    toDatePipe,
-    ModifyRequestStatusBadgeComponent,
-    MatCheckboxModule,
-  ],
+  imports: [CommonModule, MatTooltipModule, FORM_DIRECTIVES, AvatarComponent, toDatePipe, ModifyRequestStatusBadgeComponent],
   templateUrl: './delete-confirm-modal.component.html',
   styleUrl: './delete-confirm-modal.component.scss',
 })

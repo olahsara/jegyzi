@@ -38,7 +38,7 @@ export class LoginPageComponent {
         .login(this.loginForm.controls.email.value as string, this.loginForm.controls.password.value as string)
         .then((cred) => {
           this.userService.getUserById(cred.user?.uid!).then((element) => {
-            this.userService.user.set(element[0]);
+            this.userService.user.set(element);
           });
           this.router.navigate(['/home']);
         })
