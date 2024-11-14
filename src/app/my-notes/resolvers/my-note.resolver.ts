@@ -9,7 +9,7 @@ export function myNoteResolver(): ResolveFn<Note> {
 
     const id = route.params['id'] as string;
     return service.getNoteById(id).then((element) => {
-      return element[0];
+      return element;
     });
   };
 }

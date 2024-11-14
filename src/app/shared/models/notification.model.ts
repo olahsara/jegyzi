@@ -1,5 +1,6 @@
 import { Timestamp } from '@angular/fire/firestore';
 
+/** Értesítés kollekció */
 export interface Notification {
   id: string;
   type: NotificationType;
@@ -11,6 +12,7 @@ export interface Notification {
   linkedEntityId?: string;
 }
 
+/** Értesítés típusai */
 export enum NotificationType {
   'REVIEW',
   'MODIFY_REQUEST',

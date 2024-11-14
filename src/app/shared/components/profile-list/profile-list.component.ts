@@ -18,7 +18,12 @@ import { AvatarComponent } from '../avatar/avatar/avatar.component';
 export class ProfileListComponent {
   private userService = inject(UserService);
 
+  /** Felhasználók */
   profiles = input.required<User[]>();
+
+  /** Bejelentkezett felhasználó */
   loggedInUser = this.userService.user;
+
+  /** Kártyák megjelenítése egymás mellett (2db, után új sorban) */
   row = input(false);
 }

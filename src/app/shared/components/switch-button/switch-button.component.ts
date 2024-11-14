@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Theme, ThemeService } from '../../services/theme.service';
 
@@ -11,9 +11,14 @@ import { Theme, ThemeService } from '../../services/theme.service';
   styleUrl: './switch-button.component.scss',
 })
 export class SwitchButtonComponent {
+  private themeService = inject(ThemeService);
+
+  /** Aktuális téma */
   theme = this.themeService.theme;
 
-  constructor(private themeService: ThemeService) {}
+  /** Téma váltása
+   * @param theme a választott téma
+   */
   switchMode(theme: Theme) {
     this.themeService.setTheme(theme);
   }

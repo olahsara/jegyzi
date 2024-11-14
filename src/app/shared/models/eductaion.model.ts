@@ -1,3 +1,4 @@
+/** Oktatás interfész */
 export interface Education {
   type: string;
   year: number;
@@ -5,6 +6,7 @@ export interface Education {
   institution: string;
 }
 
+/** Oktatás lehetséges típusai */
 export const EducationType = {
   primary: 'Általános iskola',
   secondary: 'Középiskola',

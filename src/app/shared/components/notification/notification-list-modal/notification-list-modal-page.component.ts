@@ -25,12 +25,16 @@ export class NotificationListModalPageComponent {
   readonly data = inject<{ userId: string }>(MAT_DIALOG_DATA);
   private notificationService = inject(NotificationService);
 
+  /** Táblázat oldalválasztója */
   paginator = viewChild.required<MatPaginator>('paginator');
 
+  /** A táblázatan megjelenített oszlopok */
   displayedColumns = ['new', 'title', 'date', 'actions'];
-  notifications = this.notificationService.getNotifications(this.data.userId);
+
+  /** Az értékelések listája */
   dataSource = signal<MatTableDataSource<Notification>>(new MatTableDataSource<Notification>());
 
+  /** A lista lekérése és datasourc-be mentése, az oldalválasztó hozzáadása */
   ngAfterViewInit() {
     this.notificationService.getNotifications(this.data.userId).then((value) => {
       this.dataSource.set(new MatTableDataSource<Notification>(value));
@@ -38,6 +42,7 @@ export class NotificationListModalPageComponent {
     });
   }
 
+  /** Modál ablak bezárása */
   close() {
     const data: Notification[] = [];
     this.notificationService.getLatestNotifications(this.data.userId).then((value) => {
@@ -46,6 +51,11 @@ export class NotificationListModalPageComponent {
     });
   }
 
+  /**
+   * Értesítés státuszának beállítása
+   * @param status státsu
+   * @param id értesítés id-ja
+   */
   setStatus(status: boolean, id: string) {
     this.notificationService.setNotificationStatus(id, !status)?.then(() => {
       this.notificationService.getNotifications(this.data.userId).then((value) => {
@@ -55,6 +65,10 @@ export class NotificationListModalPageComponent {
     });
   }
 
+  /**
+   * Értesítés törlése
+   * @param id értesítés id-ja
+   */
   deleteNotification(id: string) {
     this.notificationService.deleteNotification(id)?.then(() => {
       this.notificationService.getNotifications(this.data.userId).then((value) => {

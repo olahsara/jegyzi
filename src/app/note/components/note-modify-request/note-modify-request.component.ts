@@ -40,6 +40,7 @@ export class NoteModifyRequestModalComponent {
   });
   modifyRequestSeriusness = ModifyRequestSeriusness;
 
+  /** Modál ablak bezárása */
   close() {
     this.form.reset();
     this.dialogRef.close(false);

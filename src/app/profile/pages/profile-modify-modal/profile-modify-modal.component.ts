@@ -53,6 +53,7 @@ export class ProfileModifyModalComponent implements OnInit {
     }
   }
 
+  /** Modál ablak bezárása */
   close() {
     this.dialogRef.close(false);
   }

@@ -6,6 +6,7 @@ import { getEducation } from './education-year.pipe';
   name: 'type',
   standalone: true,
 })
+/** Profil típusának részletes megjelenítése */
 export class TypePipe implements PipeTransform {
   transform(value: User | undefined): string {
     if (value?.profileType) {

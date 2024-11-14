@@ -15,7 +15,12 @@ import { RatingComponent } from '../rating-component/rating.component';
   styleUrl: './note-list.component.scss',
 })
 export class NoteListComponent {
+  /** Jegyzetek listája */
   notes = input.required<Note[]>();
+
+  /** Saját jegyzetek listája-e */
   myNotes = input<boolean>(false);
+
+  /** Kártyák megjelenítése egymás mellett (2db, után új sorban) */
   row = input(false);
 }

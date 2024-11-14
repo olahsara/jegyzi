@@ -1,5 +1,6 @@
 import { Timestamp } from '@angular/fire/firestore';
 
+/** Értékelés kollekció */
 export interface Review {
   id: string;
   anonim: boolean;

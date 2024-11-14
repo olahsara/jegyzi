@@ -36,6 +36,7 @@ export class RegisterModalPageComponent {
   profileTypes = ProfileTypes;
   educationTypes = EducationType;
 
+  /** Regisztrálási adatokat eltároló űrlap */
   form = new FormGroup({
     email: new FormControl<string | null>(null, { validators: [Validators.email, Validators.required] }),
     password: new FormControl<string | null>(null, { validators: [Validators.required, Validators.minLength(6)] }),
@@ -60,10 +61,12 @@ export class RegisterModalPageComponent {
     introduction: new FormControl<string | null>(null),
   });
 
+  /** Modál ablak bezárása */
   close() {
     this.dialogRef.close(undefined);
   }
 
+  /** Következő lépés */
   next() {
     this.actualStep++;
     if (this.steps.length === this.actualStep) {
@@ -74,6 +77,8 @@ export class RegisterModalPageComponent {
       }
     }
   }
+
+  /** Előző lépés */
   prew() {
     if (this.actualStep === 0) {
       this.close();
@@ -81,6 +86,7 @@ export class RegisterModalPageComponent {
     this.actualStep--;
   }
 
+  /** Regisztráció */
   register() {
     this.authService
       .signup(this.form.controls.email.value as string, this.form.controls.password.value as string)
@@ -115,6 +121,7 @@ export class RegisterModalPageComponent {
       });
   }
 
+  /** Profil kép feltöltése */
   uploadProfilPic(event: Event) {
     this.loading.set(true);
     const img = (event.target as HTMLInputElement).files;
@@ -125,6 +132,7 @@ export class RegisterModalPageComponent {
     }
   }
 
+  /** Feltöltött fájl mentése */
   saveFile(file: File) {
     const reader = new FileReader();
 
@@ -135,6 +143,7 @@ export class RegisterModalPageComponent {
     reader.readAsDataURL(file);
   }
 
+  /** Feltöltött kép törlése */
   deletePic() {
     this.profilPic.set(null);
     this.profilPicSrc.set('');

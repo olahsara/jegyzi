@@ -1,5 +1,6 @@
 import { Timestamp } from '@angular/fire/firestore';
 
+/** Komment kollekció */
 export interface Comment {
   id: string;
   comment: string;
@@ -10,6 +11,7 @@ export interface Comment {
   note: string;
 }
 
+/** Komment módosításának az interfésze */
 export interface CommentUpdateRequest {
   comment: string;
   lastModified?: Timestamp;

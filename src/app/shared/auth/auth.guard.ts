@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, CanActivateChildFn, CanActivateFn, Router, Rout
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
 import { UserService } from '../services/user.service';
 
+/** Bejelentkezett felhasználók által megtekinthető oldalak védése a vendég felhasználók elől */
 export function authGuard(): CanActivateFn & CanActivateChildFn {
   return async (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
     const userService = inject(UserService);

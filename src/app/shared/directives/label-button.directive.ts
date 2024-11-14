@@ -5,11 +5,15 @@ import { Label, LabelNote } from '../models/label.model';
   selector: '[jegyziLabelButton]',
   standalone: true,
 })
+/** Címkék megjelenésének módosítása státuszuk alapján */
 export class LabelButtonDirective {
   private elementRef = inject<ElementRef<HTMLButtonElement>>(ElementRef);
   private renderer = inject(Renderer2);
 
+  /** Kiválasztott címkék */
   selectedItems = input.required<LabelNote[]>();
+
+  /** Aktuális címke */
   item = input.required<Label>();
 
   constructor() {
@@ -28,6 +32,7 @@ export class LabelButtonDirective {
     });
   }
 
+  /** Kiválasztott megjelenés beállítása */
   setSelectedClass(element: HTMLButtonElement) {
     const selected = element.querySelector("[class*='note-label-selected']");
 
@@ -36,6 +41,7 @@ export class LabelButtonDirective {
     }
   }
 
+  /** Kiválasztott megjelenés törlése */
   removeSelectedClass(element: HTMLButtonElement) {
     this.renderer.removeClass(element, 'note-label-selected');
   }

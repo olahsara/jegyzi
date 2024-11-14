@@ -42,6 +42,7 @@ export class ModifyRequestEditModalComponent implements OnInit {
     });
   }
 
+  /** Modál ablak bezárása */
   close() {
     this.form.reset();
     this.dialogRef.close(false);

@@ -5,10 +5,15 @@ import { Notification } from '../models/notification.model';
 @Injectable({
   providedIn: 'root',
 })
+/** Az értesítéseket kezelő szolgáltatás */
 export class NotificationService {
   private store = inject(AngularFirestore);
   readonly collection = 'Notifications';
 
+  /**
+   * Értesítés létrehozása
+   * @param notification értesítés
+   */
   createNotification(notification: Notification) {
     notification.id = this.store.createId();
     if (notification) {
@@ -17,6 +22,11 @@ export class NotificationService {
     return;
   }
 
+  /**
+   * Olvasatlan értesítések lekérése dátum szerint csökkenő sorrendben
+   * @param userId felhasználó id-ja
+   * @returns értesítések
+   */
   async getLatestNotifications(userId: string) {
     let result = this.store.collection<Notification>(this.collection).ref as Query<Notification>;
     result = result.where('user', '==', userId);
@@ -34,6 +44,11 @@ export class NotificationService {
     return data;
   }
 
+  /**
+   * Összes értesítés lekérése
+   * @param userId felhasználó id-ja
+   * @returns értesítések lista
+   */
   async getNotifications(userId: string) {
     let result = this.store.collection<Notification>(this.collection).ref as Query<Notification>;
     result = result.where('user', '==', userId);
@@ -50,6 +65,11 @@ export class NotificationService {
     return data;
   }
 
+  /**
+   * Értesítés státuszának beállítása
+   * @param notificationId értesítés id-ja
+   * @param status olvasott / olvasatlan
+   */
   setNotificationStatus(notificationId: string, status: boolean) {
     if (notificationId) {
       return this.store.collection<Notification>(this.collection).doc(notificationId).update({ new: status });
@@ -57,6 +77,10 @@ export class NotificationService {
     return;
   }
 
+  /**
+   * Értesítés törlése
+   * @param notificationId értesítés id-ja
+   */
   deleteNotification(notificationId: string) {
     if (notificationId) {
       return this.store.collection<Notification>(this.collection).doc(notificationId).delete();
@@ -64,6 +88,11 @@ export class NotificationService {
     return;
   }
 
+  /**
+   * Értesítés lekérése id alapján
+   * @param id értesítés id-ja
+   * @returns értesítés
+   */
   async getNotificationById(id: string): Promise<Notification> {
     const data = await this.store
       .collection<Notification>(this.collection)

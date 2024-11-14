@@ -11,12 +11,18 @@ import { ToastService } from './toast.service';
 @Injectable({
   providedIn: 'root',
 })
+/** Jegyzeteket kezelő szolgáltatás */
 export class NoteService {
   readonly collectionName = 'Notes';
   private notificationService = inject(NotificationService);
   private store = inject(AngularFirestore);
   private toastService = inject(ToastService);
 
+  /**
+   * Jegyzet készítése
+   * @param note jegyzet
+   * @param user felhasználó
+   */
   async createNote(note: Note, user: User) {
     if (note) {
       note.id = this.store.createId();
@@ -49,6 +55,10 @@ export class NoteService {
     return;
   }
 
+  /**
+   * Jegyzet frissítése
+   * @param note jegyzet
+   */
   async updateNote(note: Note) {
     if (note) {
       return await this.store
@@ -75,7 +85,11 @@ export class NoteService {
     return;
   }
 
-  async getNotes() {
+  /**
+   * Jegyzetek lekérése
+   * @return jegyzetek lista
+   */
+  async getNotes(): Promise<Note[]> {
     let notes: Note[] = [];
     const data = await this.store.collection<Note>(this.collectionName).ref.get();
 
@@ -87,7 +101,12 @@ export class NoteService {
     return notes;
   }
 
-  async getMyNotes(id: string) {
+  /**
+   * Bejelentkezett felhasználó jegyzeteinek lekérése
+   * @param id felhasználó id-ja
+   * @return jegyzetek lista
+   */
+  async getMyNotes(id: string): Promise<Note[]> {
     let notes: Note[] = [];
     const data = await this.store.collection<Note>(this.collectionName).ref.where('creatorId', '==', id).get();
 
@@ -99,7 +118,12 @@ export class NoteService {
     return notes;
   }
 
-  async getFollowedNotes(id: string) {
+  /**
+   * Bejelentkezett felhasználó követett jegyzeteinek lekérése
+   * @param id felhasználó id-ja
+   * @return jegyzetek lista
+   */
+  async getFollowedNotes(id: string): Promise<Note[]> {
     let notes: Note[] = [];
     const data = await this.store.collection<Note>(this.collectionName).ref.where('followers', 'array-contains', id).get();
 
@@ -111,7 +135,12 @@ export class NoteService {
     return notes;
   }
 
-  async getNoteById(id: string): Promise<Note[]> {
+  /**
+   *Jegyzet lekérése id alapján
+   * @param id jegyzet id-ja
+   * @return jegyzet
+   */
+  async getNoteById(id: string): Promise<Note> {
     const data = await this.store
       .collection<Note>(this.collectionName)
       .ref.where('id', '==', id)
@@ -123,9 +152,13 @@ export class NoteService {
         });
       });
 
-    return data;
+    return data[0];
   }
 
+  /**
+   *Legtöbb követővel rendelkező jegyzetek lekérése
+   * @return jegyzetek lista
+   */
   async getTopNotes(): Promise<Note[]> {
     let notes: Note[] = [];
     const data = await this.store.collection<Note>(this.collectionName).ref.orderBy('followersNumber', 'desc').limit(3).get();
@@ -138,6 +171,12 @@ export class NoteService {
     return notes;
   }
 
+  /**
+   *Szűrt jegyzetek lekérése
+   * @param filter szűrő
+   * @param followedNotesUserId a felhasználó követett jegyzeteinek lekérésére
+   * @return jegyzetek lista
+   */
   async getNotesByFilter(filter: NoteFilterModel, followedNotesUserId?: string): Promise<Note[]> {
     let result = this.store.collection<Note>(this.collectionName).ref as Query<Note>;
     if (followedNotesUserId) result = result.where('followers', 'array-contains', followedNotesUserId);
@@ -161,6 +200,11 @@ export class NoteService {
     return data;
   }
 
+  /**
+   *Felhasználók jegyzeteinek lekérése
+   * @param id felhasználó id-ja
+   * @return jegyzetek lista
+   */
   async getNotesByUser(id: string): Promise<Note[]> {
     const data = await this.store
       .collection<Note>(this.collectionName)
@@ -175,6 +219,11 @@ export class NoteService {
     return data;
   }
 
+  /**
+   * Felhasználó hozzáadása a jegyzet követőihez
+   * @param user felhasználó
+   * @param note jegyzet
+   */
   async addNewFollower(user: User, note: Note) {
     let newFollowers: string[] = [];
     if (note.followers) {
@@ -207,6 +256,11 @@ export class NoteService {
       });
   }
 
+  /**
+   * Felhasználó törlése a jegyzet követőiből
+   * @param user felhasználó
+   * @param note jegyzet
+   */
   async deleteFollower(user: User, note: Note) {
     const newFollowers = note.followers.filter((userId) => userId !== user.id);
 
@@ -219,6 +273,11 @@ export class NoteService {
       });
   }
 
+  /**
+   *Komment törlése
+   * @param note jegyzet
+   *  @param commentId komment id-ja
+   */
   async deleteComment(note: Note, commentId: string) {
     const newComments = note.comments.filter((comment) => comment !== commentId);
 
@@ -227,6 +286,11 @@ export class NoteService {
     });
   }
 
+  /**
+   * Értékelés hozzáadása
+   * @param reviewId értékelés id-ja
+   * @param note jegyzet
+   */
   async addReview(reviewId: string, note: Note) {
     let newReviews: string[] = [];
     if (note.reviews) {
@@ -238,6 +302,11 @@ export class NoteService {
     return await this.store.collection(this.collectionName).doc(note.id).update({ reviews: newReviews });
   }
 
+  /**
+   * Komment hozzáadása
+   * @param commentId komment id-ja
+   * @param note jegyzet
+   */
   async addComment(commentId: string, note: Note) {
     let newComments: string[] = [];
     if (note.comments) {
@@ -249,6 +318,11 @@ export class NoteService {
     return await this.store.collection(this.collectionName).doc(note.id).update({ comments: newComments });
   }
 
+  /**
+   * Módosítási kérés hozzáadása
+   * @param requestId módosítási kérés id-ja
+   * @param note jegyzet
+   */
   async addRequest(requestId: string, note: Note) {
     let newRequests: string[] = [];
     if (note.updateRequests) {
@@ -260,17 +334,26 @@ export class NoteService {
     return await this.store.collection(this.collectionName).doc(note.id).update({ updateRequests: newRequests });
   }
 
+  /**
+   * Módosítási kérés törlése
+   * @param request módosítási kérés
+   */
   async deleteRequest(request: ModifyRequest) {
     const data = await this.getNoteById(request.noteId);
 
     if (data) {
-      const newRequest = data[0].updateRequests.filter((id) => request.id !== id);
+      const newRequest = data.updateRequests.filter((id) => request.id !== id);
       return await this.store.collection(this.collectionName).doc(request.noteId).update({
         updateRequests: newRequest,
       });
     }
   }
 
+  /**
+   * Értékelés törlése
+   * @param note jegyzet
+   * @param reviewId értékelés id-ja
+   */
   async deleteReview(note: Note, reviewId: string) {
     const newReviews = note.reviews.filter((review) => review !== reviewId);
 
@@ -279,36 +362,39 @@ export class NoteService {
     });
   }
 
+  /**
+   * Jegyzet törlése
+   * @param note jegyzet
+   */
   async deleteNote(note: Note) {
     await this.store.collection<Note>(this.collectionName).doc(note.id).delete();
   }
 
+  /**
+   * Módosítási kérések számának csökkentése
+   * @param noteId jegyzet id-ja
+   */
   async reduceUpdateRequestsNumber(noteId: string) {
     const note = await this.getNoteById(noteId);
-    if (note[0]) {
+    if (note) {
       return await this.store
         .collection(this.collectionName)
-        .doc(note[0].id)
-        .update({ numberOfUpdateRequests: note[0].numberOfUpdateRequests - 1 });
+        .doc(note.id)
+        .update({ numberOfUpdateRequests: note.numberOfUpdateRequests - 1 });
     }
   }
 
+  /**
+   * Módosítási kérések számának növelése
+   * @param noteId jegyzet id-ja
+   */
   async plusUpdateRequestsNumber(noteId: string) {
     const note = await this.getNoteById(noteId);
-    if (note[0]) {
+    if (note) {
       return await this.store
         .collection(this.collectionName)
-        .doc(note[0].id)
-        .update({ numberOfUpdateRequests: note[0].numberOfUpdateRequests + 1 });
+        .doc(note.id)
+        .update({ numberOfUpdateRequests: note.numberOfUpdateRequests + 1 });
     }
-  }
-
-  async updateCreatorData(userId: string, updateValue: boolean) {
-    const notes = await this.getNotesByUser(userId);
-    notes.forEach((note) => {
-      this.store.collection(this.collectionName).doc(note.id).update({
-        creatorProfilPic: updateValue,
-      });
-    });
   }
 }

@@ -18,14 +18,25 @@ export class AvatarComponent {
   private userService = inject(UserService);
   private route = inject(Router);
 
+  /** Felhasználó id-ja akinek a profilképét megjelenítjük */
   profileId = input<string>();
+
+  /** Profilkép nagysága */
   size = input<string>('md');
+
+  /** Módosítható-e a profil kép */
   editable = input<boolean>(false);
+
+  /** Feltöltés zajlik */
   loading = signal(false);
+
+  /** Link a felhasználóhoz */
   link = input<string>();
 
+  /** Profilkép src */
   profilePic = signal<string | number | undefined>(undefined);
 
+  /** Nincs profil kép adattag */
   readonly NoProfilePic = 'NO_PROFILE_PIC';
 
   constructor() {
@@ -39,6 +50,9 @@ export class AvatarComponent {
     });
   }
 
+  /** Fájfeltöltés
+   * @param event fájlkiválasztás esemény
+   */
   async onFileSelected(event: Event) {
     this.loading.set(true);
     const file = (event.target as HTMLInputElement).files;
@@ -52,12 +66,18 @@ export class AvatarComponent {
     }
   }
 
+  /**
+   * Navigálás
+   */
   navigate() {
     if (this.link()) {
       this.route.navigate([this.link()]);
     }
   }
 
+  /**
+   * Profil kép törlése
+   */
   deletePic() {
     this.userService.deleteProfilPic(this.profileId()!).then(() => {
       this.profilePic.set(this.NoProfilePic);

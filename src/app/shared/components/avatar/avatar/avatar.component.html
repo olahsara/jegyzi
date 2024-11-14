@@ -1,57 +1,53 @@
 <input type="file" (change)="onFileSelected($event)" #fileUpload class="file-input" />
 @if (loading()) {
-  <div
-    [ngClass]="{ 'w-20 h-20': size() === 'lg', 'w-12 h-12 ': size() === 'md' }"
-    class="relative flex rounded-full items-center justify-center"
+<div
+  [ngClass]="{ 'w-20 h-20': size() === 'lg', 'w-12 h-12 ': size() === 'md' }"
+  class="relative flex rounded-full items-center justify-center"
+>
+  <mat-spinner></mat-spinner>
+</div>
+} @else { @if (profilePic(); as profilePic) { @if (profilePic === NoProfilePic) {
+<div
+  (click)="navigate()"
+  [ngClass]="{ 'w-20 h-20 bg-primary-200': size() === 'lg', 'w-12 h-12 bg-primary-100': size() === 'md', 'cursor-pointer': link() }"
+  class="relative flex rounded-full items-center justify-center"
+>
+  <span [ngClass]="{ 'ph-3x': size() === 'lg', 'ph-2x': size() === 'md' }" class="ph ph-user text-primary-500"></span>
+  @if (editable()) {
+  <button
+    type="button"
+    (click)="fileUpload.click()"
+    class="absolute right-0 top-0 rounded-full bg-primary-600 px-1 text-primary-100"
+    matTooltip="Profilkép feltöltése"
   >
-    <mat-spinner></mat-spinner>
-  </div>
-} @else {
-  @if (profilePic(); as profilePic) {
-    @if (profilePic === NoProfilePic) {
-      <div
-        (click)="navigate()"
-        [ngClass]="{ 'w-20 h-20 bg-primary-200': size() === 'lg', 'w-12 h-12 bg-primary-100': size() === 'md', 'cursor-pointer': link() }"
-        class="relative flex rounded-full items-center justify-center"
-      >
-        <span [ngClass]="{ 'ph-3x': size() === 'lg', 'ph-2x': size() === 'md' }" class="ph ph-user text-primary-500"></span>
-        @if (editable()) {
-          <button
-            type="button"
-            (click)="fileUpload.click()"
-            class="absolute right-0 top-0 rounded-full bg-primary-600 px-1 text-primary-100"
-            matTooltip="Profilkép feltöltése"
-          >
-            <span class="ph ph-pencil-simple"></span>
-          </button>
-        }
-      </div>
-    } @else {
-      <div
-        (click)="navigate()"
-        [ngClass]="{ 'w-20 h-20': size() === 'lg', 'w-12 h-12 ': size() === 'md', 'cursor-pointer': link() }"
-        class="relative flex rounded-full items-center justify-center"
-      >
-        <img [ngSrc]="profilePic" alt="Profilkép" class="object-cover rounded-full" fill />
-
-        @if (editable()) {
-          <button
-            type="button"
-            (click)="deletePic()"
-            class="absolute right-0 top-0 rounded-full bg-primary-200 px-1 text-heart-100"
-            matTooltip="Profilkép törlése"
-          >
-            <span class="ph ph-trash"></span>
-          </button>
-        }
-      </div>
-    }
-  } @else {
-    <div
-      [ngClass]="{ 'w-20 h-20': size() === 'lg', 'w-12 h-12 ': size() === 'md' }"
-      class="relative flex rounded-full items-center justify-center"
-    >
-      <mat-spinner></mat-spinner>
-    </div>
+    <span class="ph ph-pencil-simple"></span>
+  </button>
   }
-}
+</div>
+} @else {
+<div
+  (click)="navigate()"
+  [ngClass]="{ 'w-20 h-20': size() === 'lg', 'w-12 h-12 ': size() === 'md', 'cursor-pointer': link() }"
+  class="relative flex rounded-full items-center justify-center"
+>
+  <img [ngSrc]="profilePic" alt="Profilkép" class="object-cover rounded-full" fill />
+
+  @if (editable()) {
+  <button
+    type="button"
+    (click)="deletePic()"
+    class="absolute right-0 top-0 rounded-full bg-primary-200 px-1 text-heart-100"
+    matTooltip="Profilkép törlése"
+  >
+    <span class="ph ph-trash"></span>
+  </button>
+  }
+</div>
+} } @else {
+<div
+  [ngClass]="{ 'w-20 h-20': size() === 'lg', 'w-12 h-12 ': size() === 'md' }"
+  class="relative flex rounded-full items-center justify-center"
+>
+  <mat-spinner></mat-spinner>
+</div>
+} }

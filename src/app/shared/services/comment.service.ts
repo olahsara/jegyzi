@@ -10,6 +10,7 @@ import { NotificationService } from './notifictaion.service';
 @Injectable({
   providedIn: 'root',
 })
+/** Kommenteket kezelő szolgáltatások */
 export class CommentService {
   readonly collectionName = 'Comments';
 
@@ -17,6 +18,11 @@ export class CommentService {
   private notificationService = inject(NotificationService);
   private noteService = inject(NoteService);
 
+  /**
+   * Komment létrehozása
+   * @param comment komment
+   * @param note jegyzet
+   */
   async createComment(comment: Comment, note: Note) {
     comment.id = this.store.createId();
 
@@ -41,6 +47,10 @@ export class CommentService {
     return data;
   }
 
+  /**
+   * Kommentek lekérése
+   * @returns kommentek
+   */
   async getComments() {
     const data = await this.store
       .collection<Comment>(this.collectionName)
@@ -54,6 +64,11 @@ export class CommentService {
     return data;
   }
 
+  /**
+   * Jegyzethez érkezett kommentek lekérése
+   * @param noteId jegyzet id-ja
+   * @returns kommentek
+   */
   async getCommentsbyNote(noteId: string) {
     const data = await this.store
       .collection<Comment>(this.collectionName)
@@ -69,20 +84,11 @@ export class CommentService {
     return data;
   }
 
-  async getCommentsbyUser(creatorId: string) {
-    const data = await this.store
-      .collection<Comment>(this.collectionName)
-      .ref.where('creatorId', '==', creatorId)
-      .get()
-      .then((data) => {
-        return data.docs.map((e) => {
-          return e.data();
-        });
-      });
-
-    return data;
-  }
-
+  /**
+   * Jegyzethez érkezett kommentek lekérése (10db)
+   * @param noteId jegyzet id-ja
+   * @returns kommentek
+   */
   async getCommentsbyNoteLimited(noteId: string) {
     const data = await this.store
       .collection<Comment>(this.collectionName)
@@ -98,21 +104,11 @@ export class CommentService {
     return data;
   }
 
-  async getCommentById(id: string): Promise<Comment[]> {
-    const data = await this.store
-      .collection<Comment>(this.collectionName)
-      .ref.where('id', '==', id)
-      .limit(1)
-      .get()
-      .then((data) => {
-        return data.docs.map((e) => {
-          return e.data();
-        });
-      });
-
-    return data;
-  }
-
+  /**
+   * Komment módosítása
+   * @param commentId komment id-ja
+   * @param commentUpdateRequest módosítások
+   */
   async updateComment(commentId: string, commentUpdateRequest: CommentUpdateRequest) {
     const data = await this.store
       .collection<Comment>(this.collectionName)
@@ -122,6 +118,11 @@ export class CommentService {
     return data;
   }
 
+  /**
+   * Komment törlése
+   * @param commentId komment id-ja
+   * @param note jegyzet
+   */
   async deleteComment(commentId: string, note?: Note) {
     const data = await this.store
       .collection<Comment>(this.collectionName)
@@ -134,15 +135,5 @@ export class CommentService {
       });
 
     return data;
-  }
-
-  async updateCreatorData(userId: string, updateValue: { creatorProfilPic: boolean; creatorName: string }) {
-    const comments = await this.getCommentsbyUser(userId);
-    comments.forEach((comment) => {
-      this.store.collection(this.collectionName).doc(comment.id).update({
-        creatorProfilPic: updateValue.creatorProfilPic,
-        creatorName: updateValue.creatorName,
-      });
-    });
   }
 }

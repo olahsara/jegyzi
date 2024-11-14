@@ -1,5 +1,6 @@
 import { Timestamp } from '@angular/fire/firestore';
 
+/** Módosítási kérés kollekció */
 export interface ModifyRequest {
   id: string;
   date: Timestamp;
@@ -8,12 +9,13 @@ export interface ModifyRequest {
   creatorName: string;
   noteId: string;
   noteTitle: string;
-  noteCreator: string; //user id
+  noteCreator: string;
   description: string;
   status: ModifyRequestStatus;
   declineNote?: string;
 }
 
+/** Módosítási kérés státuszai */
 export enum ModifyRequestStatus {
   'SUBMITTED' = 'Beküldött',
   'IN_PROGRESS' = 'Folyamatban',
@@ -22,6 +24,7 @@ export enum ModifyRequestStatus {
   'DONE' = 'Befejezett',
 }
 
+/** Módosítási kérés fokozatai */
 export enum ModifyRequestSeriusness {
   'LOW' = 'Enyhe',
   'MEDIUM' = 'Közepes',

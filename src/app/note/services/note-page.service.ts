@@ -24,6 +24,6 @@ export class NotePageService {
 
   async getNote() {
     const data = await this.noteService.getNoteById(this.id());
-    return data[0];
+    return data;
   }
 }
