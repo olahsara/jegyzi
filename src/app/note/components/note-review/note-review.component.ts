@@ -77,7 +77,7 @@ export class NoteReviewComponent {
   }
 
   /**
-   * Új értékelés hozzáadásást beállítő és eseménygt emittelő metódus
+   * Új értékelés hozzáadásást beállítő és eseményt emittelő metódus
    * @param panel az értékelést megadó mat-accordion panel
    */
   submit(panel: MatExpansionPanel) {
