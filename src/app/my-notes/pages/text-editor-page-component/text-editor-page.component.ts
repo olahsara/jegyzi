@@ -33,14 +33,14 @@ export class TextEditorPageComponent implements OnInit {
   private toastService = inject(ToastService);
   private router = inject(Router);
 
-  /** Jegyzet szerjókesztése esetén a szerkeszteni kívánt jegyzet */
-  myNote = input<Note>();
-
   /** Címkék */
   labels$ = this.labelService.getLabels();
 
   /** Hibák (űrlap) */
   errors = signal<string | undefined>(undefined);
+
+  /** Jegyzet szerkesztése esetén a szerkeszteni kívánt jegyzet (resolverből) */
+  myNote = input<Note>();
 
   /** Űrlap a jegyzet készítéshez / módosításhoz */
   form = new FormGroup({
