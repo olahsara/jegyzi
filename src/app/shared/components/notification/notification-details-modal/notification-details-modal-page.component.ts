@@ -4,8 +4,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, RouterLink } from '@angular/router';
-import { toDatePipe } from '../../../../note/pipes/to-date.pipe';
 import { Notification, NotificationType } from '../../../models/notification.model';
+import { toDatePipe } from '../../../pipes/to-date.pipe';
 import { NotificationService } from '../../../services/notifictaion.service';
 
 @Component({

@@ -26,6 +26,7 @@ export class ProfileModifyModalComponent implements OnInit {
   profileTypes = ProfileTypes;
   educationTypes = EducationType;
 
+  /** Módosításhoz szükséges űrlap */
   form = new FormGroup({
     name: new FormControl<string | null>(null),
     profileType: new FormControl<string | null>(null),
@@ -47,6 +48,7 @@ export class ProfileModifyModalComponent implements OnInit {
     introduction: new FormControl<string | null>(null),
   });
 
+  /** Beállítjuk az űrlapot a felhasználó jelenlegi adataival  */
   ngOnInit(): void {
     if (this.data) {
       this.form.patchValue(this.data);
@@ -58,12 +60,15 @@ export class ProfileModifyModalComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
+  /** Következő lépésre lépés */
   next() {
     this.actualStep++;
     if (this.steps.length === this.actualStep) {
       this.modify();
     }
   }
+
+  /** Előző lépésre lépés */
   prew() {
     if (this.actualStep === 0) {
       this.close();
@@ -71,6 +76,7 @@ export class ProfileModifyModalComponent implements OnInit {
     this.actualStep--;
   }
 
+  /** Profil módosítását előkészítő függvény */
   modify() {
     if (this.form.valid) {
       if (this.form.value.profileType !== this.data.profileType) {
@@ -81,6 +87,7 @@ export class ProfileModifyModalComponent implements OnInit {
     }
   }
 
+  /** Profil típusa alapján törli a már nem releváns egyéb adatokat */
   removePorpertiesAccordingType() {
     switch (this.form.value.profileType) {
       case null:

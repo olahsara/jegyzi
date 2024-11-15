@@ -13,11 +13,11 @@ import { RatingComponent } from '../../../shared/components/rating-component/rat
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { LabelNote } from '../../../shared/models/label.model';
 import { NoteFilterModel } from '../../../shared/models/note.model';
+import { toDatePipe } from '../../../shared/pipes/to-date.pipe';
 import { LabelService } from '../../../shared/services/label.service';
 import { NoteService } from '../../../shared/services/note.service';
 import { UserService } from '../../../shared/services/user.service';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
-import { toDatePipe } from '../../pipes/to-date.pipe';
 
 @Component({
   selector: 'jegyzi-note-list-page',
@@ -45,10 +45,14 @@ export class NoteListPageComponent {
   private userService = inject(UserService);
   private labelService = inject(LabelService);
 
+  /** Jegyzet lista */
   notes$ = signal(this.noteService.getNotes());
+  /** Címke lista (szűréshez) */
   labels$ = this.labelService.getLabels();
+  /** Felhasználók lista (szűréshez) */
   users$ = this.userService.getAllUsers();
 
+  /** Űrlap szűréshez */
   filterForm = new FormGroup({
     title: new FormControl<string | null>(null),
     stars: new FormControl<number | null>(null),
@@ -65,9 +69,15 @@ export class NoteListPageComponent {
     }),
   });
 
+  /** Szűrés */
   filter() {
     this.notes$.set(this.noteService.getNotesByFilter(this.filterForm.value as NoteFilterModel));
   }
+
+  /**
+   *  Értékelés beállítása
+   * @param star az értékelés nagysága
+   */
   selectStar(star: number) {
     this.filterForm.controls.stars.setValue(star);
   }

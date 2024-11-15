@@ -1,72 +1,72 @@
 <div class="my-6 lg:my-10">
   @if (myNote(); as note) {
-    <div class="mx-4 lg:mx-10">
-      <div class="flex flex-col lg:flex-row gap-y-4 lg:gap-y-0 items-center justify-start lg:justify-between w-full">
-        <div class="flex gap-x-4 items-center w-full lg:w-auto bg-background-200 lg:bg-transparent rounded-full lg:rounded-none">
-          <jegyzi-avatar [profileId]="note.creatorId" size="lg" [editable]="false" [link]="'/profiles/' + note.creatorId"></jegyzi-avatar>
+  <div class="mx-4 lg:mx-10">
+    <div class="flex flex-col lg:flex-row gap-y-4 lg:gap-y-0 items-center justify-start lg:justify-between w-full">
+      <div class="flex gap-x-4 items-center w-full lg:w-auto bg-background-200 lg:bg-transparent rounded-full lg:rounded-none">
+        <jegyzi-avatar [profileId]="note.creatorId" size="lg" [editable]="false" [link]="'/profiles/' + note.creatorId"></jegyzi-avatar>
 
-          <div class="relative w-8 h-8 text-center" matTooltip="Követők száma">
-            <span class="ph-heart ph-2x text-heart-100 text-center ph-fill"></span>
-            <span class="absolute text-[12px] text-center w-8 left-0 top-1.5 font-semibold text-white">{{ note.followersNumber }}</span>
-          </div>
-
-          <div class="font-semibold text-primary-500 text-2xl">{{ note.title }}</div>
+        <div class="relative w-8 h-8 text-center" matTooltip="Követők száma">
+          <span class="ph-heart ph-2x text-heart-100 text-center ph-fill"></span>
+          <span class="absolute text-[12px] text-center w-8 left-0 top-1.5 font-semibold text-white">{{ note.followersNumber }}</span>
         </div>
 
-        <div class="flex gap-x-4 justify-between lg:justify-normal items-center w-full lg:w-auto mx-2 lg:mx-0">
-          <div class="text-primary-600 font-semibold hidden lg:block">
-            Utoljára módosítva: {{ (note.lastModify ? note.lastModify : note.created) | toDate | date: 'short' }}
-          </div>
-          @if (note.avarageStar) {
-            <jegyzi-rating-component
-              [currentRate]="note.avarageStar"
-              [disabled]="true"
-              (selectRate)="(undefined)"
-            ></jegyzi-rating-component>
-
-            <div class="flex gap-x-2">
-              <a [routerLink]="['/my-notes/edit-note', note.id]" class="btn-icon" matTooltip="Jegyzet szerkesztése">
-                <span class="ph ph-pencil-simple text-center"></span>
-              </a>
-              <button type="button" class="btn-icon" (click)="deleteNote()" matTooltip="Jegyzet törlése">
-                <span class="ph ph-trash text-center"></span>
-              </button>
-            </div>
-          }
-        </div>
-        <div class="flex gap-x-4 justify-between items-center w-full lg:hidden mx-2">
-          <div class="text-primary-600 font-semibold self-start">
-            Módosítva: {{ (note.lastModify ? note.lastModify : note.created) | toDate | date: 'short' }}
-          </div>
-          @if (!note.avarageStar) {
-            <a class="btn-icon" [routerLink]="['/my-notes/edit-note', note.id]" matTooltip="Jegyzet szerkesztése">
-              <span class="ph ph-pencil-simple text-center"></span>
-            </a>
-            <button class="btn-icon" (click)="deleteNote()" matTooltip="Jegyzet törlése">
-              <span class="ph ph-trash text-center"></span>
-            </button>
-          }
-        </div>
+        <div class="font-semibold text-primary-500 text-2xl">{{ note.title }}</div>
       </div>
-      <div class="my-6">
-        <div class="flex flex-wrap gap-y-2 gap-x-4">
-          @for (label of note.labels; track label.label.id) {
-            <div class="note-label">{{ label.label.value }}</div>
-          }
+
+      <div class="flex gap-x-4 justify-between lg:justify-normal items-center w-full lg:w-auto mx-2 lg:mx-0">
+        <div class="text-primary-600 font-semibold hidden lg:block">
+          Utoljára módosítva: {{ (note.lastModify ? note.lastModify : note.created) | toDate | date : 'short' }}
         </div>
+        @if (note.avarageStar) {
+        <jegyzi-rating-component [currentRate]="note.avarageStar" [disabled]="true" (selectRate)="(undefined)"></jegyzi-rating-component>
+
+        <div class="flex gap-x-2">
+          <a [routerLink]="['/my-notes/edit-note', note.id]" class="btn-icon" matTooltip="Jegyzet szerkesztése">
+            <span class="ph ph-pencil-simple text-center"></span>
+          </a>
+          <button type="button" class="btn-icon" (click)="deleteNote()" matTooltip="Jegyzet törlése">
+            <span class="ph ph-trash text-center"></span>
+          </button>
+        </div>
+        }
+      </div>
+      <div class="flex gap-x-4 justify-between items-center w-full lg:hidden mx-2">
+        <div class="text-primary-600 font-semibold self-start">
+          Módosítva: {{ (note.lastModify ? note.lastModify : note.created) | toDate | date : 'short' }}
+        </div>
+        @if (!note.avarageStar) {
+        <a class="btn-icon" [routerLink]="['/my-notes/edit-note', note.id]" matTooltip="Jegyzet szerkesztése">
+          <span class="ph ph-pencil-simple text-center"></span>
+        </a>
+        <button class="btn-icon" (click)="deleteNote()" matTooltip="Jegyzet törlése">
+          <span class="ph ph-trash text-center"></span>
+        </button>
+        }
       </div>
     </div>
-
-    <div class="flex flex-col lg:flex-row gap-y-6 lg:gap-x-20 py-2 rounded-2xl">
-      <div class="basis-full md:mr-10 lg:basis-3/4">
-        <div class="mx-4 lg:mx-10 font-semibold text-primary-600 text-xl mb-3">{{ note.subTitle }}</div>
-        <quill-editor class="w-full" [formControl]="noteForm"> </quill-editor>
-        <div class="font-semibold text-primary-600 my-3 mx-6">Létrehozva: {{ note.created | toDate | date: 'short' }}</div>
-      </div>
-      <div class="flex flex-col gap-y-10 basis-full md:mx-10 lg:basis-1/4 mx-4 lg:mx-10">
-        <jegyzi-note-review [note]="note"></jegyzi-note-review>
-        <jegyzi-note-comment [note]="note" [loggedInUser]="this.loggedInUser()" (refreshComment)="newComment($event)"></jegyzi-note-comment>
+    <div class="my-6">
+      <div class="flex flex-wrap gap-y-2 gap-x-4">
+        @for (label of note.labels; track label.label.id) {
+        <div class="note-label">{{ label.label.value }}</div>
+        }
       </div>
     </div>
+  </div>
+
+  <div class="flex flex-col lg:flex-row gap-y-6 lg:gap-x-20 py-2 rounded-2xl">
+    <div class="basis-full md:mr-10 lg:basis-3/4">
+      <div class="mx-4 lg:mx-10 font-semibold text-primary-600 text-xl mb-3">{{ note.subTitle }}</div>
+      <quill-editor class="w-full" [formControl]="noteForm"> </quill-editor>
+      <div class="font-semibold text-primary-600 my-3 mx-6">Létrehozva: {{ note.created | toDate | date : 'short' }}</div>
+    </div>
+    <div class="flex flex-col gap-y-10 basis-full md:mx-10 lg:basis-1/4 mx-4 lg:mx-10">
+      <jegyzi-note-review [note]="note"></jegyzi-note-review>
+      <jegyzi-note-comment
+        [note]="note"
+        [loggedInUser]="this.loggedInUser()"
+        (refreshComment)="refreshComment($event)"
+      ></jegyzi-note-comment>
+    </div>
+  </div>
   }
 </div>

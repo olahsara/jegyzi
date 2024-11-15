@@ -33,12 +33,16 @@ export class TextEditorPageComponent implements OnInit {
   private toastService = inject(ToastService);
   private router = inject(Router);
 
+  /** Jegyzet szerjókesztése esetén a szerkeszteni kívánt jegyzet */
   myNote = input<Note>();
 
+  /** Címkék */
   labels$ = this.labelService.getLabels();
 
+  /** Hibák (űrlap) */
   errors = signal<string | undefined>(undefined);
 
+  /** Űrlap a jegyzet készítéshez / módosításhoz */
   form = new FormGroup({
     id: new FormControl<string | null>(null),
     title: new FormControl<string | null>(null, Validators.required),
@@ -56,22 +60,23 @@ export class TextEditorPageComponent implements OnInit {
     numberOfUpdateRequests: new FormControl<number>(0),
   });
 
+  /** Szekesztés esetén az űrlap inicializálása az adatokkal */
   constructor() {
     explicitEffect([this.myNote], ([myNote]) => {
       if (myNote) {
         this.form.patchValue(myNote);
-        console.log(myNote);
-        console.log(this.form.value);
       }
     });
   }
 
+  /** TODO: TÖRÖLNI -> csak ellenőrzés */
   ngOnInit(): void {
     this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
       console.log(value);
     });
   }
 
+  /** Jegyzet létrehozása / módosítása */
   submit() {
     if (this.form.value.title && this.form.value.note) {
       this.errors.set(undefined);
@@ -81,7 +86,7 @@ export class TextEditorPageComponent implements OnInit {
       } else {
         this.form.controls.creatorId.setValue(this.profile()?.id!);
         this.form.controls.created.setValue(Timestamp.fromDate(new Date()) as Timestamp);
-        
+
         this.noteService.createNote(this.form.value as Note, this.profile()!).finally(() => {
           this.toastService.success('Sikeres feltöltés!');
           this.userService.createNote(this.profile()!);
@@ -93,6 +98,7 @@ export class TextEditorPageComponent implements OnInit {
     }
   }
 
+  /** Szerkesztése elvetése és elnavigálás a megfelelő oldalra */
   cancel() {
     this.form.reset();
     if (this.myNote()) {

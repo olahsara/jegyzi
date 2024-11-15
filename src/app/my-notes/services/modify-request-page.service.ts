@@ -5,17 +5,24 @@ import { ModifyRequestService } from '../../shared/services/modify-request.servi
 import { UserService } from '../../shared/services/user.service';
 
 @Injectable()
+/** A módosítási kérések oldalt kezelő szolgáltatás  */
 export class ModifyRequestPageService {
   private modifRequestService = inject(ModifyRequestService);
   private userService = inject(UserService);
 
+  /** Bejelentkezett felhasználó */
   private user = this.userService.user;
 
+  /** Folyamatban lévő kérések */
   inProgressModifyRequests$ = signal<Promise<ModifyRequest[]> | undefined>(undefined);
+  /** Elfogadott kérések */
   acceptedModifyRequests$ = signal<Promise<ModifyRequest[]> | undefined>(undefined);
+  /** Teljesített kérések */
   doneModifyRequests$ = signal<Promise<ModifyRequest[]> | undefined>(undefined);
+  /** Saját kérések */
   ownModifyRequests$ = signal<Promise<ModifyRequest[]> | undefined>(undefined);
 
+  /** Kérések inicializálása */
   constructor() {
     explicitEffect([this.user], ([user]) => {
       if (user) {
@@ -33,6 +40,7 @@ export class ModifyRequestPageService {
     });
   }
 
+  /** Listák frissítése */
   reload() {
     if (this.user()) {
       this.inProgressModifyRequests$.set(

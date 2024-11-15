@@ -4,9 +4,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { toDatePipe } from '../../../note/pipes/to-date.pipe';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { ModifyRequest, ModifyRequestStatus } from '../../../shared/models/modifiy-request.model';
+import { toDatePipe } from '../../../shared/pipes/to-date.pipe';
 import { ModifyRequestService } from '../../../shared/services/modify-request.service';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 import { ModifyRequestStatusBadgeComponent } from '../modify-request-status-badge/modify-request-status-badge.component';
@@ -29,8 +29,10 @@ export class ModifyRequestEditModalComponent implements OnInit {
   private requestService = inject(ModifyRequestService);
   private destroyRef = inject(DestroyRef);
 
+  /** Módosítási kérés elutasításának a magyarázata input elrejtett-e */
   hideDeclineNote = signal(true);
 
+  /** Módosítási kérést módosító form */
   form = new FormGroup({
     declineNote: new FormControl<string | null>(null),
     status: new FormControl<boolean>(true),
@@ -48,6 +50,7 @@ export class ModifyRequestEditModalComponent implements OnInit {
     this.dialogRef.close(false);
   }
 
+  /** Kérés módosítása */
   submit() {
     const newRequest = this.data.request;
     newRequest.status = this.form.value.status ? ModifyRequestStatus.ACCEPTED : ModifyRequestStatus.DECLINED;

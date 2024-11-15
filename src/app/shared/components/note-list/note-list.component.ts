@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { toDatePipe } from '../../../note/pipes/to-date.pipe';
 import { Note } from '../../models/note.model';
+import { toDatePipe } from '../../pipes/to-date.pipe';
 import { AvatarComponent } from '../avatar/avatar/avatar.component';
 import { RatingComponent } from '../rating-component/rating.component';
 

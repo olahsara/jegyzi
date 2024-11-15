@@ -4,10 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { toDatePipe } from '../../../note/pipes/to-date.pipe';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { ModifyRequest, ModifyRequestStatus } from '../../../shared/models/modifiy-request.model';
 import { ElapsedTimePipe } from '../../../shared/pipes/elapsed-time.pipe';
+import { toDatePipe } from '../../../shared/pipes/to-date.pipe';
 import { ModifyRequestService } from '../../../shared/services/modify-request.service';
 import { ModifyRequestEditModalComponent } from '../../components/modify-request-edit-modal/modify-request-edit-modal.component';
 import { ModifyRequestStatusBadgeComponent } from '../../components/modify-request-status-badge/modify-request-status-badge.component';
@@ -35,6 +35,7 @@ export class ModifyRequestListPagesComponent {
   private pageService = inject(ModifyRequestPageService);
   private dialog = inject(MatDialog);
 
+  /** A komponens szolgáltatásától lekért kérések listák */
   inProgressModifyRequests$ = this.pageService.inProgressModifyRequests$;
   acceptedModifyRequests$ = this.pageService.acceptedModifyRequests$;
   doneModifyRequests$ = this.pageService.doneModifyRequests$;
@@ -42,6 +43,10 @@ export class ModifyRequestListPagesComponent {
 
   modifyRequestStatus = ModifyRequestStatus;
 
+  /**
+   * Módosítási kérés módosítása
+   * @param request kérés
+   */
   editRequest(request: ModifyRequest) {
     this.dialog
       .open(ModifyRequestEditModalComponent, { minWidth: '60vw', maxHeight: '90vh', data: { request: request } })
@@ -51,12 +56,20 @@ export class ModifyRequestListPagesComponent {
       });
   }
 
+  /**
+   * Módosítási kérés teljesítetté állítása
+   * @param request kérés
+   */
   doneRequest(request: ModifyRequest) {
     this.modifRequestService.doneModifyRequest(request).then(() => {
       this.pageService.reload();
     });
   }
 
+  /**
+   * Módosítási kérés törlése
+   * @param request kérés
+   */
   deleteRequest(request: ModifyRequest) {
     this.modifRequestService.deleteModifyRequest(request).then(() => {
       this.pageService.reload();

@@ -27,6 +27,7 @@ export class NoteModifyRequestModalComponent {
   readonly data = inject<ModifyRequestModalData>(MAT_DIALOG_DATA);
   private requestService = inject(ModifyRequestService);
 
+  /** Új módosítási kéréshez szükséges űrlap */
   form = new FormGroup({
     date: new FormControl<Timestamp>(Timestamp.fromDate(new Date())),
     seriousness: new FormControl<ModifyRequestSeriusness | null>(null),
@@ -46,6 +47,7 @@ export class NoteModifyRequestModalComponent {
     this.dialogRef.close(false);
   }
 
+  /** Új módosítási kérés készítése */
   submit() {
     this.requestService.createModifyRequest(this.form.value as ModifyRequest, this.data.note).then(() => {
       this.form.reset();

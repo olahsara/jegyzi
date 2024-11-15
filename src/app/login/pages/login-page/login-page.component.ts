@@ -19,19 +19,18 @@ import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 })
 export class LoginPageComponent {
   readonly dialog = inject(MatDialog);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private toastService = inject(ToastService);
+  private userService = inject(UserService);
 
+  /** Bejelentkezéshez szükséges form */
   loginForm = new FormGroup({
     email: new FormControl<string>('', [Validators.email, Validators.required]),
     password: new FormControl<string>('', Validators.required),
   });
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private toastService: ToastService,
-    private userService: UserService,
-  ) {}
-
+  /** Bejelentkezés */
   login() {
     if (this.loginForm.valid) {
       this.authService
@@ -56,6 +55,8 @@ export class LoginPageComponent {
         });
     }
   }
+
+  /** Regisztrációs modál megnyitása és regisztráció */
   register() {
     const dialogRef = this.dialog.open(RegisterModalPageComponent, {
       minWidth: '50vw',

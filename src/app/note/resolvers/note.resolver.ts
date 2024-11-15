@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular
 import { Note } from '../../shared/models/note.model';
 import { NoteService } from '../../shared/services/note.service';
 
+/** Az navigáció során megadott id alapján a jegyzet adatait feloldó resolver */
 export function noteResolver(): ResolveFn<Note> {
   return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
     const service = inject(NoteService);

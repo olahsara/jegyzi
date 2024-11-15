@@ -39,7 +39,10 @@ export class MyProfilePageComponent {
   readonly dialog = inject(MatDialog);
   readonly profileTypes = ProfileTypes;
 
+  /** A profil lekérése a komponens szolgáltatásától */
   profile = this.pageService.profile;
+
+  /** Követések lista lekérése */
   following = computed(() => {
     const array: User[] = [];
     this.profile()?.follow.forEach((element) => {
@@ -50,6 +53,7 @@ export class MyProfilePageComponent {
     return array;
   });
 
+  /** Módosítás modál megnyitása, majd bezárás és sikeres módosítás esetén a módosítás elvégzése és a profil frissítése */
   modify() {
     const dialogRef = this.dialog.open(ProfileModifyModalComponent, {
       data: this.profile(),

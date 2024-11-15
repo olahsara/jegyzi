@@ -3,10 +3,10 @@ import { Component, inject } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { toDatePipe } from '../../../note/pipes/to-date.pipe';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { Note } from '../../../shared/models/note.model';
 import { Notification, NotificationType } from '../../../shared/models/notification.model';
+import { toDatePipe } from '../../../shared/pipes/to-date.pipe';
 import { CommentService } from '../../../shared/services/comment.service';
 import { ModifyRequestService } from '../../../shared/services/modify-request.service';
 import { NoteService } from '../../../shared/services/note.service';
@@ -38,12 +38,20 @@ export class DeleteConfirmModalComponent {
   private commentService = inject(CommentService);
   private reviewService = inject(ReviewService);
 
+  /**
+   * Modál ablak bezárása
+   * @param deleted törlésere sor kerül-e
+   */
   close(deleted: boolean) {
     this.dialogRef.close(deleted);
   }
 
+  /**
+   * Jegyzet törlése, és minden hozzá tartozó adat törlése:
+   * Követőknél, kérések, kommentek, értékelések
+   * Modál ablak bezárása
+   */
   submit() {
-    //Jegyzet törlése:
     //Követőknél törlés
     this.data.note.followers.map((userId) => {
       this.userService.deleteNote(this.data.note, userId);

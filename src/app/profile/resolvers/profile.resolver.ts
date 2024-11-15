@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular
 import { User } from '../../shared/models/user.model';
 import { UserService } from '../../shared/services/user.service';
 
+/** Az navigáció során megadott id alapján a felhasználó adatait feloldó resolver */
 export function profileResolver(): ResolveFn<User> {
   return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
     const service = inject(UserService);

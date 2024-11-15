@@ -10,9 +10,9 @@ import { Note } from '../../../shared/models/note.model';
 import { Review } from '../../../shared/models/review.model';
 import { User } from '../../../shared/models/user.model';
 import { ElapsedTimePipe } from '../../../shared/pipes/elapsed-time.pipe';
+import { toDatePipe } from '../../../shared/pipes/to-date.pipe';
 import { ReviewService } from '../../../shared/services/review.service';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
-import { toDatePipe } from '../../pipes/to-date.pipe';
 
 @Component({
   selector: 'jegyzi-note-review',
@@ -34,11 +34,15 @@ import { toDatePipe } from '../../pipes/to-date.pipe';
 export class NoteReviewComponent {
   private reviewService = inject(ReviewService);
 
+  /** A jegyzet, aminek az értékeléseit kezeljük */
   note = input.required<Note>();
+  /** Bejelentkezett felhasználó */
   loggedInUser = input<User>();
 
+  /** Összes értékelést listázzuk-e */
   allReviews = signal(false);
 
+  /** Értékelések lekérése az allReviews() értékének alapján */
   reviews = computed(() => {
     if (this.allReviews()) {
       return this.reviewService.getReviewsbyNote(this.note().id);
@@ -47,6 +51,7 @@ export class NoteReviewComponent {
     }
   });
 
+  /** Új értékeléshez szükséges űrlap */
   reviewForm = new FormGroup({
     anonim: new FormControl<boolean | null>(null),
     userId: new FormControl<string | null>(null),
@@ -58,12 +63,23 @@ export class NoteReviewComponent {
     avarageStar: new FormControl<number | null>(null),
   });
 
+  /**
+   *  Értékelések módosításárt felelős esemény, értékelést vagy undefined-ot emittál
+   */
   refreshReview = output<Review | undefined>();
 
+  /**
+   * Értékelés beállítésa
+   * @param rating értékelés nagysága
+   */
   selectStar(rating: number) {
     this.reviewForm.controls.stars.setValue(rating);
   }
 
+  /**
+   * Új értékelés hozzáadásást beállítő és eseménygt emittelő metódus
+   * @param panel az értékelést megadó mat-accordion panel
+   */
   submit(panel: MatExpansionPanel) {
     this.reviewForm.controls.userId.setValue(this.loggedInUser()!.id!);
     if (!this.reviewForm.value.anonim) {
@@ -75,13 +91,19 @@ export class NoteReviewComponent {
     panel.close();
   }
 
+  /** Összes értékelés betöltése */
   loadMoreReview() {
     this.allReviews.set(true);
   }
+  /** Kevesebb értéklés betöltése  */
   loadLessReview() {
     this.allReviews.set(false);
   }
 
+  /**
+   * Értékelés törlése
+   * @param id az értékelés id-ja
+   */
   deleteReview(id: string) {
     this.reviewService.deleteReview(id, this.note()).then(() => {
       this.refreshReview.emit(undefined);

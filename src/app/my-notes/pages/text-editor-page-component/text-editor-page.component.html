@@ -76,16 +76,14 @@
         >
       </div>
     </div>
-    @if (labels$ | async; as labels) {
-      @for (label of labels; track label.id) {
-        <div class="m-4">
-          <span class="text-primary-600 font-semibold">{{ label.name }}</span>
-          <div class="flex gap-x-4">
-            <jegyzi-label-group [items]="label" [(control)]="form.controls.labels"></jegyzi-label-group>
-          </div>
-        </div>
-      }
-    }
+    @if (labels$ | async; as labels) { @for (label of labels; track label.id) {
+    <div class="m-4">
+      <span class="text-primary-600 font-semibold">{{ label.name }}</span>
+      <div class="flex gap-x-4">
+        <jegyzi-label-group [items]="label" [(control)]="form.controls.labels"></jegyzi-label-group>
+      </div>
+    </div>
+    } }
   </div>
   <div class="m-6 md:m-10 flex justify-between">
     <span class="text-heart-100 text-lg">{{ errors() }}</span>
