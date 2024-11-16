@@ -36,12 +36,12 @@ export class RegisterModalPageComponent {
   profileTypes = ProfileTypes;
   educationTypes = EducationType;
 
-  /** Regisztrálási adatokat eltároló űrlap */
+  /** Regisztráláshoz szükséges űrlap */
   form = new FormGroup({
     email: new FormControl<string | null>(null, { validators: [Validators.email, Validators.required] }),
     password: new FormControl<string | null>(null, { validators: [Validators.required, Validators.minLength(6)] }),
     passwordConfirm: new FormControl<string | null>(null, { validators: Validators.required }),
-    name: new FormControl<string | null>(null),
+    name: new FormControl<string | null>(null, Validators.required),
     profileType: new FormControl<string | null>(null),
     education: new FormGroup({
       institution: new FormControl<string | null>(null),

@@ -77,7 +77,7 @@
       <div class="font-semibold text-primary-600 my-3 mx-6">Létrehozva: {{ note.created | toDate | date : 'short' }}</div>
     </div>
     <div class="flex flex-col gap-y-10 basis-full md:mx-10 lg:basis-1/4 mx-4 lg:mx-10">
-      <jegyzi-note-review [note]="note" [loggedInUser]="loggedInUser()" (refreshReview)="refreshReview($event)"></jegyzi-note-review>
+      <jegyzi-note-review [note]="note" [loggedInUser]="loggedInUser()" (refreshReview)="refreshReview($event)"> </jegyzi-note-review>
       <jegyzi-note-comment [note]="note" [loggedInUser]="loggedInUser()" (refreshComment)="refreshComment($event)"></jegyzi-note-comment>
     </div>
   </div>
