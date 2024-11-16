@@ -114,7 +114,7 @@ export class RegisterModalPageComponent {
               this.userService.uploadProfilPic(this.profilPic()!, cred.user.uid);
             }
           }
-
+          this.toastService.success('Sikeres regisztráció és belépés!');
           this.dialogRef.close(cred.user);
         })
         .catch(() => {
