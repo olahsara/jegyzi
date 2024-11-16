@@ -88,37 +88,39 @@ export class RegisterModalPageComponent {
 
   /** Regisztráció */
   register() {
-    this.authService
-      .signup(this.form.controls.email.value as string, this.form.controls.password.value as string)
-      .then((cred) => {
-        if (cred.user) {
-          const newUser: User = {
-            id: cred.user.uid,
-            email: this.form.value.email as string,
-            name: this.form.value.name as string,
-            education: this.form.value.education as Education | undefined,
-            work: this.form.value.work as Work | undefined,
-            other: this.form.value.other as Other | undefined,
-            introduction: this.form.value.introduction as string | undefined,
-            profileType: this.form.value.profileType as string | undefined,
-            followers: [],
-            follow: [],
-            reviews: [],
-            followedNotes: [],
-            followersNumber: 0,
-            notesNumber: 0,
-          };
-          this.userService.createProfile(newUser);
-          if (this.profilPic()) {
-            this.userService.uploadProfilPic(this.profilPic()!, cred.user.uid);
+    if (this.form.valid) {
+      this.authService
+        .signup(this.form.controls.email.value as string, this.form.controls.password.value as string)
+        .then((cred) => {
+          if (cred.user) {
+            const newUser: User = {
+              id: cred.user.uid,
+              email: this.form.value.email as string,
+              name: this.form.value.name as string,
+              education: this.form.value.education as Education | undefined,
+              work: this.form.value.work as Work | undefined,
+              other: this.form.value.other as Other | undefined,
+              introduction: this.form.value.introduction as string | undefined,
+              profileType: this.form.value.profileType as string | undefined,
+              followers: [],
+              follow: [],
+              reviews: [],
+              followedNotes: [],
+              followersNumber: 0,
+              notesNumber: 0,
+            };
+            this.userService.createProfile(newUser);
+            if (this.profilPic()) {
+              this.userService.uploadProfilPic(this.profilPic()!, cred.user.uid);
+            }
           }
-        }
 
-        this.dialogRef.close(cred.user);
-      })
-      .catch((error) => {
-        this.toastService.error('Váratlan hiba a regisztráció során!');
-      });
+          this.dialogRef.close(cred.user);
+        })
+        .catch(() => {
+          this.toastService.error('Váratlan hiba a regisztráció során!');
+        });
+    }
   }
 
   /** Profil kép feltöltése */
