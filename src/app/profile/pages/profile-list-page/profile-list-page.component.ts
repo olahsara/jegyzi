@@ -26,6 +26,7 @@ export class ProfileListPageComponent {
   profileTypes = ProfileTypes;
   educationTypes = EducationType;
 
+  /** Szűréshez szükséges űrlap */
   filterForm = new FormGroup({
     name: new FormControl<string | null>(null),
     numberOfNotes: new FormControl<number | null>(null),
@@ -35,6 +36,7 @@ export class ProfileListPageComponent {
     educationType: new FormControl<string | null>(null),
   });
 
+  /** Szűrés */
   filter() {
     this.profiles$.set(this.userService.getUsersByFilter(this.filterForm.value as UserFilterModel));
   }

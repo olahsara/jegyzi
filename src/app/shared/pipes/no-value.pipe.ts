@@ -4,10 +4,9 @@ import { Pipe, type PipeTransform } from '@angular/core';
   name: 'noValue',
   standalone: true,
 })
+/** "Nincs érték" megjelenítése undefined, null értékek esetén */
 export class NoValuePipe implements PipeTransform {
-
   transform(value: string | number | undefined | null): string {
-    return value?value.toString():'Nincs megadva!';
+    return value ? value.toString() : 'Nincs megadva!';
   }
-
 }

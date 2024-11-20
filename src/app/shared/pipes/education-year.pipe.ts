@@ -25,6 +25,8 @@ export function getEducation(value: number, type: string) {
   name: 'educationYear',
   standalone: true,
 })
+
+/** Profil oktatási adatainak átalakítása */
 export class EducationYearPipe implements PipeTransform {
   transform(value: number | undefined, type: string | undefined): string {
     if (type && value) {

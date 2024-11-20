@@ -1,20 +1,13 @@
 <div class="flex flex-col gap-y-6 md:gap-10 m-6 md:m-10">
-  @if(profile(); as profile) {
+  @if (profile(); as profile) {
   <div class="flex flex-col md:flex-row items-start md:items-center gap-y-1 md:gap-y-0 justify-start md:justify-between w-full">
     <div class="flex gap-6 items-center justify-start md:justify-normal">
-      <jegyzi-avatar
-        [profileId]="profile.id"
-        [profilPicEnabled]="profile.profilePicture ?? false"
-        size="lg"
-        [editable]="true"
-        (upload)="uploadProfilPic($event)"
-        (deleteProfilPic)="deleteProfilPic()"
-      ></jegyzi-avatar>
+      <jegyzi-avatar [profileId]="profile.id" size="lg" [editable]="true"></jegyzi-avatar>
 
-      <div class="font-semibold text-primary-500 text-2xl">{{ profile }}</div>
+      <div class="font-semibold text-primary-500 text-2xl">{{ profile.name }}</div>
     </div>
     <div class="flex gap-4 items-center self-end md:self-auto">
-      @if(profile.profileType) {
+      @if (profile.profileType) {
       <div class="bg-background-200 text-primary-600 font-semibold px-4 py-1 rounded-full" matTooltip="Felhasználó típusa">
         {{ profile.profileType }}
       </div>
@@ -35,12 +28,12 @@
         <span class="text-primary-300">Email cím</span>
         <span class="text-primary-500">{{ profile.email }}</span>
       </div>
-      @if(profile.education){ @if(profile.profileType === profileTypes.student) {
+      @if (profile.education) { @if (profile.profileType === profileTypes.student) {
       <div class="flex flex-col">
         <span class="text-primary-300">Intézmény</span>
         <span class="text-primary-500">
           {{ profile.education.institution }}
-          @if(profile.education.type) { ({{ profile.education.type }}) }
+          @if (profile.education.type) { ({{ profile.education.type }}) }
         </span>
       </div>
       <div class="flex flex-col">
@@ -51,13 +44,12 @@
         <span class="text-primary-300">Szak, Specializáció</span>
         <span class="text-primary-500">{{ profile.education.specialization }}</span>
       </div>
-
-      } @if(profile.profileType === profileTypes.teacher) {
+      } @if (profile.profileType === profileTypes.teacher) {
       <div class="flex flex-col">
         <span class="text-primary-300">Intézmény</span>
         <span class="text-primary-500">
           {{ profile.education.institution }}
-          @if(profile.education.type) { ({{ profile.education.type }}) }
+          @if (profile.education.type) { ({{ profile.education.type }}) }
         </span>
       </div>
       <div class="flex flex-col">
@@ -68,12 +60,12 @@
         <span class="text-primary-300">Tanított tárgy, tárgyak</span>
         <span class="text-primary-500">{{ profile.education.specialization }}</span>
       </div>
-      } } @if(profile.work && profile.profileType === profileTypes.work){
+      } } @if (profile.work && profile.profileType === profileTypes.work) {
       <div class="flex flex-col">
         <span class="text-primary-300">Munkahely</span>
         <span class="text-primary-500">
           {{ profile.work.workPlace }}
-          @if(profile.work.type) { ({{ profile.work.type }}) }
+          @if (profile.work.type) { ({{ profile.work.type }}) }
         </span>
       </div>
       <div class="flex flex-col">
@@ -84,7 +76,7 @@
         <span class="text-primary-300">Pozíció</span>
         <span class="text-primary-500">{{ profile.work.position }}</span>
       </div>
-      } @if(profile.other && profile.profileType === profileTypes.other){
+      } @if (profile.other && profile.profileType === profileTypes.other) {
       <div class="flex flex-col">
         <span class="text-primary-300">Leírás</span>
         <span class="text-primary-500">{{ profile.other.description }}</span>
@@ -101,8 +93,7 @@
       <span class="text-[28px] text-primary-500 font-semibold">Követett felhasználók</span>
       <hr class="border border-background-300 h-min flex-grow" />
     </div>
-    <jegyzi-profile-list [profiles]="following()" />
+    <jegyzi-profile-list [profiles]="following()" [row]="true" />
   </div>
-
   }
 </div>

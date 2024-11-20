@@ -1,36 +1,42 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatInput } from '@angular/material/input';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatTooltip } from '@angular/material/tooltip';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { Comment, CommentUpdateRequest } from '../../../shared/models/comment.model';
 import { Note } from '../../../shared/models/note.model';
 import { User } from '../../../shared/models/user.model';
 import { ElapsedTimePipe } from '../../../shared/pipes/elapsed-time.pipe';
+import { toDatePipe } from '../../../shared/pipes/to-date.pipe';
 import { CommentService } from '../../../shared/services/comment.service';
-import { getName } from '../../../shared/utils/name';
-import { toDatePipe } from '../../pipes/to-date.pipe';
+import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 
 @Component({
   selector: 'jegyzi-note-comment',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AvatarComponent, toDatePipe, MatInput, MatTooltip, ElapsedTimePipe],
+  imports: [CommonModule, AvatarComponent, toDatePipe, FORM_DIRECTIVES, MatTooltip, ElapsedTimePipe],
   templateUrl: './note-comment.component.html',
   styleUrl: './note-comment.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NoteCommentComponent {
-  allComments = signal(false);
-
   private commentService = inject(CommentService);
+
+  /** A jegyzet amihez lekérjük a kommenteket*/
   note = input.required<Note>();
+  /** A bejelentkezett felhasználó */
   loggedInUser = input<User>();
 
-  edit = signal(false);
+  /** Összes komment betöltése-e */
+  allComments = signal(false);
+
+  /** Módosítás alatt lévő komment id-ja */
+  edit = signal<string | undefined>(undefined);
+  /** Módosításhoz szükséges control */
   editCommentForm = new FormControl<string | null>(null);
 
+  /** Kommentek lekérése az allComments() frissülő értéke alapján */
   comments = computed(() => {
     if (this.allComments()) {
       return this.commentService.getCommentsbyNote(this.note().id);
@@ -39,55 +45,71 @@ export class NoteCommentComponent {
     }
   });
 
+  /** Új kommenthez szükséges űrlap */
   commentForm = new FormGroup({
     creatorId: new FormControl<string | null>(null),
-    creatorProfilPic: new FormControl<boolean | null>(null),
     creatorName: new FormControl<string | null>(null),
-    date: new FormControl<Timestamp>(Timestamp.fromDate(new Date()) as Timestamp),
+    date: new FormControl<Timestamp | null>(null),
     comment: new FormControl<string | null>(null),
     note: new FormControl<string | null>(null),
   });
 
-  newComment = output<Comment | undefined>();
+  /** Kommenteket frissítő esemény, új kommenttel vagy undefined-al emittálódik */
+  refreshComment = output<Comment | undefined>();
 
+  /** Új komment hozzádásanak előkészítése és a refreshComment emittálása */
   submit() {
     this.commentForm.controls.creatorId.setValue(this.loggedInUser()!.id!);
-    this.commentForm.controls.creatorProfilPic.setValue(this.loggedInUser()!.profilePicture ?? false);
-    this.commentForm.controls.creatorName.setValue(getName(this.loggedInUser()!));
+    this.commentForm.controls.creatorName.setValue(this.loggedInUser()!.name);
     this.commentForm.controls.note.setValue(this.note().id);
-    this.newComment.emit(this.commentForm.value as Comment);
+    this.commentForm.controls.date.setValue(Timestamp.fromDate(new Date()) as Timestamp);
+    this.refreshComment.emit(this.commentForm.value as Comment);
     this.commentForm.reset();
   }
 
+  /** Összes komment betöltése */
   loadMoreComment() {
     this.allComments.set(true);
   }
+  /** Kevesebb komment betöltése */
   loadLessComment() {
     this.allComments.set(false);
   }
 
-  startEdit(comment: string) {
-    this.editCommentForm.setValue(comment);
-    this.edit.set(true);
+  /**
+   * Módosítás elkezdeáse
+   * @param comment a módosítani kívánt komment
+   */
+  startEdit(comment: Comment) {
+    this.editCommentForm.setValue(comment.comment);
+    this.edit.set(comment.id);
   }
 
+  /**
+   * Komment módosítása
+   * @param commentId a komment id-ja
+   */
   editComment(commentId: string) {
     if (this.editCommentForm.value) {
       const updateValue: CommentUpdateRequest = {
         comment: this.editCommentForm.value,
-        lastModified: Timestamp.fromDate(new Date()),
+        lastModified: Timestamp.fromDate(new Date()) as Timestamp,
       };
 
       this.commentService.updateComment(commentId, updateValue).then(() => {
-        this.edit.set(false);
-        this.newComment.emit(undefined);
+        this.edit.set(undefined);
+        this.refreshComment.emit(undefined);
       });
     }
   }
 
+  /**
+   * Komment törlése és refreshComment emittálása
+   * @param commentId a komment id-ja
+   */
   deleteComment(commentId: string) {
     this.commentService.deleteComment(commentId, this.note()).then(() => {
-      this.newComment.emit(undefined);
+      this.refreshComment.emit(undefined);
     });
   }
 }

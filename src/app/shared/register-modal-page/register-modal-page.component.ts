@@ -36,12 +36,12 @@ export class RegisterModalPageComponent {
   profileTypes = ProfileTypes;
   educationTypes = EducationType;
 
+  /** Regisztráláshoz szükséges űrlap */
   form = new FormGroup({
     email: new FormControl<string | null>(null, { validators: [Validators.email, Validators.required] }),
     password: new FormControl<string | null>(null, { validators: [Validators.required, Validators.minLength(6)] }),
     passwordConfirm: new FormControl<string | null>(null, { validators: Validators.required }),
-    firstName: new FormControl<string | null>(null),
-    lastName: new FormControl<string | null>(null),
+    name: new FormControl<string | null>(null, Validators.required),
     profileType: new FormControl<string | null>(null),
     education: new FormGroup({
       institution: new FormControl<string | null>(null),
@@ -61,10 +61,12 @@ export class RegisterModalPageComponent {
     introduction: new FormControl<string | null>(null),
   });
 
+  /** Modál ablak bezárása */
   close() {
     this.dialogRef.close(undefined);
   }
 
+  /** Következő lépés */
   next() {
     this.actualStep++;
     if (this.steps.length === this.actualStep) {
@@ -75,6 +77,8 @@ export class RegisterModalPageComponent {
       }
     }
   }
+
+  /** Előző lépés */
   prew() {
     if (this.actualStep === 0) {
       this.close();
@@ -82,41 +86,44 @@ export class RegisterModalPageComponent {
     this.actualStep--;
   }
 
+  /** Regisztráció */
   register() {
-    this.authService
-      .signup(this.form.controls.email.value as string, this.form.controls.password.value as string)
-      .then((cred) => {
-        if (cred.user) {
-          const newUser: User = {
-            id: cred.user.uid,
-            email: this.form.value.email as string,
-            firstName: this.form.value.firstName as string,
-            lastName: this.form.value.lastName as string,
-            education: this.form.value.education as Education | undefined,
-            work: this.form.value.work as Work | undefined,
-            other: this.form.value.other as Other | undefined,
-            introduction: this.form.value.introduction as string | undefined,
-            profileType: this.form.value.profileType as string | undefined,
-            followers: [],
-            follow: [],
-            reviews: [],
-            followedNotes: [],
-            followersNumber: 0,
-            notesNumber: 0,
-          };
-          this.userService.createProfile(newUser);
-          if (this.profilPic()) {
-            this.userService.uploadProfilPic(this.profilPic()!, cred.user.uid);
+    if (this.form.valid) {
+      this.authService
+        .signup(this.form.controls.email.value as string, this.form.controls.password.value as string)
+        .then((cred) => {
+          if (cred.user) {
+            const newUser: User = {
+              id: cred.user.uid,
+              email: this.form.value.email as string,
+              name: this.form.value.name as string,
+              education: this.form.value.education as Education | undefined,
+              work: this.form.value.work as Work | undefined,
+              other: this.form.value.other as Other | undefined,
+              introduction: this.form.value.introduction as string | undefined,
+              profileType: this.form.value.profileType as string | undefined,
+              followers: [],
+              follow: [],
+              reviews: [],
+              followedNotes: [],
+              followersNumber: 0,
+              notesNumber: 0,
+            };
+            this.userService.createProfile(newUser);
+            if (this.profilPic()) {
+              this.userService.uploadProfilPic(this.profilPic()!, cred.user.uid);
+            }
           }
-        }
-
-        this.dialogRef.close(cred.user);
-      })
-      .catch((error) => {
-        this.toastService.error('Váratlan hiba a regisztráció során!');
-      });
+          this.toastService.success('Sikeres regisztráció és belépés!');
+          this.dialogRef.close(cred.user);
+        })
+        .catch(() => {
+          this.toastService.error('Váratlan hiba a regisztráció során!');
+        });
+    }
   }
 
+  /** Profil kép feltöltése */
   uploadProfilPic(event: Event) {
     this.loading.set(true);
     const img = (event.target as HTMLInputElement).files;
@@ -127,6 +134,7 @@ export class RegisterModalPageComponent {
     }
   }
 
+  /** Feltöltött fájl mentése */
   saveFile(file: File) {
     const reader = new FileReader();
 
@@ -137,6 +145,7 @@ export class RegisterModalPageComponent {
     reader.readAsDataURL(file);
   }
 
+  /** Feltöltött kép törlése */
   deletePic() {
     this.profilPic.set(null);
     this.profilPicSrc.set('');

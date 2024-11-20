@@ -1,85 +1,87 @@
 <div class="text-sm">
   <div class="text-xl font-semibold text-primary-600 mb-4">Hozzászólások</div>
-  @if(loggedInUser(); as loggedInUser) {
-  <div class="flex gap-x-4 justify-center mb-4">
-    <jegyzi-avatar
-      [profileId]="loggedInUser.id"
-      size="md"
-      [editable]="false"
-      [profilPicEnabled]="loggedInUser.profilePicture"
-    ></jegyzi-avatar>
-    <form [formGroup]="commentForm" class="flex-grow">
-      <div class="form-control w-full">
-        <textarea matInput type="text" formControlName="comment" rows="3" class="-mb-6" placeholder="Szólj hozzá!"></textarea>
-      </div>
-    </form>
-    <button
-      type="button"
-      (click)="submit()"
-      class="self-end bg-background-600 text-primary-100 rounded-full h-[2.5rem] w-[2.5rem] flex items-center justify-center"
-      matTooltip="Hozzászólás küldése"
-    >
-      <span class="ph ph-paper-plane-tilt ph-xl"></span>
-    </button>
-  </div>
-
-  } @if(comments() | async; as comments) { @for(comment of comments; track comment) {
-  <div class="flex gap-x-4 justify-center mb-2">
-    <jegyzi-avatar
-      [profileId]="comment.creatorId"
-      size="md"
-      [editable]="false"
-      [link]="comment.creatorId ? '/profiles/' + comment.creatorId : '/profiles'"
-      [profilPicEnabled]="comment.creatorProfilPic"
-    ></jegyzi-avatar>
-    <div class="flex flex-col gap-y-1 flex-grow">
-      <div
-        [ngClass]="[edit() ? 'form-control w-full' : 'bg-background-200 px-4 py-2 rounded-2xl flex-grow text-primary-600 min-h-[4.75rem]']"
+  @if (loggedInUser(); as loggedInUser) {
+    <div class="flex gap-x-4 justify-center mb-4">
+      <jegyzi-avatar [profileId]="loggedInUser.id" size="md" [editable]="false"></jegyzi-avatar>
+      <form [formGroup]="commentForm" class="flex-grow">
+        <div class="form-control w-full">
+          <textarea matInput type="text" formControlName="comment" rows="3" class="-mb-6" placeholder="Szólj hozzá!"></textarea>
+        </div>
+      </form>
+      <button
+        type="button"
+        (click)="submit()"
+        class="self-end bg-background-600 text-primary-100 rounded-full h-[2.5rem] w-[2.5rem] flex items-center justify-center"
+        matTooltip="Hozzászólás küldése"
       >
-        @if(edit()){
-        <textarea matInput type="text" [formControl]="editCommentForm" rows="3" class="-mb-6"></textarea>
-        } @else {
-        {{ comment.comment }}
+        <span class="ph ph-paper-plane-tilt ph-xl"></span>
+      </button>
+    </div>
+  }
+  @if (comments() | async; as comments) {
+    @for (comment of comments; track comment) {
+      <div class="flex gap-x-4 justify-center mb-2">
+        <jegyzi-avatar
+          [profileId]="comment.creatorId"
+          size="md"
+          [editable]="false"
+          [link]="comment.creatorId ? '/profiles/' + comment.creatorId : '/profiles'"
+        ></jegyzi-avatar>
+        <div class="flex flex-col gap-y-1 flex-grow">
+          <div
+            [ngClass]="[
+              edit() === comment.id
+                ? 'form-control w-full'
+                : 'bg-background-200 px-4 py-2 rounded-2xl flex-grow text-primary-600 min-h-[4.75rem]',
+            ]"
+          >
+            @if (edit() === comment.id) {
+              <textarea matInput type="text" [formControl]="editCommentForm" rows="3" class="-mb-6"></textarea>
+            } @else {
+              {{ comment.comment }}
+            }
+          </div>
+          <span
+            class="text-xs text-primary-500 self-end font-medium"
+            [matTooltip]="
+              (comment.lastModified ? (comment.lastModified | toDate | date: 'short') : (comment.date | toDate | date: 'short')) ?? ''
+            "
+            >{{ comment.lastModified ? (comment.lastModified | toDate | elapsedTime) : (comment.date | toDate | elapsedTime) }}</span
+          >
+        </div>
+        @if (comment.creatorId === loggedInUser()?.id) {
+          <div class="flex flex-col gap-y-4 w-[2.5rem]">
+            <button
+              type="button"
+              (click)="deleteComment(comment.id)"
+              class="h-[2rem] w-[2rem] btn-secondary-icon"
+              matTooltip="Hozzászólás törlése"
+            >
+              <span class="ph ph-trash ph-lg"></span>
+            </button>
+            <button
+              type="button"
+              (click)="edit() === comment.id ? editComment(comment.id) : startEdit(comment)"
+              class="h-[2rem] w-[2rem] transition-colors"
+              [ngClass]="[edit() === comment.id ? 'btn-primary-icon' : 'btn-secondary-icon']"
+              [matTooltip]="edit() === comment.id ? 'Hozzászólás mentése' : 'Hozzászólás módosítása'"
+            >
+              <span class="ph ph-lg" [ngClass]="[edit() === comment.id ? 'ph-paper-plane-tilt' : 'ph-pencil-simple']"></span>
+            </button>
+          </div>
         }
       </div>
-      <span
-        class="text-xs text-primary-500 self-end font-medium"
-        [matTooltip]="
-          (comment.lastModified ? (comment.lastModified | toDate | date : 'short') : (comment.date | toDate | date : 'short')) ?? ''
-        "
-        >{{ comment.lastModified ? (comment.lastModified | toDate | elapsedTime) : (comment.date | toDate | elapsedTime) }}</span
-      >
-    </div>
-    @if(comment.creatorId === loggedInUser()?.id){
-    <div class="flex flex-col gap-y-4 w-[2.5rem]">
-      <button
-        type="button"
-        (click)="deleteComment(comment.id)"
-        class="h-[2rem] w-[2rem] btn-secondary-icon"
-        matTooltip="Hozzászólás törlése"
-      >
-        <span class="ph ph-trash ph-lg"></span>
-      </button>
-      <button
-        type="button"
-        (click)="edit() ? editComment(comment.id) : startEdit(comment.comment)"
-        class="h-[2rem] w-[2rem] transition-colors"
-        [ngClass]="[edit() ? 'btn-primary-icon' : 'btn-secondary-icon']"
-        [matTooltip]="edit() ? 'Hozzászólás mentése' : 'Hozzászólás módosítása'"
-      >
-        <span class="ph ph-lg" [ngClass]="[edit() ? 'ph-paper-plane-tilt' : 'ph-pencil-simple']"></span>
-      </button>
-    </div>
+    } @empty {
+      <div class="py-2 px-4 mb-4 text-base text-center">
+        <span class="text-primary-300">Ehhez a jegyzethez még nem érkezett hozzászólás!</span>
+      </div>
     }
-  </div>
-  } @empty {
-  <div class="py-2 px-4 mb-4 text-base text-center">
-    <span class="text-primary-300">Ehhez a jegyzethez még nem érkezett hozzászólás!</span>
-  </div>
-
-  } @if(note().comments.length > 10 ) { @if(allComments()){
-  <button type="button" class="btn-small btn-secondary mx-auto" (click)="loadLessComment()">Kevesebb hozzászólás mutatása</button>
-  } @else {
-  <button type="button" class="btn-small btn-secondary mx-auto" (click)="loadMoreComment()">További hozzászólások betöltése</button>
-  } } }
+    @if (note().comments.length > 11) {
+      @if (allComments()) {
+        <button type="button" class="btn-small btn-secondary mx-auto" (click)="loadLessComment()">Kevesebb hozzászólás mutatása</button>
+      } @else {
+        <button type="button" class="btn-small btn-secondary mx-auto" (click)="loadMoreComment()">További hozzászólások betöltése</button>
+      }
+    }
+  }
 </div>

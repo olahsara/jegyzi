@@ -8,7 +8,7 @@ import { NoteService } from './note.service';
 import { NotificationService } from './notifictaion.service';
 import { ToastService } from './toast.service';
 
-/**Módosítási kérérseket kezelő service*/
+/**Módosítási kéréseket kezelő szolgáltatás*/
 @Injectable({ providedIn: 'root' })
 export class ModifyRequestService {
   readonly collectionName = 'ModifyRequests';
@@ -28,7 +28,7 @@ export class ModifyRequestService {
       .collection<ModifyRequest>(this.collectionName)
       .doc(request.id)
       .set(request)
-      .then(() => {
+      .then(async () => {
         const noti: Notification = {
           id: '',
           user: request.noteCreator,
@@ -44,7 +44,7 @@ export class ModifyRequestService {
             ' című jegyzetedhez. Nézd meg és kezeld a módosítási kérést minél előbb!',
         };
         this.notificationService.createNotification(noti);
-        this.noteService.plusUpdateRequestsNumber(request.noteId);
+        await this.noteService.plusUpdateRequestsNumber(request.noteId);
         this.noteService.addRequest(request.id, note);
         this.toastService.success('Sikeresen elküldted a módosítási kérést!');
       });
@@ -75,7 +75,7 @@ export class ModifyRequestService {
    */
   async getAllModfiyRequestsByNoteCreatorAndStatus(userId: string, status: ModifyRequestStatus) {
     let result = this.store.collection<ModifyRequest>(this.collectionName).ref as Query<ModifyRequest>;
-    result = result.where('creatorId', '==', userId);
+    result = result.where('noteCreator', '==', userId);
     result = result.where('status', '==', status);
 
     const data = await result
@@ -183,6 +183,7 @@ export class ModifyRequestService {
           linkedEntityId: request.id,
           description: request.noteTitle + 'című jegyzethez küldött módosítási kérésedet a szerző elutasította.',
         };
+        this.noteService.reduceUpdateRequestsNumber(request.noteId);
         this.notificationService.createNotification(noti);
         this.toastService.success('Sikeresen elutasítottad a módosítási kérést!');
       });
@@ -191,8 +192,8 @@ export class ModifyRequestService {
   }
 
   /** Módosítási kérés törlése:
-   * Módosítási kérést a módosítási kérés szerzője tudja tötlni amennyiben
-   * a módosítási kérés státusz elutasított (DECLINE) vagy befejezett (DONE) állapotú.
+   * Módosítási kérést a módosítási kérés szerzője tudja törölni amennyiben
+   * a módosítási kérés státusz elutasított (DECLINE) vagy befejezett (DONE) vagy beérkezett (SUBMITTED) állapotú.
    * @param request a törölni kívánt módosítási kérés.
    *
    */
@@ -212,6 +213,10 @@ export class ModifyRequestService {
     return data;
   }
 
+  /** Módosítási kérés törlése id alapján:
+   * @param requestId a törölni kívánt módosítási kérés id-ja.
+   *
+   */
   async deleteModifyRequestById(requestId: string) {
     const data = await this.store.collection<ModifyRequest>(this.collectionName).doc(requestId).delete();
 

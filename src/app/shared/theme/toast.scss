@@ -1,26 +1,24 @@
+/* A webalkamazásban megjelenő toast üzenetek megjelenése */
 .jegyzi-toast {
-    @apply py-4 px-6 bg-background-300 text-primary-100 text-sm font-semibold rounded-2xl flex items-center gap-2 mb-2;
+  @apply py-4 px-6 bg-background-300 text-primary-100 text-sm font-semibold rounded-2xl flex items-center gap-2 mb-2;
 
-    .toast-message {
-      font-family: theme("fontFamily.sans");
-    }
-  
+  .toast-message {
+    font-family: theme("fontFamily.sans");
   }
-  
-  .jegyzi-toast-success {
-    &::before {
-      @apply text-primary-400 ph-xl;
-    }
-  }
-  
-  .jegyzi-toast-error {
-    &::before {
-      @apply text-heart-100 ph-xl;
-    }
-  }
-  
-  .toast-container {
-    @apply flex flex-col items-center;
-  }
+}
 
-  
+.jegyzi-toast-success {
+  &::before {
+    @apply text-primary-400 ph-xl;
+  }
+}
+
+.jegyzi-toast-error {
+  &::before {
+    @apply text-heart-100 ph-xl;
+  }
+}
+
+.toast-container {
+  @apply flex flex-col items-center;
+}

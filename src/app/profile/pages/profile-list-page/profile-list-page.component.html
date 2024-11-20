@@ -1,72 +1,72 @@
 <jegyzi-title></jegyzi-title>
-<div class="mx-10 md:mx-20 mt-6 md:mt-auto mb-6 md:mb-10">
-  @if(profiles$() | async; as profiles) {
-  <form [formGroup]="filterForm" (submit)="filter()">
-    <div class="flex w-full md:w-[70%] justify-between mb-2 md:mb-10 -mt-10">
-      <div class="flex w-full md:w-[80%] gap-8 items-center">
-        <input class="searchbar" placeholder="Keress rá a felhasználó nevére" matInput type="text" formControlName="name" />
-        <button type="submit">
-          <span class="ph ph-magnifying-glass btn-icon"></span>
-        </button>
+<div class="mx-10 lg:mx-20 mt-6 lg:mt-auto mb-6 lg:mb-10">
+  @if (profiles$() | async; as profiles) {
+    <form [formGroup]="filterForm" (submit)="filter()">
+      <div class="flex w-full lg:w-[70%] justify-between mb-2 lg:mb-10 -mt-10">
+        <div class="flex w-full lg:w-[80%] gap-8 items-center">
+          <input class="searchbar" placeholder="Keress rá a felhasználó nevére" matInput type="text" formControlName="name" />
+          <button type="submit">
+            <span class="ph ph-magnifying-glass btn-icon"></span>
+          </button>
+        </div>
       </div>
-    </div>
 
-    <div class="w-full flex flex-col-reverse md:flex-row justify-center md:justify-between">
-      <div class="flex flex-col gap-10 md:w-[70%]">
-        <jegyzi-profile-list [profiles]="profiles" />
+      <div class="w-full flex flex-col-reverse lg:flex-row justify-center lg:justify-between">
+        <div class="flex flex-col gap-10 lg:w-[70%]">
+          <jegyzi-profile-list [profiles]="profiles" />
+        </div>
+        <div class="flex flex-col gap-y-6 w-full lg:w-1/4">
+          <mat-accordion class="jegyzi-accordion-filter">
+            <mat-expansion-panel hideToggle #filterAcc>
+              <mat-expansion-panel-header>
+                <div class="flex justify-between items-center w-full bg-background-200 rounded-2xl px-4 py-2">
+                  <span class="text-xl font-medium text-primary-600"> Szűrés </span>
+                  <span
+                    class="ph text-2xl text-primary-500"
+                    aria-hidden="true"
+                    [ngClass]="filterAcc.expanded ? 'ph-caret-up' : 'ph-caret-down'"
+                  ></span>
+                </div>
+              </mat-expansion-panel-header>
+              <div class="bg-background-200 rounded-3xl px-6 py-4 text-sm">
+                <div class="form-control w-full">
+                  <div class="label">Profil típusa</div>
+                  <mat-select formControlName="profileType" class="w-full">
+                    <mat-option>Törlés</mat-option>
+                    <mat-option [value]="profileTypes.student">{{ profileTypes.student }}</mat-option>
+                    <mat-option [value]="profileTypes.teacher">{{ profileTypes.teacher }}</mat-option>
+                    <mat-option [value]="profileTypes.work">{{ profileTypes.work }}</mat-option>
+                    <mat-option [value]="profileTypes.other">{{ profileTypes.other }}</mat-option>
+                  </mat-select>
+                </div>
+                <div class="form-control w-full">
+                  <div class="label">Követők száma</div>
+                  <input matInput type="number" formControlName="numberOfFollowers" />
+                </div>
+                <div class="form-control w-full">
+                  <div class="label">Jegyzetek száma</div>
+                  <input matInput type="number" formControlName="numberOfNotes" />
+                </div>
+                <div class="form-control w-full">
+                  <div class="label">Intézmény típusa</div>
+                  <mat-select formControlName="educationType" class="w-full">
+                    <mat-option>Törlés</mat-option>
+                    <mat-option [value]="educationTypes.primary">{{ educationTypes.primary }}</mat-option>
+                    <mat-option [value]="educationTypes.secondary">{{ educationTypes.secondary }}</mat-option>
+                    <mat-option [value]="educationTypes.upper">{{ educationTypes.upper }}</mat-option>
+                    <mat-option [value]="educationTypes.university">{{ educationTypes.university }}</mat-option>
+                  </mat-select>
+                </div>
+                <div class="form-control w-full">
+                  <div class="label">Évfolyam</div>
+                  <input matInput type="number" formControlName="educationYear" />
+                </div>
+              </div>
+              <button class="btn-small btn-light self-end" type="submit">Keresés</button>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
       </div>
-      <div class="flex flex-col gap-y-6 w-full md:w-1/4">
-        <mat-accordion class="jegyzi-accordion-filter">
-          <mat-expansion-panel hideToggle #filterAcc>
-            <mat-expansion-panel-header>
-              <div class="flex justify-between items-center w-full bg-background-200 rounded-2xl px-4 py-2">
-                <span class="text-xl font-medium text-primary-600"> Szűrés </span>
-                <span
-                  class="ph text-2xl text-primary-500"
-                  aria-hidden="true"
-                  [ngClass]="filterAcc.expanded ? 'ph-caret-up' : 'ph-caret-down'"
-                ></span>
-              </div>
-            </mat-expansion-panel-header>
-            <div class="bg-background-200 rounded-3xl px-6 py-4 text-sm">
-              <div class="form-control w-full">
-                <div class="label">Profil típusa</div>
-                <mat-select formControlName="profileType" class="w-full">
-                  <mat-option>Törlés</mat-option>
-                  <mat-option [value]="profileTypes.student">{{ profileTypes.student }}</mat-option>
-                  <mat-option [value]="profileTypes.teacher">{{ profileTypes.teacher }}</mat-option>
-                  <mat-option [value]="profileTypes.work">{{ profileTypes.work }}</mat-option>
-                  <mat-option [value]="profileTypes.other">{{ profileTypes.other }}</mat-option>
-                </mat-select>
-              </div>
-              <div class="form-control w-full">
-                <div class="label">Követők száma</div>
-                <input matInput type="number" formControlName="numberOfFollowers" />
-              </div>
-              <div class="form-control w-full">
-                <div class="label">Jegyzetek száma</div>
-                <input matInput type="number" formControlName="numberOfNotes" />
-              </div>
-              <div class="form-control w-full">
-                <div class="label">Intézmény típusa</div>
-                <mat-select formControlName="educationType" class="w-full">
-                  <mat-option>Törlés</mat-option>
-                  <mat-option [value]="educationTypes.primary">{{ educationTypes.primary }}</mat-option>
-                  <mat-option [value]="educationTypes.secondary">{{ educationTypes.secondary }}</mat-option>
-                  <mat-option [value]="educationTypes.upper">{{ educationTypes.upper }}</mat-option>
-                  <mat-option [value]="educationTypes.university">{{ educationTypes.university }}</mat-option>
-                </mat-select>
-              </div>
-              <div class="form-control w-full">
-                <div class="label">Évfolyam</div>
-                <input matInput type="number" formControlName="educationYear" />
-              </div>
-            </div>
-            <button class="btn-small btn-light self-end" type="submit">Keresés</button>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </div>
-    </div>
-  </form>
+    </form>
   }
 </div>

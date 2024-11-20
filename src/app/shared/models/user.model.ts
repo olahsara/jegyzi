@@ -1,24 +1,25 @@
 import { Education } from './eductaion.model';
 
+/** Felhasználó kollekció */
 export interface User {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  name: string;
   education?: Education;
   work?: Work;
   other?: Other;
   introduction?: string;
   profilePicture?: boolean;
   profileType?: string;
-  followers: string[]; //user id
-  follow: string[]; //user id
-  followedNotes: string[]; //notes id
+  followers: string[];
+  follow: string[];
+  followedNotes: string[];
   followersNumber: number;
-  reviews: string[]; //reviews id
+  reviews: string[];
   notesNumber: number;
 }
 
+/** Felhasználó szűrő interfész */
 export interface UserFilterModel {
   name: string;
   numberOfNotes: number;

@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './shared/auth/auth.guard';
 
+/** Navigáció */
 export const routes: Routes = [
   {
     path: '',
@@ -17,7 +19,7 @@ export const routes: Routes = [
       },
       {
         path: 'login',
-        loadComponent: () => import('./login/pages/login/login.component').then((c) => c.LoginComponent),
+        loadComponent: () => import('./login/pages/login-page/login-page.component').then((c) => c.LoginPageComponent),
         data: {
           title: 'Bejelentkezés',
           subtitle:
@@ -34,14 +36,14 @@ export const routes: Routes = [
       },
 
       {
-        path: 'my-profile',
-        pathMatch: 'full',
-        loadComponent: () => import('./profile/pages/my-profile-page/my-profile-page.component').then((c) => c.MyProfilePageComponent),
-      },
-
-      {
         path: 'my-notes',
         loadChildren: () => import('./my-notes/routes').then((c) => c.ROUTES),
+      },
+      {
+        path: 'my-profile',
+        canActivate: [authGuard()],
+        pathMatch: 'full',
+        loadComponent: () => import('./profile/pages/my-profile-page/my-profile-page.component').then((c) => c.MyProfilePageComponent),
       },
     ],
   },

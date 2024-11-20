@@ -1,6 +1,7 @@
 import { Timestamp } from '@angular/fire/firestore';
 import { LabelNote } from './label.model';
 
+/** Jegyzet kollekció */
 export interface Note {
   id: string;
   title: string;
@@ -8,18 +9,18 @@ export interface Note {
   note: string;
   labels: LabelNote[];
   creatorId: string;
-  creatorProfilPic: boolean;
   created: Timestamp;
-  followers: string[]; // felhasználók id-ja
+  followers: string[];
   followersNumber: number;
-  comments: string[]; //hozzászólás id
-  reviews: string[]; //értékelések id-ja
-  updateRequests: string[]; //módosítási javaslatok id-ja
+  comments: string[];
+  reviews: string[];
+  updateRequests: string[];
   numberOfUpdateRequests: number;
   lastModify?: Timestamp;
   avarageStar: number;
 }
 
+/** Jegyzet szűrésének az interfésze */
 export interface NoteFilterModel {
   title: string;
   stars: number;

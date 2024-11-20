@@ -3,14 +3,14 @@ import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { toDatePipe } from '../../../note/pipes/to-date.pipe';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { NoteListComponent } from '../../../shared/components/note-list/note-list.component';
 import { ProfileListComponent } from '../../../shared/components/profile-list/profile-list.component';
 import { RatingComponent } from '../../../shared/components/rating-component/rating.component';
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { HeaderComponent } from '../../../shared/layout/header/header.component';
-import { NamePipe } from '../../../shared/pipes/name.pipe';
+import { toDatePipe } from '../../../shared/pipes/to-date.pipe';
+
 import { NoValuePipe } from '../../../shared/pipes/no-value.pipe';
 import { TypePipe } from '../../../shared/pipes/type.pipe';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -28,7 +28,6 @@ import { UserService } from '../../../shared/services/user.service';
     RouterLink,
     NoValuePipe,
     AvatarComponent,
-    NamePipe,
     TypePipe,
     toDatePipe,
     RatingComponent,
@@ -43,10 +42,14 @@ export class HomePageComponent {
   private userService = inject(UserService);
   private noteService = inject(NoteService);
 
+  /** Bejelentkezett felhasználó */
   user = toSignal(this.authService.loggedInUser());
+  /** Legnépszerűbb felhasználók lista */
   profiles$ = this.userService.getTopUsers();
+  /** Legnépszerűbb jegyzetek lista */
   notes$ = this.noteService.getTopNotes();
 
+  /** Kijelentkezés */
   logout() {
     this.authService.logout();
   }

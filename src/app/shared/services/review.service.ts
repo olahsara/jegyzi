@@ -11,6 +11,7 @@ import { ToastService } from './toast.service';
 @Injectable({
   providedIn: 'root',
 })
+/** Az értékeléseket kezelő szolgáltatás */
 export class ReviewService {
   readonly collectionName = 'Reviews';
 
@@ -19,6 +20,11 @@ export class ReviewService {
   private toastService = inject(ToastService);
   private noteService = inject(NoteService);
 
+  /**
+   * Értékelés készítése
+   * @param review Értékelés
+   * @param note Jegyzet, amihez az értékelés készült
+   */
   async createReview(review: Review, note: Note) {
     review.id = this.store.createId();
 
@@ -47,6 +53,10 @@ export class ReviewService {
     return data;
   }
 
+  /**
+   * Átlagos értékelés frissítése
+   * @param noteId a jegyzet id-ja, aminél frissíteni kell
+   */
   async updateAvarageReview(noteId: string) {
     const data = await this.getReviewsbyNote(noteId).then((value) => {
       let sum = 0;
@@ -61,6 +71,10 @@ export class ReviewService {
     return data;
   }
 
+  /**
+   * Értékelések lekérése
+   * @returns Értékelések lista
+   */
   async getReviews() {
     const data = await this.store
       .collection<Review>(this.collectionName)
@@ -74,6 +88,11 @@ export class ReviewService {
     return data;
   }
 
+  /**
+   * Jegyzethez érkezett értékelések lekérése
+   * @param noteId jegyzet id-ja
+   * @returns Értékelések lista
+   */
   async getReviewsbyNote(noteId: string) {
     const data = await this.store
       .collection<Review>(this.collectionName)
@@ -89,6 +108,11 @@ export class ReviewService {
     return data;
   }
 
+  /**
+   * Jegyzethez érkezett értékelések lekérése (3db)
+   * @param noteId jegyzet id-ja
+   * @returns Értékelések lista
+   */
   async getReviewsbyNoteLimited(noteId: string) {
     const data = await this.store
       .collection<Review>(this.collectionName)
@@ -104,7 +128,12 @@ export class ReviewService {
     return data;
   }
 
-  async getReviewById(id: string): Promise<Review[]> {
+  /**
+   * Értékelés lekérése id alapján
+   * @param id értékelés id-ja
+   * @returns az értékelés
+   */
+  async getReviewById(id: string): Promise<Review> {
     const data = await this.store
       .collection<Review>(this.collectionName)
       .ref.where('id', '==', id)
@@ -116,10 +145,25 @@ export class ReviewService {
         });
       });
 
-    return data;
+    return data[0];
   }
 
-  async deleteReview(id: string) {
-    return await this.store.collection<Review>(this.collectionName).doc(id).delete();
+  /**
+   * Értékelés trölése
+   * @param id értékelés id-ja
+   * @param note a jegyzet, amihez az értékelés érkezett
+   */
+  async deleteReview(id: string, note?: Note) {
+    const data = await this.store
+      .collection<Review>(this.collectionName)
+      .doc(id)
+      .delete()
+      .then(() => {
+        if (note) {
+          this.noteService.deleteReview(note, id);
+        }
+      });
+
+    return data;
   }
 }

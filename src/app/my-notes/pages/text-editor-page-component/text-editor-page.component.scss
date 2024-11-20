@@ -24,14 +24,14 @@
 }
 
 ::ng-deep .ql-toolbar.ql-snow {
-  @apply mt-0 md:mt-10 mb-0 mx-2 md:mx-auto w-fit #{!important};
+  @apply mt-4 md:mt-0 mb-0 mx-2 md:mx-auto w-fit #{!important};
 }
 
 ::ng-deep .ql-toolbar.ql-snow {
   @apply border-none mb-20 bg-background-300 text-primary-500 rounded-2xl px-5 py-2 mx-10;
 }
 ::ng-deep .ql-container.ql-snow {
-  @apply bg-background-paper rounded-r-[48px] pr-20 py-6 w-full md:w-2/3 min-h-96 border-none;
+  @apply bg-background-paper rounded-r-[48px] pr-0 md:pr-10 py-6 w-full md:w-2/3 min-h-96 border-none;
 }
 ::ng-deep .ql-formats {
   @apply text-white;

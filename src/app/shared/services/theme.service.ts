@@ -7,6 +7,7 @@ export type Theme = 'light' | 'dark';
 @Injectable({
   providedIn: 'root',
 })
+/** A webalkalmazás témáját kezelő szolgáltatás */
 export class ThemeService {
   theme = signal<Theme>('light');
   isLigth = computed(() => {
@@ -31,6 +32,7 @@ export class ThemeService {
     this.applyTheme(theme);
   }
 
+  /** Téma beállítása */
   setTheme(theme: Theme): void {
     if (!this.storage) {
       return;
@@ -40,6 +42,8 @@ export class ThemeService {
     this.storage.setItem(this.STORAGE_THEME_KEY, theme);
     this.applyTheme(theme);
   }
+
+  /** Téma lekérése */
   private getTheme(): Theme {
     if (!this.storage || !this.window) {
       return this.DEFAULT_THEME;
@@ -54,6 +58,7 @@ export class ThemeService {
     return this.window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
 
+  /** Téma érvényesítése */
   private applyTheme(theme: Theme) {
     if (!this.document) {
       return;

@@ -1,8 +1,8 @@
-<div class="mx-10 md:mx-20 my-20 md:my-20">
-  @if(notes$() | async; as notes) {
+<div class="mx-10 lg:mx-20 my-20 lg:my-20">
+  @if (notes$() | async; as notes) {
   <form [formGroup]="filterForm" (submit)="filter()">
-    <div class="flex w-full md:w-[70%] justify-between mb-2 md:mb-10 -mt-10">
-      <div class="flex w-full md:w-[80%] gap-8 items-center">
+    <div class="flex w-full lg:w-[70%] justify-between mb-2 lg:mb-10 -mt-10">
+      <div class="flex w-full lg:w-[80%] gap-8 items-center">
         <input class="searchbar" placeholder="Keress rá a jegyzet nevére" matInput type="text" formControlName="title" />
         <button type="submit">
           <span class="ph ph-magnifying-glass btn-icon"></span>
@@ -10,11 +10,11 @@
       </div>
     </div>
 
-    <div class="w-full flex flex-col-reverse md:flex-row justify-center md:justify-between">
-      <div class="flex flex-col gap-10 w-full md:w-[70%]">
+    <div class="w-full flex flex-col-reverse lg:flex-row justify-center lg:justify-between">
+      <div class="flex flex-col gap-10 w-full lg:w-[70%]">
         <jegyzi-note-list [notes]="notes" />
       </div>
-      <div class="flex flex-col w-full md:w-1/4 gap-y-6">
+      <div class="flex flex-col w-full lg:w-1/4 gap-y-6">
         <mat-accordion class="jegyzi-accordion-filter">
           <mat-expansion-panel hideToggle #filterAcc>
             <mat-expansion-panel-header>
@@ -37,7 +37,7 @@
 
             <div class="bg-background-200 rounded-3xl px-6 py-4 text-sm">
               <span class="font-medium text-lg text-primary-600 mb-10">Keresés címke alapján</span>
-              @if(labels$ | async; as labels) { @for (label of labels; track label.id) {
+              @if (labels$ | async; as labels) { @for (label of labels; track label.id) {
               <div class="m-4">
                 <span class="text-primary-600 font-medium">{{ label.name }}</span>
                 <div class="flex gap-x-4">
@@ -49,14 +49,14 @@
 
             <div class="bg-background-200 rounded-3xl px-6 py-4 text-sm">
               <span class="font-medium text-lg text-primary-600 mb-10">Egyéb jellemzők</span>
-              @if(users$ |async; as users) {
+              @if (users$ | async; as users) {
               <div class="form-control w-full">
                 <div class="label">Feltöltő neve</div>
                 <mat-select formControlName="creatorId" class="w-full">
                   <mat-option>Nem adom meg</mat-option>
 
-                  @for(user of users; track user.id) {
-                  <mat-option [value]="user.id">{{ user. }}</mat-option>
+                  @for (user of users; track user.id) {
+                  <mat-option [value]="user.id">{{ user }}</mat-option>
                   }
                 </mat-select>
               </div>

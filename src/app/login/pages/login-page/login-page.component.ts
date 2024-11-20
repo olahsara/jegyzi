@@ -11,34 +11,33 @@ import { UserService } from '../../../shared/services/user.service';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 
 @Component({
-  selector: 'jegyzi-login',
+  selector: 'jegyzi-login-page',
   standalone: true,
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  templateUrl: './login-page.component.html',
+  styleUrl: './login-page.component.scss',
   imports: [CommonModule, TitleComponent, FORM_DIRECTIVES, RouterLink],
 })
-export class LoginComponent {
+export class LoginPageComponent {
   readonly dialog = inject(MatDialog);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private toastService = inject(ToastService);
+  private userService = inject(UserService);
 
+  /** Bejelentkezéshez szükséges form */
   loginForm = new FormGroup({
     email: new FormControl<string>('', [Validators.email, Validators.required]),
     password: new FormControl<string>('', Validators.required),
   });
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private toastService: ToastService,
-    private userService: UserService,
-  ) {}
-
+  /** Bejelentkezés */
   login() {
     if (this.loginForm.valid) {
       this.authService
         .login(this.loginForm.controls.email.value as string, this.loginForm.controls.password.value as string)
         .then((cred) => {
           this.userService.getUserById(cred.user?.uid!).then((element) => {
-            this.userService.user.set(element[0]);
+            this.userService.user.set(element);
           });
           this.router.navigate(['/home']);
         })
@@ -56,6 +55,8 @@ export class LoginComponent {
         });
     }
   }
+
+  /** Regisztrációs modál megnyitása és regisztráció */
   register() {
     const dialogRef = this.dialog.open(RegisterModalPageComponent, {
       minWidth: '50vw',

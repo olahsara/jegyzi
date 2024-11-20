@@ -13,9 +13,16 @@ import { Label, LabelGroup, LabelNote } from '../../models/label.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LabelGroupComponent {
+  /** Választott címkéket nyilvántartó form control */
   control = model.required<FormControl<LabelNote[]>>();
+
+  /** Címkék */
   items = input.required<LabelGroup>();
 
+  /**
+   * Címke kiválasztása
+   * @param label címke
+   */
   select(label: Label) {
     const fineded = this.control().value.find((l) => l.label.id === label.id);
     if (fineded) {

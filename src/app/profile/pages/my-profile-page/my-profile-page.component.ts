@@ -3,18 +3,16 @@ import { Component, computed, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
-import { AvatarComponent, ImageUploadEvent } from '../../../shared/components/avatar/avatar/avatar.component';
+import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { ProfileListComponent } from '../../../shared/components/profile-list/profile-list.component';
 import { TitleComponent } from '../../../shared/components/title/title.component';
 import { ProfileTypes, User } from '../../../shared/models/user.model';
-import { NamePipe } from '../../../shared/pipes/name.pipe';
 import { NoValuePipe } from '../../../shared/pipes/no-value.pipe';
 import { TypePipe } from '../../../shared/pipes/type.pipe';
-import { ToastService } from '../../../shared/services/toast.service';
 import { UserService } from '../../../shared/services/user.service';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 import { MyProfilePageService } from '../../services/my-profile-page.service';
-import { ProfileModifyModalPageComponent } from '../profile-modify-modal-page/profile-modify-modal-page.component';
+import { ProfileModifyModalComponent } from '../profile-modify-modal/profile-modify-modal.component';
 
 @Component({
   selector: 'jegyzi-my-profile-page',
@@ -27,7 +25,6 @@ import { ProfileModifyModalPageComponent } from '../profile-modify-modal-page/pr
     FORM_DIRECTIVES,
     RouterLink,
     AvatarComponent,
-    NamePipe,
     MatTooltipModule,
     NoValuePipe,
     TypePipe,
@@ -38,40 +35,27 @@ import { ProfileModifyModalPageComponent } from '../profile-modify-modal-page/pr
 export class MyProfilePageComponent {
   private pageService = inject(MyProfilePageService);
   private userService = inject(UserService);
-  private toastService = inject(ToastService);
 
   readonly dialog = inject(MatDialog);
   readonly profileTypes = ProfileTypes;
 
+  /** A profil lekérése a komponens szolgáltatásától */
   profile = this.pageService.profile;
+
+  /** Követések lista lekérése */
   following = computed(() => {
     const array: User[] = [];
     this.profile()?.follow.forEach((element) => {
       this.userService.getUserById(element).then((el) => {
-        array.push(el[0]);
+        array.push(el);
       });
     });
     return array;
   });
 
-  uploadProfilPic(event: ImageUploadEvent) {
-    this.userService.uploadProfilPic(event.file, this.profile()!.id).then(() => {
-      this.userService.getUserById(this.profile()!.id).then((value) => {
-        this.pageService.reload(value[0]);
-      });
-    });
-  }
-
-  deleteProfilPic() {
-    this.userService.deleteProfilPic(this.profile()!.id).then(() => {
-      this.userService.getUserById(this.profile()!.id).then((value) => {
-        this.pageService.reload(value[0]);
-      });
-    });
-  }
-
+  /** Módosítás modál megnyitása, majd bezárás és sikeres módosítás esetén a módosítás elvégzése és a profil frissítése */
   modify() {
-    const dialogRef = this.dialog.open(ProfileModifyModalPageComponent, {
+    const dialogRef = this.dialog.open(ProfileModifyModalComponent, {
       data: this.profile(),
       minWidth: '40vw',
       maxHeight: '90vh',

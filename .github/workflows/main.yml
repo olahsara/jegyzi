@@ -19,3 +19,5 @@ jobs:
 
       - name: Build Angular project
         run: npm run build
+
+        

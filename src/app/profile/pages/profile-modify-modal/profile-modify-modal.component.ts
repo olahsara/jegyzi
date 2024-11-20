@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
@@ -9,14 +9,14 @@ import { ProfileTypes, User } from '../../../shared/models/user.model';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 
 @Component({
-  selector: 'jegyzi-profile-modify-modal-page',
+  selector: 'jegyzi-profile-modify-modal',
   standalone: true,
   imports: [CommonModule, MatTooltipModule, FORM_DIRECTIVES, NgxSkeletonLoaderModule],
-  templateUrl: './profile-modify-modal-page.component.html',
-  styleUrl: './profile-modify-modal-page.component.scss',
+  templateUrl: './profile-modify-modal.component.html',
+  styleUrl: './profile-modify-modal.component.scss',
 })
-export class ProfileModifyModalPageComponent implements OnInit {
-  readonly dialogRef = inject(MatDialogRef<ProfileModifyModalPageComponent>);
+export class ProfileModifyModalComponent implements OnInit {
+  readonly dialogRef = inject(MatDialogRef<ProfileModifyModalComponent>);
   readonly data = inject<User>(MAT_DIALOG_DATA);
 
   steps = [0, 1];
@@ -26,12 +26,9 @@ export class ProfileModifyModalPageComponent implements OnInit {
   profileTypes = ProfileTypes;
   educationTypes = EducationType;
 
+  /** Módosításhoz szükséges űrlap */
   form = new FormGroup({
-    email: new FormControl<string | null>(null, {
-      validators: Validators.email,
-    }),
-    lastName: new FormControl<string | null>(null),
-    firstName: new FormControl<string | null>(null),
+    name: new FormControl<string | null>(null),
     profileType: new FormControl<string | null>(null),
     education: new FormGroup({
       institution: new FormControl<string | null>(null),
@@ -51,22 +48,27 @@ export class ProfileModifyModalPageComponent implements OnInit {
     introduction: new FormControl<string | null>(null),
   });
 
+  /** Beállítjuk az űrlapot a felhasználó jelenlegi adataival  */
   ngOnInit(): void {
     if (this.data) {
       this.form.patchValue(this.data);
     }
   }
 
+  /** Modál ablak bezárása */
   close() {
     this.dialogRef.close(false);
   }
 
+  /** Következő lépésre lépés */
   next() {
     this.actualStep++;
     if (this.steps.length === this.actualStep) {
       this.modify();
     }
   }
+
+  /** Előző lépésre lépés */
   prew() {
     if (this.actualStep === 0) {
       this.close();
@@ -74,19 +76,19 @@ export class ProfileModifyModalPageComponent implements OnInit {
     this.actualStep--;
   }
 
+  /** Profil módosítását előkészítő függvény */
   modify() {
     if (this.form.valid) {
       if (this.form.value.profileType !== this.data.profileType) {
-        this.remowePorpertiesAccordingType();
+        this.removePorpertiesAccordingType();
       }
       this.actualStep = 0;
       this.dialogRef.close(this.form.getRawValue());
-    } else {
-      this.error = 'Email cím formátuma nem megfelelő!';
     }
   }
 
-  remowePorpertiesAccordingType() {
+  /** Profil típusa alapján törli a már nem releváns egyéb adatokat */
+  removePorpertiesAccordingType() {
     switch (this.form.value.profileType) {
       case null:
         this.form.controls.education.reset();

@@ -5,6 +5,7 @@ import { intlFormatDistance } from 'date-fns';
   name: 'elapsedTime',
   standalone: true,
 })
+/** Eltelt idő megjelenítése  */
 export class ElapsedTimePipe implements PipeTransform {
   private locale = inject(LOCALE_ID);
   transform(value: Date): string {

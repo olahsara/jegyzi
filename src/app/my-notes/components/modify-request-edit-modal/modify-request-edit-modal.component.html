@@ -11,10 +11,10 @@
     <div class="w-full bg-background-200 rounded-t-3xl px-6 py-4">
       <div class="flex justify-between mb-4 font-medium">
         <span class="text-primary-500 text-xl"> {{ data.request.noteTitle }}</span>
-        <span class="text-primary-500">{{ data.request.date | toDate | date : 'short' }}</span>
+        <span class="text-primary-500">{{ data.request.date | toDate | date: 'short' }}</span>
       </div>
       <div class="flex gap-x-4 items-center mb-2">
-        <jegyzi-avatar [profileId]="data.request.creatorId" [profilPicEnabled]="data.request.creatorProfilPic"></jegyzi-avatar>
+        <jegyzi-avatar [profileId]="data.request.creatorId"></jegyzi-avatar>
         <span class="text-primary-500 font-medium"> {{ data.request.creatorName }}</span>
         <jegyzi-modify-request-status-badge [seriusness]="data.request.seriousness" class="mr-0 ml-auto" />
       </div>
@@ -24,17 +24,17 @@
 
       <mat-checkbox formControlName="status" class="mb-2">Elfogadod a módosítási kérést?</mat-checkbox>
       @if (!hideDeclineNote()) {
-      <div class="form-control">
-        <div class="label">Elutasítás indoka</div>
-        <textarea
-          matInput
-          type="text"
-          formControlName="declineNote"
-          rows="3"
-          [disabled]="!hideDeclineNote()"
-          class="mx-2 md:mx-10"
-        ></textarea>
-      </div>
+        <div class="form-control">
+          <div class="label">Elutasítás indoka</div>
+          <textarea
+            matInput
+            type="text"
+            formControlName="declineNote"
+            rows="3"
+            [disabled]="!hideDeclineNote()"
+            class="mx-2 md:mx-10"
+          ></textarea>
+        </div>
       }
     </div>
     <div class="flex justify-between mx-4 bottom-0">
