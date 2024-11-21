@@ -1,9 +1,9 @@
 <div class="mx-10 py-4 md:py-10 mb-10">
-  <div class="title mb-4">{{ title }}</div>
+  <div class="title mb-4 animate-fade-down">{{ title }}</div>
   @if ( subtitle ) {
-  <div class="subtitle w-full break-word md:w-[60%]">{{ subtitle }}</div>
+  <div class="subtitle w-full break-word md:w-[60%] animate-fade-down animate-delay-75">{{ subtitle }}</div>
   } @if( info ){
-  <div class="flex gap-x-2 text-primary-500 text-sm items-center">
+  <div class="flex gap-x-2 text-primary-500 text-sm items-center animate-fade-down animate-delay-100">
     <span class="ph-fill ph-info ph-lg"></span>
     <span class="font-light">{{ info }}</span>
   </div>

@@ -2,7 +2,9 @@
   @if (note(); as note) {
   <div class="mx-4 lg:mx-10">
     <div class="flex flex-col lg:flex-row gap-y-4 lg:gap-y-0 items-center justify-start lg:justify-between w-full">
-      <div class="flex gap-x-4 items-center w-full lg:w-auto bg-background-200 lg:bg-transparent rounded-full lg:rounded-none">
+      <div
+        class="flex gap-x-4 items-center w-full lg:w-auto bg-background-200 lg:bg-transparent rounded-full lg:rounded-none animate-fade-right"
+      >
         <jegyzi-avatar [profileId]="note.creatorId" size="lg" [editable]="false" [link]="'/profiles/' + note.creatorId"></jegyzi-avatar>
 
         @if (loggedInUser() && loggedInUser()?.id !== note.creatorId) { @if (followedNote(); as followedNote) {}
@@ -28,7 +30,9 @@
         <div class="font-semibold text-primary-500 text-2xl">{{ note.title }}</div>
       </div>
 
-      <div class="flex gap-x-4 justify-between lg:justify-normal items-center w-full lg:w-auto mx-2 lg:mx-0">
+      <div
+        class="flex gap-x-4 justify-between lg:justify-normal items-center w-full lg:w-auto mx-2 lg:mx-0 animate-fade-right lg:animate-fade-left animate-delay-75 lg:animate-delay-0"
+      >
         <div class="text-primary-600 font-semibold hidden lg:block">
           Utoljára módosítva: {{ (note.lastModify ? note.lastModify : note.created) | toDate | date : 'short' }}
         </div>
@@ -45,7 +49,7 @@
         </button>
         }
       </div>
-      <div class="flex gap-x-4 justify-between items-center w-full lg:hidden mx-2">
+      <div class="flex gap-x-4 justify-between items-center w-full lg:hidden mx-2 animate-fade-right animate-delay-100">
         <div class="text-primary-600 font-semibold self-start">
           Módosítva: {{ (note.lastModify ? note.lastModify : note.created) | toDate | date : 'short' }}
         </div>
@@ -62,7 +66,7 @@
       </div>
     </div>
     <div class="my-6">
-      <div class="flex flex-wrap gap-y-2 gap-x-4">
+      <div class="flex flex-wrap gap-y-2 gap-x-4 animate-delay-150 lg:animate-delay-75">
         @for (label of note.labels; track label.label.id) {
         <div class="note-label">{{ label.label.value }}</div>
         }
@@ -71,15 +75,97 @@
   </div>
 
   <div class="flex flex-col lg:flex-row gap-y-6 lg:gap-x-20 py-2 rounded-2xl">
-    <div class="basis-full md:mr-10 lg:basis-3/4">
+    <div class="basis-full md:mr-10 lg:basis-3/4 animate-fade-right animate-delay-200">
       <div class="mx-4 lg:mx-10 font-semibold text-primary-600 text-xl mb-3">{{ note.subTitle }}</div>
       <quill-editor class="w-full" [formControl]="noteForm"> </quill-editor>
-      <div class="font-semibold text-primary-600 my-3 mx-6">Létrehozva: {{ note.created | toDate | date : 'short' }}</div>
+      <div class="font-semibold text-primary-600 my-3 mx-6 mb-10">Létrehozva: {{ note.created | toDate | date : 'short' }}</div>
+
+      @if(loggedInUser()) {
+      <div class="mx-4 lg:ml-10">
+        <mat-accordion class="jegyzi-accordion w-full">
+          <mat-expansion-panel hideToggle #example>
+            <mat-expansion-panel-header>
+              <div class="flex justify-between items-center w-full">
+                <span class="text-lg text-primary-600"> Példafeladatok </span>
+
+                <span
+                  class="ph text-2xl text-primary-500"
+                  aria-hidden="true"
+                  [ngClass]="example.expanded ? 'ph-caret-up' : 'ph-caret-down'"
+                ></span>
+              </div>
+            </mat-expansion-panel-header>
+
+            @if(currentExample() === null) { @if(exampleGenerateInProgress() === true) {
+            <div class="flex flex-col gap-y-2 w-4/5">
+              <ngx-skeleton-loader [theme]="{ height: '32px' }" />
+              <ngx-skeleton-loader [theme]="{ height: '32px' }" />
+              <ngx-skeleton-loader [theme]="{ height: '32px', width: '50%' }" />
+            </div>
+            } @else {
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-y-4">
+              <div class="flex gap-x-2 items-center">
+                <img [src]="'./assets/logo/google-gemini-icon.png'" alt="Gemini logo" width="24" height="24" />
+                <span class="text-primary-600"> Generálj példafeladatokat a beépített Gemini Ai-al! </span>
+              </div>
+
+              <button type="button" class="btn-primary" (click)="generateExample(currentExample()?.session)">Új feladata generálás</button>
+            </div>
+            } } @else {
+            <div class="flex flex-col gap-y-1">
+              <div class="flex items-center gap-x-4">
+                <span class="text-lg font-medium">Feladatok</span>
+                <hr class="border border-background-300 h-min flex-grow" />
+              </div>
+
+              <markdown [data]="currentExample()?.resultText" class="p-4"></markdown>
+
+              <div class="flex gap-x-6 gap-y-1" [ngClass]="[currentAnswers() === null ? 'flex-col ' : 'flex-col-reverse']">
+                @if(answerGenerateInProgress() === true){
+                <div class="flex flex-col gap-y-2 w-4/5 mt-4">
+                  <ngx-skeleton-loader [theme]="{ height: '32px' }" />
+                  <ngx-skeleton-loader [theme]="{ height: '32px' }" />
+                  <ngx-skeleton-loader [theme]="{ height: '32px', width: '50%' }" />
+                </div>
+                } @else {
+                <div class="flex flex-col lg:flex-row gap-y-2 lg:justify-between">
+                  <button
+                    type="button"
+                    class="btn-primary flex items-center justify-center gap-x-1"
+                    (click)="generateExample(currentExample()?.session)"
+                  >
+                    <span class="ph-fill ph-xl ph-arrows-clockwise"></span> <span>Új feladat generálása</span>
+                  </button>
+                  @if(currentAnswers() == null){
+                  <button type="button" class="btn-secondary flex items-center justify-center gap-x-1" (click)="generateAnswers()">
+                    <span class="ph ph-xl ph-check-circle"></span>
+                    <span>Mutasd a választ</span>
+                  </button>
+                  }
+                </div>
+                } @if(currentAnswers() !== null){
+
+                <markdown [data]="currentAnswers()" class="p-4"></markdown>
+                <div class="flex items-center gap-x-4">
+                  <span class="text-lg font-medium">Válaszok</span>
+                  <hr class="border border-background-300 h-min flex-grow" />
+                </div>
+                }
+              </div>
+            </div>
+            }
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      }
     </div>
-    <div class="flex flex-col gap-y-10 basis-full md:mx-10 lg:basis-1/4 mx-4 lg:mx-10">
+    <div
+      class="flex flex-col gap-y-10 basis-full md:mx-10 lg:basis-1/4 mx-4 lg:mx-10 animate-fade-right lg:animate-fade-left animate-delay-300 lg:animate-delay-200"
+    >
       <jegyzi-note-review [note]="note" [loggedInUser]="loggedInUser()" (refreshReview)="refreshReview($event)"> </jegyzi-note-review>
       <jegyzi-note-comment [note]="note" [loggedInUser]="loggedInUser()" (refreshComment)="refreshComment($event)"></jegyzi-note-comment>
     </div>
   </div>
+
   }
 </div>
