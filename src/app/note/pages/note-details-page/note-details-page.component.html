@@ -118,7 +118,7 @@
                 <hr class="border border-background-300 h-min flex-grow" />
               </div>
 
-              <markdown [data]="currentExample()?.resultText" class="p-4 rounded-xl"></markdown>
+              <markdown [data]="currentExample()?.resultText" class="p-4"></markdown>
 
               <div class="flex gap-x-6 gap-y-1" [ngClass]="[currentAnswers() === null ? 'flex-col ' : 'flex-col-reverse']">
                 @if(answerGenerateInProgress() === true){

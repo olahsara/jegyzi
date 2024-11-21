@@ -31,8 +31,10 @@ export class TextGenerateService {
    */
   async exampleGenerator(note: string, session?: ChatSession) {
     if (session) {
-      const result = await session.sendMessage('Készíts más példafeladatokat az előző szöveghez, de a válaszokat ne add meg!');
-      return { resultText: result.response.text(), session: session };
+      const result = await session.sendMessage(
+        'Készíts új példafeladatokat az előző szöveghez, de a válaszokat ne add meg! (formátuma legyen: számozása keződőjön újra egytől és legyen rövid címe is a feladatoknak. A cím és a számozás felkövér legyen.)',
+      );
+      return { resultText: result.response.text(), session: session } as ExampleResult;
     } else {
       const chatSession = this.model.startChat({
         generationConfig: this.generationConfig,
@@ -48,14 +50,16 @@ export class TextGenerateService {
         ],
       });
 
-      const result = await chatSession.sendMessage('Készíts példafeladatokat az előző szöveghez, de a válaszokat ne add meg!');
+      const result = await chatSession.sendMessage(
+        'Készíts példafeladatokat az előző szöveghez, de a válaszokat ne add meg! (formátuma legyen: számozása eggyel kezdődőjön és legyen rövid címe is a feladatoknak. A cím és a számozás felkövér legyen.)',
+      );
 
-      return { resultText: result.response.text(), session: chatSession };
+      return { resultText: result.response.text(), session: chatSession } as ExampleResult;
     }
   }
 
   async answerGenerator(session: ChatSession) {
-    const result = await session.sendMessage('Írd meg a megoldásokat az előzőleg generált feladatokhoz');
-    return { resultText: result.response.text(), session: session };
+    const result = await session.sendMessage('Írd meg a megoldásokat a legutóbbi generálás során generált feladatokhoz');
+    return { resultText: result.response.text(), session: session } as ExampleResult;
   }
 }
