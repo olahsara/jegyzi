@@ -1,51 +1,48 @@
 <div class="text-primary-500" [ngClass]="[row() ? 'grid grid-cols-1 md:grid-cols-2 gap-4' : 'flex flex-col gap-y-4 ']">
-  @for (profile of profiles(); track profile.id) {
-    @if (loggedInUser(); as user) {
-      @if (user.id !== profile.id) {
-        <a
-          [routerLink]="'/profiles/' + profile.id"
-          class="flex flex-col lg:flex-row gap-y-1 lg:gap-8 rounded-3xl bg-background-200 hover:bg-background-200 lg:hover:bg-background-hover transition-colors px-4 lg:px-6 py-4 items-start lg:items-center"
-        >
-          <div class="flex gap-4 items-center w-full">
-            <jegyzi-avatar [profileId]="profile.id"></jegyzi-avatar>
-            <div class="flex flex-col gap-1 text-primary-600">
-              <div class="font-semibold mb-1">{{ profile.name }}</div>
-              <div class="text-sm lg:block hidden">{{ profile.profileType | noValue }}</div>
-              <div class="text-sm lg:block hidden">{{ profile | type }}</div>
-              <div class="text-sm lg:block hidden">Jegyzetek száma: 0</div>
-            </div>
-            <div class="flex flex-col mr-0 ml-auto lg:self-start">
-              <div class="relative w-8 h-8 text-center" matTooltip="Követők száma">
-                <span class="ph-fill ph-heart ph-2x text-heart-100 text-center"></span>
-                <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{
-                  profile.followersNumber
-                }}</span>
-              </div>
-            </div>
-          </div>
-          <div class="text-sm block lg:hidden">{{ profile.profileType | noValue }}</div>
-          <div class="text-sm block lg:hidden">{{ profile | type }}</div>
-          <div class="text-sm block lg:hidden">Jegyzetek száma: 0</div>
-        </a>
-      }
-    } @else {
-      <a [routerLink]="'/profiles/my-profile'" class="flex gap-8 rounded-3xl bg-background-200 px-6 py-4 items-center">
-        <jegyzi-avatar [profileId]="profile.id"></jegyzi-avatar>
-        <div class="flex flex-col gap-1 text-primary-600">
-          <div class="font-semibold mb-1">{{ profile.name }}</div>
-          <div class="text-sm">{{ profile.profileType | noValue }}</div>
-          <div class="text-sm">{{ profile | type }}</div>
-          <div class="text-sm">Jegyzetek száma: {{ profile.notesNumber }}</div>
+  @for (profile of profiles(); track profile.id) { @if (loggedInUser(); as user) { @if (user.id !== profile.id) {
+  <a
+    [routerLink]="'/profiles/' + profile.id"
+    class="flex flex-col lg:flex-row gap-y-1 lg:gap-8 rounded-3xl bg-background-200 hover:bg-background-200 lg:hover:bg-background-hover transition-colors px-4 lg:px-6 py-4 items-start lg:items-center animate-fade-right animate-delay-75"
+  >
+    <div class="flex gap-4 items-center w-full">
+      <jegyzi-avatar [profileId]="profile.id"></jegyzi-avatar>
+      <div class="flex flex-col gap-1 text-primary-600">
+        <div class="font-semibold mb-1">{{ profile.name }}</div>
+        <div class="text-sm lg:block hidden">{{ profile.profileType | noValue }}</div>
+        <div class="text-sm lg:block hidden">{{ profile | type }}</div>
+        <div class="text-sm lg:block hidden">Jegyzetek száma: 0</div>
+      </div>
+      <div class="flex flex-col mr-0 ml-auto lg:self-start">
+        <div class="relative w-8 h-8 text-center" matTooltip="Követők száma">
+          <span class="ph-fill ph-heart ph-2x text-heart-100 text-center"></span>
+          <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{ profile.followersNumber }}</span>
         </div>
-        <div class="flex flex-col mr-0 ml-auto self-start">
-          <div class="relative w-8 h-8 text-center" matTooltip="Követők száma">
-            <span class="ph-fill ph-heart ph-2x text-heart-100 text-center"></span>
-            <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{ profile.followersNumber }}</span>
-          </div>
-        </div>
-      </a>
-    }
-  } @empty {
-    <span class="text-lg text-heart-100">Nincsenek felhasználók!</span>
+      </div>
+    </div>
+    <div class="text-sm block lg:hidden">{{ profile.profileType | noValue }}</div>
+    <div class="text-sm block lg:hidden">{{ profile | type }}</div>
+    <div class="text-sm block lg:hidden">Jegyzetek száma: 0</div>
+  </a>
+  } } @else {
+  <a
+    [routerLink]="'/profiles/my-profile'"
+    class="flex gap-8 rounded-3xl bg-background-200 px-6 py-4 items-center animate-fade-right animate-delay-75"
+  >
+    <jegyzi-avatar [profileId]="profile.id"></jegyzi-avatar>
+    <div class="flex flex-col gap-1 text-primary-600">
+      <div class="font-semibold mb-1">{{ profile.name }}</div>
+      <div class="text-sm">{{ profile.profileType | noValue }}</div>
+      <div class="text-sm">{{ profile | type }}</div>
+      <div class="text-sm">Jegyzetek száma: {{ profile.notesNumber }}</div>
+    </div>
+    <div class="flex flex-col mr-0 ml-auto self-start">
+      <div class="relative w-8 h-8 text-center" matTooltip="Követők száma">
+        <span class="ph-fill ph-heart ph-2x text-heart-100 text-center"></span>
+        <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{ profile.followersNumber }}</span>
+      </div>
+    </div>
+  </a>
+  } } @empty {
+  <span class="text-lg text-heart-100 animate-fade animate-delay-100">Nincsenek felhasználók!</span>
   }
 </div>

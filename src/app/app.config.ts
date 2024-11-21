@@ -10,6 +10,7 @@ import { getVertexAI, provideVertexAI } from '@angular/fire/vertexai-preview';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions } from '@angular/material/tooltip';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideMarkdown } from 'ngx-markdown';
 import { QuillModule } from 'ngx-quill';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { provideToastr } from 'ngx-toastr';
@@ -64,5 +65,6 @@ export const appConfig: ApplicationConfig = {
       multi: true,
       deps: [AuthService, UserService],
     },
+    provideMarkdown(),
   ],
 };
