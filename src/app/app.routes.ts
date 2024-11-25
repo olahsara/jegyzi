@@ -27,6 +27,17 @@ export const routes: Routes = [
         },
       },
       {
+        path: 'auth',
+        data: {
+          title: 'Új jelszó megadása',
+          subtitle: 'Kérlek add meg a belépéshez szükséges új jelszavadat. A jelszónak minimum 6 karakter hosszúnak kell lennie!',
+        },
+        loadComponent: () =>
+          import('./login/pages/authentication-managment-page/authentication-managment-page.component').then(
+            (c) => c.AuthenticationManagmentPageComponent,
+          ),
+      },
+      {
         path: 'profiles',
         loadChildren: () => import('./profile/routes').then((c) => c.ROUTES),
       },

@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -9,7 +8,6 @@ import { UserService } from './user.service';
 /** Authentikációért felelős szolgáltatás */
 export class AuthService {
   auth = inject(AngularFireAuth);
-  private store = inject(AngularFirestore);
   private userService = inject(UserService);
 
   /**
@@ -44,5 +42,30 @@ export class AuthService {
   logout() {
     this.userService.setUser(undefined);
     return this.auth.signOut();
+  }
+
+  /**
+   * Új jelszót igénylő email küldése
+   * @param email a felhasználó e-mail címe
+   */
+  resetPassword(email: string) {
+    return this.auth.sendPasswordResetEmail(email, { url: 'https://jegyzi-2024.web.app/login' });
+  }
+
+  /**
+   * Új jelszót igénylő kód ellenőrzése
+   * @param code a kód
+   */
+  verifyPasswordCode(code: string) {
+    return this.auth.verifyPasswordResetCode(code);
+  }
+
+  /**
+   * Új jelszó beállítása
+   * @param actionCode a kód
+   * @param newPassword az új jelszó
+   */
+  confirmPasswordReset(actionCode: string, newPassword: string) {
+    return this.auth.confirmPasswordReset(actionCode, newPassword);
   }
 }

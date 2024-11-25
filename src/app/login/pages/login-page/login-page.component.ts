@@ -9,6 +9,7 @@ import { AuthService } from '../../../shared/services/auth.service';
 import { ToastService } from '../../../shared/services/toast.service';
 import { UserService } from '../../../shared/services/user.service';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
+import { ForgottenPasswordModalComponent } from '../../components/forgotten-password-modal/forgotten-password-modal.component';
 
 @Component({
   selector: 'jegyzi-login-page',
@@ -68,5 +69,9 @@ export class LoginPageComponent {
         this.loginForm.controls.email.setValue(result.email);
       }
     });
+  }
+
+  forgotPassword() {
+    this.dialog.open(ForgottenPasswordModalComponent);
   }
 }

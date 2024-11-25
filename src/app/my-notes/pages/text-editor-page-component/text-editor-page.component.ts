@@ -83,6 +83,7 @@ export class TextEditorPageComponent implements OnInit {
       if (this.myNote()) {
         this.form.controls.lastModify.setValue(Timestamp.fromDate(new Date()) as Timestamp);
         this.noteService.updateNote(this.form.value as Note);
+        this.router.navigate(['/my-notes']);
       } else {
         this.form.controls.creatorId.setValue(this.profile()?.id!);
         this.form.controls.created.setValue(Timestamp.fromDate(new Date()) as Timestamp);
