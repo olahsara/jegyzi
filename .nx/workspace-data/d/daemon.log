@@ -42,3 +42,25 @@
 [NX Daemon Server] - 2024-11-26T15:31:48.625Z - Closed a connection. Number of open connections: 0
 [NX Daemon Server] - 2024-11-26T15:31:48.626Z - [WATCHER]: Stopping the watcher for c:\Users\sarim\WebstormProjects\jegyzi (sources)
 [NX Daemon Server] - 2024-11-26T15:31:48.626Z - [WATCHER]: Stopping the watcher for c:\Users\sarim\WebstormProjects\jegyzi (outputs)
+[NX Daemon Server] - 2024-11-26T16:20:18.113Z - Started listening on: \\.\pipe\nx\C:\Users\sarim\AppData\Local\Temp\42a6a565c2\d.sock
+[NX Daemon Server] - 2024-11-26T16:20:18.119Z - [WATCHER]: Subscribed to changes within: c:\Users\sarim\WebstormProjects\jegyzi (native)
+[NX Daemon Server] - 2024-11-26T16:20:18.122Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-11-26T16:20:18.122Z - Established a connection. Number of open connections: 2
+[NX Daemon Server] - 2024-11-26T16:20:18.124Z - Closed a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-11-26T16:20:18.126Z - [REQUEST]: Responding to the client. Shutdown initiated
+[NX Daemon Server] - 2024-11-26T16:20:18.127Z - Done responding to the client Shutdown initiated
+[NX Daemon Server] - 2024-11-26T16:20:18.128Z - Handled FORCE_SHUTDOWN. Handling time: 0. Response time: 2.
+[NX Daemon Server] - 2024-11-26T16:20:18.128Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-11-26T16:20:18.128Z - [WATCHER]: Stopping the watcher for c:\Users\sarim\WebstormProjects\jegyzi (sources)
+[NX Daemon Server] - 2024-11-26T16:20:18.128Z - [WATCHER]: Stopping the watcher for c:\Users\sarim\WebstormProjects\jegyzi (outputs)
+[NX Daemon Server] - 2024-11-26T16:23:07.212Z - Started listening on: \\.\pipe\nx\C:\Users\sarim\AppData\Local\Temp\42a6a565c2\d.sock
+[NX Daemon Server] - 2024-11-26T16:23:07.220Z - [WATCHER]: Subscribed to changes within: c:\Users\sarim\WebstormProjects\jegyzi (native)
+[NX Daemon Server] - 2024-11-26T16:23:07.223Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-11-26T16:23:07.227Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-11-26T16:23:07.228Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2024-11-26T16:23:07.231Z - [REQUEST]: Responding to the client. Shutdown initiated
+[NX Daemon Server] - 2024-11-26T16:23:07.232Z - Done responding to the client Shutdown initiated
+[NX Daemon Server] - 2024-11-26T16:23:07.232Z - Handled FORCE_SHUTDOWN. Handling time: 0. Response time: 2.
+[NX Daemon Server] - 2024-11-26T16:23:07.233Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2024-11-26T16:23:07.233Z - [WATCHER]: Stopping the watcher for c:\Users\sarim\WebstormProjects\jegyzi (sources)
+[NX Daemon Server] - 2024-11-26T16:23:07.233Z - [WATCHER]: Stopping the watcher for c:\Users\sarim\WebstormProjects\jegyzi (outputs)

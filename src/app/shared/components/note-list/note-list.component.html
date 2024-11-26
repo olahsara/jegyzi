@@ -1,7 +1,7 @@
 <div class="text-primary-500" [ngClass]="[row() ? 'grid grid-cols-1 md:grid-cols-2 gap-4' : 'flex flex-col gap-y-4 ']">
   @for (note of notes(); track note.id; let i = $index) {
   <a
-    [routerLink]="myNotes() ? '/my-notes/' + note.id : '/notes/' + note.id"
+    [routerLink]="myNotes() || note.creatorId === loggedInUser()?.id ? '/my-notes/' + note.id : '/notes/' + note.id"
     class="rounded-3xl bg-background-200 hover:bg-background-200 lg:hover:bg-background-hover transition-colors px-4 lg:px-6 py-4 flex flex-col gap-y-4 animate-fade-right animate-delay-75"
   >
     <div class="flex gap-8 items-center">

@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
 import { Note } from '../../models/note.model';
 import { toDatePipe } from '../../pipes/to-date.pipe';
+import { UserService } from '../../services/user.service';
 import { AvatarComponent } from '../avatar/avatar/avatar.component';
 import { RatingComponent } from '../rating-component/rating.component';
 
@@ -15,6 +16,11 @@ import { RatingComponent } from '../rating-component/rating.component';
   styleUrl: './note-list.component.scss',
 })
 export class NoteListComponent {
+  private userService = inject(UserService);
+
+  /** Bejelentkezett felhasználó */
+  loggedInUser = this.userService.user;
+
   /** Jegyzetek listája */
   notes = input.required<Note[]>();
 

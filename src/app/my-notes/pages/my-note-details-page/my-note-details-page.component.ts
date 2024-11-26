@@ -77,6 +77,7 @@ export class MyNoteDetailsPageComponent {
     explicitEffect([this.myNote], ([myNote]) => {
       this.noteForm.setValue(myNote.note);
     });
+    this.noteForm.disable();
   }
 
   /**
