@@ -41,6 +41,8 @@ export class ForgottenPasswordModalComponent {
         .catch(() => {
           this.toastService.error('Váratlan hiba a kérés során!');
         });
+    } else {
+      this.toastService.error('Hibás a megadott e-mail cím!');
     }
   }
 }
