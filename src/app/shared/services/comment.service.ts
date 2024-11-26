@@ -39,7 +39,7 @@ export class CommentService {
           title: 'Új hozzászólás!',
           type: NotificationType.COMMENT,
           linkedEntityId: note.id,
-          description: comment.creatorName + ' hozzászólt a(z) ' + note.title + ' című jegyzetedet.',
+          description: comment.creatorName + ' hozzászólt a(z) ' + note.title + ' című jegyzetedhez.',
         };
         this.notificationService.createNotification(noti);
         this.noteService.addComment(comment.id, note);
