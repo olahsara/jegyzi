@@ -248,7 +248,7 @@ export class NoteService {
           title: 'Új követés!',
           description: user.name + ' bekövette a ' + note.title + ' jegyzetedet!',
           type: NotificationType.NEW_FOLLOWER,
-          user: user.id,
+          user: note.creatorId,
           linkedEntityId: user.id,
         };
         this.notificationService.createNotification(noti);
