@@ -16,9 +16,14 @@
         <span class="ph-fill ph-heart ph-2x text-heart-100 text-center"></span>
         <span class="absolute text-white text-[12px] text-center w-8 left-0 top-1.5 font-semibold">{{ profile.followersNumber }}</span>
       </div>
-      <button type="button" (click)="modify()" matTooltip="Profil szerkesztése">
-        <span class="btn-icon ph ph-pencil-simple"></span>
-      </button>
+      <div class="flex gap-x-2">
+        <button type="button" class="btn-icon" (click)="modify()" matTooltip="Profil szerkesztése">
+          <span class="ph ph-pencil-simple"></span>
+        </button>
+        <button type="button" class="btn-icon" (click)="deleteProfile()" matTooltip="Profil törlése">
+          <span class="ph ph-trash text-center"></span>
+        </button>
+      </div>
     </div>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-20 animate-fade animate-delay-100">

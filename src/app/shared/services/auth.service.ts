@@ -44,6 +44,11 @@ export class AuthService {
     return this.auth.signOut();
   }
 
+  /** Törlés */
+  deleteAuth() {
+    this.auth.user.subscribe((user) => user?.delete());
+  }
+
   /**
    * Új jelszót igénylő email küldése
    * @param email a felhasználó e-mail címe

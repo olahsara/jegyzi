@@ -222,4 +222,30 @@ export class ModifyRequestService {
 
     return data;
   }
+
+  /** Módosítási kérés törlése felhasználó id alapján:
+   * @param userId a törölni kívánt módosítási kérés szerzőjének id-ja.
+   *
+   */
+  async deleteModifyRequestByUserId(userId: string) {
+    const requests = await this.getAllModfiyRequestsByCreator(userId);
+    if (requests) {
+      requests.map((request) =>
+        this.store
+          .collection<ModifyRequest>(this.collectionName)
+          .doc(request.id)
+          .delete()
+          .then(() => {
+            this.noteService.deleteRequest(request);
+            if (
+              request.status === ModifyRequestStatus.SUBMITTED ||
+              request.status === ModifyRequestStatus.DECLINED ||
+              request.status === ModifyRequestStatus.ACCEPTED
+            ) {
+              this.noteService.reduceUpdateRequestsNumber(request.noteId);
+            }
+          }),
+      );
+    }
+  }
 }

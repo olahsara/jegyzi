@@ -397,4 +397,17 @@ export class NoteService {
         .update({ numberOfUpdateRequests: note.numberOfUpdateRequests + 1 });
     }
   }
+
+  /**
+   * Jegyzet szerzőjének törlése esetén a szerző adataink frissítése
+   * @param userId a törölt felhasználó id-ja
+   */
+  async updateCreator(userId: string) {
+    const notes = await this.getNotesByUser(userId);
+    if (notes) {
+      notes.map((note) => {
+        this.store.collection(this.collectionName).doc(note.id).update({ creatorId: '0' });
+      });
+    }
+  }
 }

@@ -105,6 +105,25 @@ export class CommentService {
   }
 
   /**
+   * Felhasználó által írt kommentek lekérése
+   * @param userId felhasználó id-ja
+   * @returns kommentek
+   */
+  async getCommentsbyUser(userId: string) {
+    const data = await this.store
+      .collection<Comment>(this.collectionName)
+      .ref.where('creatorId', '==', userId)
+      .get()
+      .then((data) => {
+        return data.docs.map((e) => {
+          return e.data();
+        });
+      });
+
+    return data;
+  }
+
+  /**
    * Komment módosítása
    * @param commentId komment id-ja
    * @param commentUpdateRequest módosítások
@@ -116,6 +135,20 @@ export class CommentService {
       .update({ lastModified: commentUpdateRequest.lastModified, comment: commentUpdateRequest.comment });
 
     return data;
+  }
+
+  /**
+   * Komment szerzőjének módosítása felhasználó törlése esetén
+   * @param userId törölt felhasználó id-ja
+   */
+  async updateCommentCreator(userId: string) {
+    const comments = await this.getCommentsbyUser(userId);
+
+    if (comments) {
+      comments.map((comment) =>
+        this.store.collection<Comment>(this.collectionName).doc(comment.id).update({ creatorId: '0', creatorName: 'Törölt felhasználó' }),
+      );
+    }
   }
 
   /**

@@ -50,7 +50,7 @@
         <span class="text-primary-300">{{ review.description }}</span>
       </div>
       @if (review.userId === loggedInUser()?.id) {
-      <button type="button" (click)="deleteReview(review.id)" class="h-[2rem] w-[2rem] btn-secondary-icon" matTooltip="Hozzászólás törlése">
+      <button type="button" (click)="deleteReview(review.id)" class="h-[2rem] w-[2rem] btn-secondary-icon" matTooltip="Értékelés törlése">
         <span class="ph ph-trash ph-lg"></span>
       </button>
       }

@@ -129,6 +129,25 @@ export class ReviewService {
   }
 
   /**
+   * Felhasználó által írt  értékelések lekérése
+   * @param userId felhasználó id-ja
+   * @returns Értékelések lista
+   */
+  async getReviewsbyUser(userId: string) {
+    const data = await this.store
+      .collection<Review>(this.collectionName)
+      .ref.where('userId', '==', userId)
+      .get()
+      .then((data) => {
+        return data.docs.map((e) => {
+          return e.data();
+        });
+      });
+
+    return data;
+  }
+
+  /**
    * Értékelés lekérése id alapján
    * @param id értékelés id-ja
    * @returns az értékelés
@@ -165,5 +184,21 @@ export class ReviewService {
       });
 
     return data;
+  }
+
+  /**
+   * Értékelés szerzőjének módosítása felhasználó törlése esetén
+   * @param userId törölt felhasználó id-ja
+   */
+  async updateReviewCreator(userId: string) {
+    const reviews = await this.getReviewsbyUser(userId);
+
+    if (reviews) {
+      reviews
+        .filter((review) => review.anonim !== true)
+        .map((review) =>
+          this.store.collection<Review>(this.collectionName).doc(review.id).update({ userId: '0', userName: '', anonim: true }),
+        );
+    }
   }
 }

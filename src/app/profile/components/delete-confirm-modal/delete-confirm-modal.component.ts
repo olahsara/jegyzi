@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Note } from '../../../shared/models/note.model';
 import { Notification, NotificationType } from '../../../shared/models/notification.model';
+import { User } from '../../../shared/models/user.model';
+import { AuthService } from '../../../shared/services/auth.service';
 import { CommentService } from '../../../shared/services/comment.service';
 import { ModifyRequestService } from '../../../shared/services/modify-request.service';
 import { NoteService } from '../../../shared/services/note.service';
@@ -13,7 +14,7 @@ import { UserService } from '../../../shared/services/user.service';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
 
 export interface DeleteConfirmModalData {
-  note: Note;
+  profile: User;
 }
 
 @Component({
@@ -33,6 +34,7 @@ export class DeleteConfirmModalComponent {
   private notificationService = inject(NotificationService);
   private commentService = inject(CommentService);
   private reviewService = inject(ReviewService);
+  private authService = inject(AuthService);
 
   /**
    * Modál ablak bezárása
@@ -43,41 +45,36 @@ export class DeleteConfirmModalComponent {
   }
 
   /**
-   * Jegyzet törlése, és minden hozzá tartozó adat törlése:
-   * Követőknél, kérések, kommentek, értékelések
-   * Modál ablak bezárása
+   * Felhasználó törlése, és minden hozzá tartozó adat törlése:
+   * Komment, értékelés, jegyzet, módosítási kérés: csere Törölt felhasználóra
+   * Értesítések törlése
    */
   submit() {
     //Követőknél törlés
-    this.data.note.followers.map((userId) => {
-      this.userService.deleteNote(this.data.note, userId);
+    this.data.profile.followers.map((userId) => {
+      this.userService.deleteProfileFromFollowers(this.data.profile, userId);
       const noti: Notification = {
         id: '',
         user: userId,
         date: Timestamp.fromDate(new Date()),
         new: true,
-        title: 'Törölt jegyzet',
+        title: 'Törölt felhasználó',
         type: NotificationType.OTHER,
-        description:
-          'Az általad követett note.title' + this.data.note.title + ' című jegyzetet a szerzője sajnos eltávolította a rendszerből.',
+        description: 'Egy általad követett felhasználó törölte magát a rendszerből.',
       };
       this.notificationService.createNotification(noti);
     });
-    //Módosítási kérések törlése
-    this.data.note.updateRequests.map((requestId) => {
-      this.requestService.deleteModifyRequestById(requestId);
-    });
-    //Kommentel törlése
-    this.data.note.comments.map((id) => {
-      this.commentService.deleteComment(id);
-    });
-    //Értékelés törlése
-    this.data.note.reviews.map((id) => {
-      this.reviewService.deleteReview(id);
-    });
 
-    this.userService.reduceNoteNumber(this.data.note.creatorId);
-    this.noteService.deleteNote(this.data.note);
+    //Módosítási kérések törlése
+    this.requestService.deleteModifyRequestByUserId(this.data.profile.id);
+    //Kommentel törlése
+    this.commentService.updateCommentCreator(this.data.profile.id);
+    //Értékelés törlése
+    this.reviewService.updateReviewCreator(this.data.profile.id);
+
+    this.noteService.updateCreator(this.data.profile.id);
+    this.userService.deleteMyProfile(this.data.profile.id).then(() => this.authService.deleteAuth());
+
     this.close(true);
   }
 }
