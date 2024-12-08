@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
-import { RouterLink } from '@angular/router';
 import { explicitEffect } from 'ngxtension/explicit-effect';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { NoteListComponent } from '../../../shared/components/note-list/note-list.component';
 import { ProfileTypes } from '../../../shared/models/user.model';
+import { NoValuePipe } from '../../../shared/pipes/no-value.pipe';
 import { NoteService } from '../../../shared/services/note.service';
 import { UserService } from '../../../shared/services/user.service';
 import { ProfilePageService } from '../../services/profile-page.service';
@@ -15,7 +15,7 @@ import { ProfilePageService } from '../../services/profile-page.service';
   standalone: true,
   templateUrl: './profile-details-page.component.html',
   styleUrl: './profile-details-page.component.scss',
-  imports: [CommonModule, AvatarComponent, RouterLink, MatTooltip, NoteListComponent],
+  imports: [CommonModule, AvatarComponent, MatTooltip, NoteListComponent, NoValuePipe],
   providers: [ProfilePageService],
 })
 export class ProfileDetailsPageComponent {

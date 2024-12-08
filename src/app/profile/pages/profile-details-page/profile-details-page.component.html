@@ -34,68 +34,66 @@
     </div>
   </div>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-20 animate-fade animate-delay-100">
+    @if(profile().profileType) {
     <div class="flex flex-col rounded-3xl bg-background-200 p-6 gap-4">
       <span class="text-primary-600 text-xl font-semibold">Adatok</span>
-      <div class="flex flex-col">
-        <span class="text-primary-300">Email cím</span>
-        <span class="text-primary-500">{{ profile().email }}</span>
-      </div>
+
       @if (profile().education) { @if (profile().profileType === profileTypes.student) {
       <div class="flex flex-col">
         <span class="text-primary-300">Intézmény</span>
         <span class="text-primary-500">
-          {{ profile().education!.institution }}
-          @if (profile().education!.type) { ({{ profile().education!.type }}) }
+          {{ profile().education!.institution | noValue }}
+          @if (profile().education!.type) { ({{ profile().education!.type | noValue }}) }
         </span>
       </div>
       <div class="flex flex-col">
         <span class="text-primary-300">Évfolyam</span>
-        <span class="text-primary-500">{{ profile().education!.year }}</span>
+        <span class="text-primary-500">{{ profile().education!.year | noValue }}</span>
       </div>
       <div class="flex flex-col">
         <span class="text-primary-300">Szak, Specializáció</span>
-        <span class="text-primary-500">{{ profile().education!.specialization }}</span>
+        <span class="text-primary-500">{{ profile().education!.specialization | noValue }}</span>
       </div>
       } @if (profile().profileType === profileTypes.teacher) {
       <div class="flex flex-col">
         <span class="text-primary-300">Intézmény</span>
         <span class="text-primary-500">
-          {{ profile().education!.institution }}
-          @if (profile().education!.type) { ({{ profile().education!.type }}) }
+          {{ profile().education!.institution | noValue }}
+          @if (profile().education!.type) { ({{ profile().education!.type | noValue }}) }
         </span>
       </div>
       <div class="flex flex-col">
         <span class="text-primary-300">Tanítás ideje</span>
-        <span class="text-primary-500">{{ profile().education!.year }} év</span>
+        <span class="text-primary-500">{{ profile().education!.year | noValue }} év</span>
       </div>
       <div class="flex flex-col">
         <span class="text-primary-300">Tanított tárgy, tárgyak</span>
-        <span class="text-primary-500">{{ profile().education!.specialization }}</span>
+        <span class="text-primary-500">{{ profile().education!.specialization | noValue }}</span>
       </div>
-      } } @if (profile().work && profile().profileType === profileTypes.work) {
+      } } @else if (profile().work && profile().profileType === profileTypes.work) {
       <div class="flex flex-col">
         <span class="text-primary-300">Munkahely</span>
         <span class="text-primary-500">
-          {{ profile().work!.workPlace }}
-          @if (profile().work!.type) { ({{ profile().work!.type }}) }
+          {{ profile().work!.workPlace | noValue }}
+          @if (profile().work!.type) { ({{ profile().work!.type | noValue }}) }
         </span>
       </div>
       <div class="flex flex-col">
         <span class="text-primary-300">Alkalmazás ideje</span>
-        <span class="text-primary-500">{{ profile().work!.year }} év</span>
+        <span class="text-primary-500">{{ profile().work!.year | noValue }} év</span>
       </div>
       <div class="flex flex-col">
         <span class="text-primary-300">Pozíció</span>
-        <span class="text-primary-500">{{ profile().work!.position }}</span>
+        <span class="text-primary-500">{{ profile().work!.position | noValue }}</span>
       </div>
-      } @if (profile().other && profile().profileType === profileTypes.other) {
+      } @else if (profile().other && profile().profileType === profileTypes.other) {
       <div class="flex flex-col">
         <span class="text-primary-300">Leírás</span>
-        <span class="text-primary-500">{{ profile().other!.description }}</span>
+        <span class="text-primary-500">{{ profile().other!.description | noValue }}</span>
       </div>
       }
     </div>
-    @if (profile().introduction) {
+    } @if (profile().introduction) {
     <div class="flex flex-col rounded-2xl bg-background-200 p-6 gap-4">
       <span class="text-primary-600 text-xl font-semibold">Bemutatkozás</span>
       <span class="text-primary-500">{{ profile().introduction }}</span>
