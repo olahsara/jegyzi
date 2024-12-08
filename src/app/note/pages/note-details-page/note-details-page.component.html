@@ -38,8 +38,8 @@
         </div>
         @if (note.avarageStar) {
         <jegyzi-rating-component [currentRate]="note.avarageStar" [disabled]="true" (selectRate)="(undefined)"></jegyzi-rating-component>
-
-        <button class="btn-icon relative" (click)="modifyRequest()" matTooltip="Módosítási kérés küldése">
+        }
+        <button class="btn-icon relative hidden lg:block" (click)="modifyRequest()" matTooltip="Módosítási kérés küldése">
           <span class="ph ph-warning text-center"></span>
           @if (note.numberOfUpdateRequests > 0) {
           <div class="absolute -top-2 left-5 rounded-full bg-heart-100 w-min h-min text-[16px] px-1 text-white">
@@ -47,13 +47,12 @@
           </div>
           }
         </button>
-        }
       </div>
       <div class="flex gap-x-4 justify-between items-center w-full lg:hidden mx-2 animate-fade-right animate-delay-100">
         <div class="text-primary-600 font-semibold self-start">
           Módosítva: {{ (note.lastModify ? note.lastModify : note.created) | toDate | date : 'short' }}
         </div>
-        @if (!note.avarageStar) {
+
         <button class="btn-icon relative" (click)="modifyRequest()" matTooltip="Módosítási kérés küldése">
           <span class="ph ph-warning text-center"></span>
           @if (note.numberOfUpdateRequests) {
@@ -62,7 +61,6 @@
           </div>
           }
         </button>
-        }
       </div>
     </div>
     <div class="my-6">
