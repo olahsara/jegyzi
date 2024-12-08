@@ -57,6 +57,7 @@
       </div>
       }
     </div>
+    @if (note.avarageStar) {
     <div class="block lg:hidden">
       <jegyzi-rating-component
         [currentRate]="note.avarageStar"
@@ -66,6 +67,7 @@
         label="Értékelés"
       ></jegyzi-rating-component>
     </div>
+    }
   </a>
   } @empty {
   <span class="text-lg text-heart-100 animate-fade animate-delay-100">Nincsenek jegyzetek!</span>

@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
+import { explicitEffect } from 'ngxtension/explicit-effect';
 import { User } from '../../models/user.model';
 import { NoValuePipe } from '../../pipes/no-value.pipe';
 import { TypePipe } from '../../pipes/type.pipe';
@@ -26,4 +27,10 @@ export class ProfileListComponent {
 
   /** Kártyák megjelenítése egymás mellett (2db, után új sorban) */
   row = input(false);
+
+  constructor() {
+    explicitEffect([this.profiles], ([profiles]) => {
+      console.log(profiles);
+    });
+  }
 }
