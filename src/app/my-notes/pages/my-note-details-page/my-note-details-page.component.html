@@ -23,8 +23,8 @@
         </div>
         @if (note.avarageStar) {
         <jegyzi-rating-component [currentRate]="note.avarageStar" [disabled]="true" (selectRate)="(undefined)"></jegyzi-rating-component>
-
-        <div class="flex gap-x-2">
+        }
+        <div class="gap-x-2 hidden lg:flex">
           <a [routerLink]="['/my-notes/edit-note', note.id]" class="btn-icon" matTooltip="Jegyzet szerkesztése">
             <span class="ph ph-pencil-simple text-center"></span>
           </a>
@@ -32,20 +32,20 @@
             <span class="ph ph-trash text-center"></span>
           </button>
         </div>
-        }
       </div>
       <div class="flex gap-x-4 justify-between items-center w-full lg:hidden mx-2 animate-fade-right animate-delay-100">
         <div class="text-primary-600 font-semibold self-start">
           Módosítva: {{ (note.lastModify ? note.lastModify : note.created) | toDate | date : 'short' }}
         </div>
-        @if (!note.avarageStar) {
-        <a class="btn-icon" [routerLink]="['/my-notes/edit-note', note.id]" matTooltip="Jegyzet szerkesztése">
-          <span class="ph ph-pencil-simple text-center"></span>
-        </a>
-        <button class="btn-icon" (click)="deleteNote()" matTooltip="Jegyzet törlése">
-          <span class="ph ph-trash text-center"></span>
-        </button>
-        }
+
+        <div class="flex gap-x-2">
+          <a class="btn-icon" [routerLink]="['/my-notes/edit-note', note.id]" matTooltip="Jegyzet szerkesztése">
+            <span class="ph ph-pencil-simple text-center"></span>
+          </a>
+          <button class="btn-icon" (click)="deleteNote()" matTooltip="Jegyzet törlése">
+            <span class="ph ph-trash text-center"></span>
+          </button>
+        </div>
       </div>
     </div>
     <div class="my-6">

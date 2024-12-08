@@ -10,14 +10,10 @@
       }
 
       <div class="flex flex-col gap-y-1 text-primary-600">
-        <div>
-          <span class="font-semibold"> {{ note.title }}</span>
-          @if (note.subTitle) {
-          <span class="text-sm hidden lg:inline-block"> - {{ note.subTitle }} </span>
-          }
-        </div>
-        <div class="text-sm block lg:hidden">{{ note.subTitle }}</div>
-        @if (note.lastModify) {
+        <span class="font-semibold"> {{ note.title }}</span>
+        @if (note.subTitle) {
+        <span class="text-sm hidden lg:inline-block font-light"> {{ note.subTitle }} </span>
+        } @if (note.lastModify) {
         <div class="text-sm">Módosítva: {{ note.lastModify | toDate | date : 'short' }}</div>
         } @else {
         <div class="text-sm">{{ note.created | toDate | date : 'short' }}</div>
