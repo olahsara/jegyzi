@@ -1,6 +1,6 @@
 # Jegyzi
 
-A projekt [Angular CLI](https://github.com/angular/angular-cli) került generálásra a 17.3.8-as verzióval.
+A projekt [Angular CLI](https://github.com/angular/angular-cli) használatával került generálásra a 17.3.8-as verzióval.
 
 ## Fontos tudnivalók 
 
