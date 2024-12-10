@@ -17,20 +17,20 @@
     }
   </div>
   <div class="flex gap-4 mx-4 justify-self-end items-center jegyzi-menu">
-    @if (user(); as user) { @if (notifications(); as notifications) {
+    @if (user(); as user) {
     <button mat-button class="h-20" [matMenuTriggerFor]="menu">
       <div class="relative">
         <span
           class="ph-2x text-primary-500"
-          [ngClass]="[notifications.length > 0 ? 'ph-fill ph-bell-simple-ringing' : 'ph ph-bell-simple']"
+          [ngClass]="[notifications().length > 0 ? 'ph-fill ph-bell-simple-ringing' : 'ph ph-bell-simple']"
         ></span>
         <div class="absolute -top-1 left-4 rounded-full bg-primary-100 w-min h-min px-1 text-xs text-primary-500">
-          {{ notifications.length }}
+          {{ notifications().length }}
         </div>
       </div>
     </button>
     <mat-menu #menu="matMenu" class="text-primary-500">
-      @for (noti of notifications; track noti.id) {
+      @for (noti of notifications(); track noti) {
       <button
         type="button"
         (click)="notificationDetails(noti.id)"
@@ -47,7 +47,6 @@
       }
       <button type="button" (click)="allNotification()" class="btn-ligth w-full mt-2 mb-4">Összes értesítés</button>
     </mat-menu>
-    }
 
     <button class="sign-out text-primary-500" (click)="logout()" matTooltip="Kijelentkezés">
       <span class="ph-fill ph-sign-out ph-xl"></span>

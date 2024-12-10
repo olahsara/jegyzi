@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject, signal, untracked } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, computed, DestroyRef, inject, OnInit, signal } from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { explicitEffect } from 'ngxtension/explicit-effect';
+import { timer } from 'rxjs';
 import { NotificationDetailsModalPageComponent } from '../../components/notification/notification-details-modal/notification-details-modal-page.component';
 import { NotificationListModalPageComponent } from '../../components/notification/notification-list-modal/notification-list-modal-page.component';
 import { SwitchButtonComponent } from '../../components/switch-button/switch-button.component';
@@ -33,12 +35,13 @@ import { ThemeService } from '../../services/theme.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   private dialog = inject(MatDialog);
   private themeService = inject(ThemeService);
   private notiService = inject(NotificationService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
 
   /**Világos téma van-e érvényben */
   isLight = this.themeService.isLigth;
@@ -58,18 +61,30 @@ export class HeaderComponent {
   notifications = signal<Notification[]>([]);
 
   constructor() {
-    effect(() => {
-      const profile = this.user();
-      untracked(() => {
-        const data: Notification[] = [];
-        if (profile) {
-          this.notiService.getLatestNotifications(profile.uid).then((value) => {
+    explicitEffect([this.user], ([profile]) => {
+      const data: Notification[] = [];
+      if (profile) {
+        this.notiService.getLatestNotifications(profile.uid).then((value) => {
+          data.push(...value);
+        });
+        this.notifications.set(data);
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    timer(60000, 60000)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        if (this.user()) {
+          const data: Notification[] = [];
+          this.notiService.getLatestNotifications(this.user()!.uid).then((value) => {
             data.push(...value);
           });
+
           this.notifications.set(data);
         }
       });
-    });
   }
 
   /** Kijelentkezés */

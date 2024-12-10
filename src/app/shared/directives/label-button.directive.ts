@@ -1,4 +1,5 @@
-import { Directive, effect, ElementRef, inject, input, Renderer2, untracked } from '@angular/core';
+import { Directive, ElementRef, inject, input, Renderer2 } from '@angular/core';
+import { explicitEffect } from 'ngxtension/explicit-effect';
 import { Label, LabelNote } from '../models/label.model';
 
 @Directive({
@@ -17,18 +18,14 @@ export class LabelButtonDirective {
   item = input.required<Label>();
 
   constructor() {
-    effect(() => {
-      const item = this.item();
-      const selectedItems = this.selectedItems();
+    explicitEffect([this.item, this.selectedItems], ([item, selectedItems]) => {
       const element = this.elementRef.nativeElement;
-      untracked(() => {
-        const finded = selectedItems.find((l) => l.label.id === item.id);
-        if (finded) {
-          this.setSelectedClass(element);
-        } else {
-          this.removeSelectedClass(element);
-        }
-      });
+      const finded = selectedItems.find((l) => l.label.id === item.id);
+      if (finded) {
+        this.setSelectedClass(element);
+      } else {
+        this.removeSelectedClass(element);
+      }
     });
   }
 

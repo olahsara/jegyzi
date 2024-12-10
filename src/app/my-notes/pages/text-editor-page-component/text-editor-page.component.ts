@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, DestroyRef, inject, input, OnInit, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Component, inject, input, signal } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTooltip } from '@angular/material/tooltip';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { QuillEditorComponent } from 'ngx-quill';
 import { explicitEffect } from 'ngxtension/explicit-effect';
 import { LabelGroupComponent } from '../../../shared/components/label-group/label-group.component';
-import { TitleComponent } from '../../../shared/components/title/title.component';
 import { LabelNote } from '../../../shared/models/label.model';
 import { Note } from '../../../shared/models/note.model';
 import { LabelService } from '../../../shared/services/label.service';
@@ -22,13 +20,12 @@ import { FORM_DIRECTIVES } from '../../../shared/utils/form';
   standalone: true,
   templateUrl: './text-editor-page.component.html',
   styleUrl: './text-editor-page.component.scss',
-  imports: [CommonModule, TitleComponent, FORM_DIRECTIVES, RouterLink, QuillEditorComponent, MatTooltip, LabelGroupComponent],
+  imports: [CommonModule, FORM_DIRECTIVES, QuillEditorComponent, MatTooltip, LabelGroupComponent],
 })
-export class TextEditorPageComponent implements OnInit {
+export class TextEditorPageComponent {
   private userService = inject(UserService);
   private labelService = inject(LabelService);
   private noteService = inject(NoteService);
-  private destroyRef = inject(DestroyRef);
   private profile = this.userService.user;
   private toastService = inject(ToastService);
   private router = inject(Router);
@@ -66,13 +63,6 @@ export class TextEditorPageComponent implements OnInit {
       if (myNote) {
         this.form.patchValue(myNote);
       }
-    });
-  }
-
-  /** TODO: TÖRÖLNI -> csak ellenőrzés */
-  ngOnInit(): void {
-    this.form.valueChanges.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((value) => {
-      console.log(value);
     });
   }
 
