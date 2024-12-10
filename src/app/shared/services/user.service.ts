@@ -154,27 +154,28 @@ export class UserService {
    * Felhasználó bekövetése
    * @param followedUser a bekövetett felhasználó
    */
-  async followUser(followedUser: User) {
+  async followUser(followedUser: User, loggedInUser: User) {
     //Bejelentkezett felhasználó követésihez adjuk hozzá az új felhasználót
     let newFollowings: string[] = [];
-    if (this.user()?.follow) {
-      this.user()?.follow.push(followedUser.id);
-      newFollowings = this.user()?.follow!;
+    if (loggedInUser.follow) {
+      loggedInUser.follow.push(followedUser.id);
+      console.log(loggedInUser.follow);
+      newFollowings = loggedInUser.follow!;
     } else {
       newFollowings = [followedUser.id];
     }
 
-    this.store.collection(this.collectionName).doc(this.user()?.id).update({
+    this.store.collection(this.collectionName).doc(loggedInUser.id).update({
       follow: newFollowings,
     });
 
     //Felhasználó követőihez adjuk hozzá a bejelentkezett felhasználót és küldjünk neki értesítést a követésről
     let newFollowers: string[] = [];
     if (followedUser.followers) {
-      followedUser.followers.push(this.user()?.id!);
+      followedUser.followers.push(loggedInUser.id!);
       newFollowers = followedUser.followers;
     } else {
-      newFollowers = [this.user()?.id!];
+      newFollowers = [loggedInUser.id!];
     }
 
     return await this.store
@@ -190,10 +191,10 @@ export class UserService {
           id: 'id',
           new: true,
           title: 'Új követés!',
-          description: this.user()?.name + ' bekövetett téged!',
+          description: loggedInUser.name + ' bekövetett téged!',
           type: NotificationType.NEW_FOLLOWER,
           user: followedUser.id,
-          linkedEntityId: this.user()?.id,
+          linkedEntityId: loggedInUser.id,
         };
         this.notificationService.createNotification(noti);
         this.toastService.success('Sikeres követés!');
@@ -204,16 +205,16 @@ export class UserService {
    * Felhasználó kikövetése
    * @param followedUser a kikövetni kívánt felhasználó
    */
-  async unFollowUser(followedUser: User) {
+  async unFollowUser(followedUser: User, loggedInUser: User) {
     //Bejelentkezett felhasználó követésiből kitöröljük a felhasználót
-    const newFollowings = this.user()?.follow!.filter((userId) => userId !== followedUser.id);
+    const newFollowings = loggedInUser?.follow!.filter((userId) => userId !== followedUser.id);
 
-    this.store.collection(this.collectionName).doc(this.user()?.id).update({
+    this.store.collection(this.collectionName).doc(loggedInUser.id).update({
       follow: newFollowings,
     });
 
     //Felhasználó követőiből kitöröljük a bejelentkezett felhasználót
-    const newFollowers = followedUser.followers.filter((userId) => userId !== this.user()?.id);
+    const newFollowers = followedUser.followers.filter((userId) => userId !== loggedInUser.id);
 
     return await this.store
       .collection(this.collectionName)

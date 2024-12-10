@@ -2,15 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Router } from '@angular/router';
 import { AvatarComponent } from '../../../shared/components/avatar/avatar/avatar.component';
 import { ProfileListComponent } from '../../../shared/components/profile-list/profile-list.component';
 import { ProfileTypes, User } from '../../../shared/models/user.model';
 import { NoValuePipe } from '../../../shared/pipes/no-value.pipe';
-import { ToastService } from '../../../shared/services/toast.service';
 import { UserService } from '../../../shared/services/user.service';
 import { FORM_DIRECTIVES } from '../../../shared/utils/form';
-import { DeleteConfirmModalComponent } from '../../components/delete-confirm-modal/delete-confirm-modal.component';
 import { MyProfilePageService } from '../../services/my-profile-page.service';
 import { ProfileModifyModalComponent } from '../profile-modify-modal/profile-modify-modal.component';
 
@@ -25,10 +22,8 @@ import { ProfileModifyModalComponent } from '../profile-modify-modal/profile-mod
 export class MyProfilePageComponent {
   private pageService = inject(MyProfilePageService);
   private userService = inject(UserService);
-  private toastService = inject(ToastService);
 
   private dialog = inject(MatDialog);
-  private router = inject(Router);
   readonly profileTypes = ProfileTypes;
 
   /** A profil lekérése a komponens szolgáltatásától */
@@ -60,16 +55,5 @@ export class MyProfilePageComponent {
         });
       }
     });
-  }
-  deleteProfile() {
-    this.dialog
-      .open(DeleteConfirmModalComponent, { minWidth: '40vw', data: { profile: this.profile() } })
-      .afterClosed()
-      .subscribe((deleted) => {
-        if (deleted) {
-          this.toastService.success('A felhasználói fiók kitörlése sikeresen megtörtént!');
-          this.router.navigate(['/home']);
-        }
-      });
   }
 }

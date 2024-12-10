@@ -45,14 +45,14 @@ export class ProfileDetailsPageComponent {
 
   /** Felhasználó bekövetése */
   follow() {
-    this.userService.followUser(this.profile()).finally(() => {
+    this.userService.followUser(this.profile(), this.loggedInUser()!).then(() => {
       this.pageService.reload();
     });
   }
 
   /** Felhasználó kikövetése */
   unFollow() {
-    this.userService.unFollowUser(this.profile()).finally(() => {
+    this.userService.unFollowUser(this.profile(), this.loggedInUser()!).then(() => {
       this.pageService.reload();
     });
   }
