@@ -79,6 +79,10 @@ export class NoteListPageComponent {
    * @param star az értékelés nagysága
    */
   selectStar(star: number) {
-    this.filterForm.controls.stars.setValue(star);
+    if (star === this.filterForm.value.stars) {
+      this.filterForm.controls.stars.setValue(null);
+    } else {
+      this.filterForm.controls.stars.setValue(star);
+    }
   }
 }
