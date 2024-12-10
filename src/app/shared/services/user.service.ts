@@ -154,31 +154,38 @@ export class UserService {
    * Felhasználó bekövetése
    * @param followedUser a bekövetett felhasználó
    */
-  async followUser(followedUser: User, loggedInUser: User) {
+  async followUser(followedUser: User) {
     //Bejelentkezett felhasználó követésihez adjuk hozzá az új felhasználót
     let newFollowings: string[] = [];
-    if (loggedInUser.follow) {
-      loggedInUser.follow.push(followedUser.id);
-      console.log(loggedInUser.follow);
-      newFollowings = loggedInUser.follow!;
+    if (this.user()?.follow) {
+      if (this.user()?.follow.find((id) => id === followedUser.id)) {
+        newFollowings = this.user()?.follow!;
+      } else {
+        this.user()?.follow.push(followedUser.id);
+        newFollowings = this.user()?.follow!;
+      }
     } else {
       newFollowings = [followedUser.id];
     }
 
-    this.store.collection(this.collectionName).doc(loggedInUser.id).update({
+    this.store.collection(this.collectionName).doc(this.user()?.id).update({
       follow: newFollowings,
     });
 
     //Felhasználó követőihez adjuk hozzá a bejelentkezett felhasználót és küldjünk neki értesítést a követésről
     let newFollowers: string[] = [];
     if (followedUser.followers) {
-      followedUser.followers.push(loggedInUser.id!);
-      newFollowers = followedUser.followers;
+      if (followedUser.followers.find((id) => id === this.user()?.id!)) {
+        newFollowers = followedUser.followers;
+      } else {
+        followedUser.followers.push(this.user()?.id!);
+        newFollowers = followedUser.followers;
+      }
     } else {
-      newFollowers = [loggedInUser.id!];
+      newFollowers = [this.user()?.id!];
     }
 
-    return await this.store
+    const data = this.store
       .collection(this.collectionName)
       .doc(followedUser.id)
       .update({
@@ -191,38 +198,51 @@ export class UserService {
           id: 'id',
           new: true,
           title: 'Új követés!',
-          description: loggedInUser.name + ' bekövetett téged!',
+          description: this.user()?.name + ' bekövetett téged!',
           type: NotificationType.NEW_FOLLOWER,
           user: followedUser.id,
-          linkedEntityId: loggedInUser.id,
+          linkedEntityId: this.user()?.id,
         };
         this.notificationService.createNotification(noti);
         this.toastService.success('Sikeres követés!');
       });
+
+    const loggedInUser = await this.getUserById(this.user()!.id);
+    if (loggedInUser) {
+      this.user.set(loggedInUser);
+    }
+    return data;
   }
 
   /**
    * Felhasználó kikövetése
    * @param followedUser a kikövetni kívánt felhasználó
    */
-  async unFollowUser(followedUser: User, loggedInUser: User) {
+  async unFollowUser(followedUser: User) {
     //Bejelentkezett felhasználó követésiből kitöröljük a felhasználót
-    const newFollowings = loggedInUser?.follow!.filter((userId) => userId !== followedUser.id);
+    const newFollowings = this.user()?.follow!.filter((userId) => userId !== followedUser.id);
 
-    this.store.collection(this.collectionName).doc(loggedInUser.id).update({
+    this.store.collection(this.collectionName).doc(this.user()?.id).update({
       follow: newFollowings,
     });
 
     //Felhasználó követőiből kitöröljük a bejelentkezett felhasználót
-    const newFollowers = followedUser.followers.filter((userId) => userId !== loggedInUser.id);
+    const newFollowers = followedUser.followers.filter((userId) => userId !== this.user()?.id);
 
-    return await this.store
+    const data = this.store
       .collection(this.collectionName)
       .doc(followedUser.id)
       .update({
         followers: newFollowers,
         followersNumber: followedUser.followersNumber - 1,
       });
+
+    const loggedInUser = await this.getUserById(this.user()!.id);
+    if (loggedInUser) {
+      this.user.set(loggedInUser);
+    }
+
+    return data;
   }
 
   /**
