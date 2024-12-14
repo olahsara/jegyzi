@@ -1,7 +1,7 @@
 <div class="text-primary-500" [ngClass]="[row() ? 'grid grid-cols-1 md:grid-cols-2 gap-4' : 'flex flex-col gap-y-4 ']">
   @for (profile of profiles(); track profile.id) { @if (loggedInUser()?.id === profile.id) {
   <a
-    [routerLink]="'/profiles/my-profile'"
+    [routerLink]="'/my-profile'"
     class="flex flex-col lg:flex-row gap-y-1 lg:gap-8 rounded-3xl bg-background-200 hover:bg-background-200 lg:hover:bg-background-hover transition-colors px-4 lg:px-6 py-4 items-start lg:items-center animate-fade-right animate-delay-75"
   >
     <div class="flex gap-4 items-center w-full">
@@ -26,7 +26,6 @@
   } @else {
 
   <a
-    [routerLink]="'/profiles/my-profile'"
     [routerLink]="'/profiles/' + profile.id"
     class="flex flex-col lg:flex-row gap-y-1 lg:gap-8 rounded-3xl bg-background-200 hover:bg-background-200 lg:hover:bg-background-hover transition-colors px-4 lg:px-6 py-4 items-start lg:items-center animate-fade-right animate-delay-75"
   >

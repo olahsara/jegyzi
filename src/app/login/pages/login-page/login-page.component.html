@@ -27,10 +27,10 @@
     <div class="bg-background-200 rounded-3xl px-10 py-6 animate-fade-left animate-delay-100">
       <form [formGroup]="loginForm" (submit)="login()">
         <div class="form-control">
-          <div class="label">Email cím</div>
+          <div class="label">E-mail cím</div>
           <input matInput type="text" formControlName="email" />
           @if(loginForm.controls.email.invalid && loginForm.controls.email.touched) {
-          <div class="text-heart-100 text-sm">Nem adtál meg email címet, vagy az általad megadott email cím hibás!</div>
+          <div class="text-heart-100 text-sm">Nem adtál meg e-mail címet, vagy az általad megadott e-mail cím hibás!</div>
           }
         </div>
 
