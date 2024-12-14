@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ChatSession, GoogleGenerativeAI } from '@google/generative-ai';
-import { AI_API_KEY } from '../../../environment/environment.dev';
+import { AI_API_KEY } from '../../../environment/environment';
 
 export interface ExampleResult {
   resultText: string;

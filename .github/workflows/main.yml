@@ -18,4 +18,4 @@ jobs:
         run: npm install
 
       - name: Build Angular project
-        run: npm run build --configuration=development
+        run: npm run build
